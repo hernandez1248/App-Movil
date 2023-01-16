@@ -6,7 +6,7 @@
     'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
 
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
+  --background-start-rgb: 255, 255, 255;
   --background-end-rgb: 255, 255, 255;
 
   --primary-glow: conic-gradient(
@@ -98,6 +98,149 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+#unidadesTitle{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin: auto;
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.navbar{
+  background: #003C8F;
+}
+
+.addPlusFill{
+  font-size: 35px;
+  color: white;
+}
+
+.tarjetasAcomodo{
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  margin-top: 70px;
+  flex-wrap: wrap;
+}
+
+.card-unidad{
+  margin: 15px
+}
+
+.card-unidad-chofer{
+  text-align: center;
+  color:#003C8F;
+}
+
+.card-unidad-info{
+  display: flex;
+  justify-content: space-around;
+}
+
+.card-unidad-info-unidad-placas{
+  width: 50%;
+}
+
+.footer{
+  display: flex;
+  justify-content: space-around;
+  width:100%;
+}
+
+.footer-icons{
+  font-size: 30px;
+  color:#5E92F3;
+  font-weight: bold;
+}
+
+.icon-active{
+  color: #003C8F;
+}
+
+.formularioCrono{
+  margin-top: 60px;
+  padding: 20px;
+}
+
+.boton-crono{
+  background: #003C8F;
+  border: none;
+  width: 50%;
+}
+
+.formGroup{
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin: 8px;
+}
+
+.formGroup-Component{
+  width: 50%;
+  color: #003C8F;
+  font-size: 18px;
+  border-color: #003C8F;
+}
+
+.dateComponent{
+  width: 100%;
+  color: #003C8F;
+  font-size: 18px;
+  border-color: #003C8F;
+  margin-top: 3px;
+}
+
+.cardsCronograma{
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+}
+
+.cards{
+  margin-top: 20px;
+}
+
+.cardCronogramaUnidad{
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.cardCronograma{
+  width: 100%;
+}
+
+.cardCronogramaInfo{
+  display: flex;
+  width: 100%;
+}
+
+.cardCronogramaDatosIzq{
+  width: 30%;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.cardCronogramaDatosDer{
+  width: 70%;
+  font-size: 18px;
+}
+
+.cardCronogramaBotones{
+  display: flex;
+  justify-content: space-around;
+  margin-top: 15px;
+}
+
+.BtnCancelarCrono{
+  width: 40%;
 }
 
 @media (prefers-color-scheme: dark) {
