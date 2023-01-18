@@ -2,12 +2,11 @@ import Head from 'next/head'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import AddButton from '@/components/addButton';
-import Enlaces from '@/components/enlaces';
-import Title from '@/components/titulo';
-import CardRutas from '@/components/cardRutas';
+import BackButton from '@/components/backButton';
+import MenuCrono from '@/components/menuCrono';
+import CardCronoUser from '@/components/cardCronoUser';
 
-export default function CronogramaAdmin() {
+export default function CronogramaUser() {
   return (
     <>
       <Head>
@@ -20,25 +19,23 @@ export default function CronogramaAdmin() {
       <main>
       <Navbar className="menu" fixed="top">
         <Container>
-          <Navbar.Brand id="unidadesTitle">
-            Rutas
-          </Navbar.Brand>
-          <Nav className="d-flex justify-content-end">
-           <AddButton></AddButton>
+        <Nav className="d-flex justify-content-end">
+            <BackButton></BackButton>
           </Nav>
+          <Navbar.Brand id="unidadesTitle">
+            Xuchapa-Matamoros
+          </Navbar.Brand>
         </Container>
       </Navbar>
       <Container className="formularioCrono">
-        <Title></Title>
+        <MenuCrono></MenuCrono>
       </Container>  
-      <Container className='card-rutas'>
-        <CardRutas></CardRutas>
-        <CardRutas></CardRutas>
-        <CardRutas></CardRutas>
-        <CardRutas></CardRutas>
-        <CardRutas></CardRutas>
+      <Container className="tarjetasAcomodo">
+        <CardCronoUser></CardCronoUser>
+        <CardCronoUser></CardCronoUser>
+        <CardCronoUser></CardCronoUser>
+        <CardCronoUser></CardCronoUser>
       </Container>
-      <Enlaces></Enlaces>
       </main>
       
     </>
