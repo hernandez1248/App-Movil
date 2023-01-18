@@ -119,6 +119,11 @@ a {
   color: white;
 }
 
+.backButton{
+  font-size: 35px;
+  color: white;
+}
+
 .tarjetasAcomodo{
   display: flex;
   margin: auto;
@@ -249,7 +254,106 @@ a {
   }
 }
 
-.card-rutas{
+.card-ruta{
   margin: 15px;
 }
 
+.card-ruta-information{
+  display: flex;
+  justify-content: space-around;
+  padding: 6px;
+  padding-left: 5px;
+}
+
+.card-ruta-izqu{
+  width: 100%;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.card-ruta-dere{
+  width: 70%;
+  font-size: 15px;
+  color: #003C8F;
+}
+
+.card-rutauser-information{
+  display: flex;
+  justify-content: space-around;
+  padding: 6px;
+  padding-left: 5px;
+}
+
+.card-rutauser-izqu{
+  width: 100%;
+  font-size: 15px;
+  font-weight: bold;
+  color: white;
+}
+
+.card-rutauser-dere{
+  width: 70%;
+  font-size: 15px;
+  color: white;
+}
+
+.card-rutauser-izqu-modal{
+  width: 100%;
+  font-size: 25px;
+  font-weight: bold;
+  color: white;
+}
+
+.card-rutauser-dere-modal{
+  width: 100%;
+  font-size: 25px;
+  color: white;
+}
+
+.card-ruta-container{
+  display: flex;
+  flex-direction: row;
+}
+
+.card-ruta-img{
+  width: auto;
+  height: auto;
+}
+
+.cardCronogramaInfo{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.star-icon{
+  display: flex;
+  color: rgb(225, 225, 32);
+  width: 25px;
+  height: 25px;
+}
+
+.home-icon{
+  display: flex;
+  color: #003C8F;
+  text-decoration:overline;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+}
+
+
+.return-icon{
+  color: #003C8F;
+  width: 28px;
+}
+
+.items-rutas{
+  margin: 7px;
+
+}
+
+.items-font{
+  font-size: 12px;
+}
