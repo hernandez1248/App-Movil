@@ -253,3 +253,136 @@ a {
   margin: 15px;
 }
 
+
+
+.circulo{
+  display: flex;
+  justify-content: center;
+}
+
+.icon{
+  font-size: 70px;
+  color: white;
+  font-weight: bold;
+  margin-top: 30px;
+  margin-left: 30px;
+}
+
+.autobus{
+  margin-top: 60px;
+  height: 130px;
+  width: 130px;
+  border-radius: 50%;
+  background-color: #003C8F;
+}
+
+.title{
+  text-align: center;
+  font-weight: bold;
+  margin-top: 50px;
+}
+
+.formGroupLogin{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 8px;
+}
+
+.formGroup-Login{
+  margin-left: 25%;
+  width: 50%;
+  color: #003C8F;
+  font-size: 20px;
+  border-color: #003C8F;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.formGroup-email{
+  margin-left: 25%;
+  width: 50%;
+  color: #003C8F;
+  font-size: 20px;
+  border-color: #003C8F;
+  font-weight: bold;
+}
+
+.email{
+  max-width: 50%;
+  color: #003C8F;
+  font-size: 20px;
+  border-color: #003C8F;
+  margin: auto;
+}
+
+.boton{
+  background: #003C8F;
+  border: none;
+  width: 50%;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.link{
+  text-align: center;
+  margin-top: 50px;
+  font-size: 20px;
+}
+
+.linkRestore{
+  text-align: center;
+  margin-top: 50px;
+  font-size: 20px;
+  margin: 70px;
+}
+
+.link2{
+  color: #003C8F;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+
+@media (max-width: 700px) {
+  .formGroupLogin {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 8px;
+  }
+  .formGroup-Login{
+    margin-left: 40px;
+  }
+  .formGroup-email{
+    margin-left: 40px;
+  }
+  .email{
+    max-width: 80%;
+  }
+  .boton{
+    width: 80%;
+    margin-top: 20px;
+  }
+  .eyeFill{
+    font-size: 30px;
+    margin-left: 331px;
+    position: relative;
+    top: -37px;
+  }
+}
+
+
+.leyend{
+  text-align: center;
+  margin: 53px;
+  font-size: 20px;
+  margin-top: 40px;
+}
+
+.eyeFill{
+  font-size: 30px;
+  margin-left: 330px;
+  position: relative;
+  top: -37px;
+}
