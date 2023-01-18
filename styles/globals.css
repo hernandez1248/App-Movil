@@ -6,7 +6,7 @@
     'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
 
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
+  --background-start-rgb: 255, 255, 255;
   --background-end-rgb: 255, 255, 255;
 
   --primary-glow: conic-gradient(
@@ -100,8 +100,289 @@ a {
   text-decoration: none;
 }
 
+#unidadesTitle{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin: auto;
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.navbar{
+  background: #003C8F;
+}
+
+.addPlusFill{
+  font-size: 35px;
+  color: white;
+}
+
+.tarjetasAcomodo{
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  margin-top: 70px;
+  flex-wrap: wrap;
+}
+
+.card-unidad{
+  margin: 15px
+}
+
+.card-unidad-chofer{
+  text-align: center;
+  color:#003C8F;
+}
+
+.card-unidad-info{
+  display: flex;
+  justify-content: space-around;
+}
+
+.card-unidad-info-unidad-placas{
+  width: 50%;
+}
+
+.footer{
+  display: flex;
+  justify-content: space-around;
+  width:100%;
+}
+
+.footer-icons{
+  font-size: 30px;
+  color:#5E92F3;
+  font-weight: bold;
+}
+
+.icon-active{
+  color: #003C8F;
+}
+
+.formularioCrono{
+  margin-top: 60px;
+  padding: 20px;
+}
+
+.boton-crono{
+  background: #003C8F;
+  border: none;
+  width: 50%;
+}
+
+.formGroup{
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin: 8px;
+}
+
+.formGroup-Component{
+  width: 50%;
+  color: #003C8F;
+  font-size: 18px;
+  border-color: #003C8F;
+}
+
+.dateComponent{
+  width: 100%;
+  color: #003C8F;
+  font-size: 18px;
+  border-color: #003C8F;
+  margin-top: 3px;
+}
+
+.cardsCronograma{
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+}
+
+.cards{
+  margin-top: 20px;
+}
+
+.cardCronogramaUnidad{
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.cardCronograma{
+  width: 100%;
+}
+
+.cardCronogramaInfo{
+  display: flex;
+  width: 100%;
+}
+
+.cardCronogramaDatosIzq{
+  width: 30%;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.cardCronogramaDatosDer{
+  width: 70%;
+  font-size: 18px;
+}
+
+.cardCronogramaBotones{
+  display: flex;
+  justify-content: space-around;
+  margin-top: 15px;
+}
+
+.BtnCancelarCrono{
+  width: 40%;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
+}
+
+.card-rutas{
+  margin: 15px;
+}
+
+
+
+.circulo{
+  display: flex;
+  justify-content: center;
+}
+
+.icon{
+  font-size: 70px;
+  color: white;
+  font-weight: bold;
+  margin-top: 30px;
+  margin-left: 30px;
+}
+
+.autobus{
+  margin-top: 60px;
+  height: 130px;
+  width: 130px;
+  border-radius: 50%;
+  background-color: #003C8F;
+}
+
+.title{
+  text-align: center;
+  font-weight: bold;
+  margin-top: 50px;
+}
+
+.formGroupLogin{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 8px;
+}
+
+.formGroup-Login{
+  margin-left: 25%;
+  width: 50%;
+  color: #003C8F;
+  font-size: 20px;
+  border-color: #003C8F;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.formGroup-email{
+  margin-left: 25%;
+  width: 50%;
+  color: #003C8F;
+  font-size: 20px;
+  border-color: #003C8F;
+  font-weight: bold;
+}
+
+.email{
+  max-width: 50%;
+  color: #003C8F;
+  font-size: 20px;
+  border-color: #003C8F;
+  margin: auto;
+}
+
+.boton{
+  background: #003C8F;
+  border: none;
+  width: 50%;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.link{
+  text-align: center;
+  margin-top: 50px;
+  font-size: 20px;
+}
+
+.linkRestore{
+  text-align: center;
+  margin-top: 50px;
+  font-size: 20px;
+  margin: 70px;
+}
+
+.link2{
+  color: #003C8F;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+
+@media (max-width: 700px) {
+  .formGroupLogin {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 8px;
+  }
+  .formGroup-Login{
+    margin-left: 40px;
+  }
+  .formGroup-email{
+    margin-left: 40px;
+  }
+  .email{
+    max-width: 80%;
+  }
+  .boton{
+    width: 80%;
+    margin-top: 20px;
+  }
+  .eyeFill{
+    font-size: 30px;
+    margin-left: 331px;
+    position: relative;
+    top: -37px;
+  }
+}
+
+
+.leyend{
+  text-align: center;
+  margin: 53px;
+  font-size: 20px;
+  margin-top: 40px;
+}
+
+.eyeFill{
+  font-size: 30px;
+  margin-left: 330px;
+  position: relative;
+  top: -37px;
 }
