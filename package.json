@@ -23,5 +23,7 @@
   },
   "devDependencies": {
     "sequelize-cli": "^6.6.0"
+
+    "react-icons": "^4.7.1"
   }
 }
