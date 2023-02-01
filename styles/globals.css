@@ -129,7 +129,7 @@ a {
   margin: auto;
   justify-content: center;
   align-items: center;
-  margin-top: 70px;
+  margin-top: 20px;
   flex-wrap: wrap;
 }
 
@@ -470,6 +470,10 @@ a {
     position: relative;
     top: -37px;
   }
+  .form-select{
+    width: 88%;
+    margin-left: 20px;
+  }
 }
 
 
@@ -485,3 +489,4 @@ a {
   margin-left: 330px;
   position: relative;
   top: -37px;
+}

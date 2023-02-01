@@ -16,6 +16,10 @@ if (config.use_env_variable) {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
+import rutas from './rutas';
+import favoritos from './favoritos';
+
+/*
 fs
   .readdirSync(__dirname)
   .filter(file => {
@@ -30,6 +34,11 @@ fs
     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
     db[model.name] = model;
   });
+*/
+
+db.Rutas = rutas(sequelize, Sequelize.DataTypes);
+db.Favoritos = favoritos(sequelize, Sequelize.DataTypes);
+
 
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
