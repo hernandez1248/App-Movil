@@ -1,21 +1,28 @@
+import * as React from 'react';
 import Card from 'react-bootstrap/Card';
 import { BsFillStarFill } from "react-icons/bs"
 import { VscArrowSwap } from "react-icons/vsc"
-function CardRutasUsuario() {
+function CardRutasUsuario({index, ruta}) {
+    const [data, setData] = React.useState({...ruta});
+
+    console.log(ruta);
+
     return (
         <Card style={{ width: '18rem', backgroundColor: '#003C8F' }} className="card-ruta">
             <div className='card-rutas-image'>
-            <Card.Img variant="top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEvEarBlIA8qjB739U2HoyCy_-3Xtj80GAQA&usqp=CAU" />
+            <Card.Img variant="top" src={data.imageDestino} />
             </div>
             <Card.Body>
-                <Card.Title className='text-center text-light'>Xuchapa-Matamoros</Card.Title>
+                <Card.Title className='text-center text-light'>
+                    {data.origen} - {data.destino}
+                </Card.Title>
 
                 <div className='card-rutauser-information text-center'>
                     <div className='card-rutauser-izqu'>
                         <VscArrowSwap></VscArrowSwap>
                     </div>
                     <div className='card-rutauser-dere'>
-                        <BsFillStarFill></BsFillStarFill>
+                        <BsFillStarFill/>
                     </div>
                 </div>
 
@@ -27,7 +34,7 @@ function CardRutasUsuario() {
                     </div>
                     <div className='card-rutauser-dere'>
                         <Card.Text>
-                            02:00 pm
+                           {data.salidaAnterior}
                         </Card.Text>
                     </div>
                 </div>
@@ -39,7 +46,7 @@ function CardRutasUsuario() {
                     </div>
                     <div className='card-rutauser-dere'>
                         <Card.Text>
-                            02:30 pm
+                            {data.horaSalida}
                         </Card.Text>
                     </div>
                 </div>
@@ -51,7 +58,7 @@ function CardRutasUsuario() {
                     </div>
                     <div className='card-rutauser-dere'>
                         <Card.Text>
-                            10
+                            {data.unidad}
                         </Card.Text>
                     </div>
                 </div>

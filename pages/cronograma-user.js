@@ -4,9 +4,14 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import BackButton from '@/components/backButton';
 import MenuCrono from '@/components/menuCrono';
-import CardCronoUser from '@/components/cardCronoUser';
+import React, { useState } from 'react';
+import apiClient from '@/apiClient';
+
+
+
 
 export default function CronogramaUser() {
+  
   return (
     <>
       <Head>
@@ -31,10 +36,7 @@ export default function CronogramaUser() {
         <MenuCrono></MenuCrono>
       </Container>  
       <Container className="tarjetasAcomodo">
-        <CardCronoUser></CardCronoUser>
-        <CardCronoUser></CardCronoUser>
-        <CardCronoUser></CardCronoUser>
-        <CardCronoUser></CardCronoUser>
+        
       </Container>
       </main>
       

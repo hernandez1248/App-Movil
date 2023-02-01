@@ -11,14 +11,20 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.Rutas.belongsTo(models.Favoritos, {
+        as: 'favs',
+        foreignKey: 'favoritoId'
+      });
     }
+
   }
   Rutas.init({
     unidad: DataTypes.STRING,
     origen: DataTypes.STRING,
+    imageOrigen: DataTypes.STRING,
     destino: DataTypes.STRING,
-    image: DataTypes.STRING,
-    horaSalida: DataTypes.DATE,
+    imageDestino: DataTypes.STRING,
+    horaSalida: DataTypes.STRING,
     salidaAnterior: DataTypes.STRING
   }, {
     sequelize,
