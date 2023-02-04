@@ -2,8 +2,9 @@ import { PlusCircleFill } from 'react-bootstrap-icons';
 import { Button } from 'react-bootstrap';
 import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 import Modal from 'react-bootstrap/Modal';
-import Badge from 'react-bootstrap/Badge';
 import { render } from 'react-dom';
 
 function AddButtonRutas(props) {
@@ -17,12 +18,12 @@ function AddButtonRutas(props) {
 
             <PlusCircleFill onClick={handleShow} className='addPlusFill'></PlusCircleFill>
 
-            <Modal show={show} 
-                   onHide={handleClose}
-                   {...props}
-                   size="lg"
-                   aria-labelledby="contained-modal-title-vcenter"
-                   centered
+            <Modal show={show}
+                onHide={handleClose}
+                {...props}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
             >
 
                 <Modal.Header closeButton>
@@ -33,9 +34,17 @@ function AddButtonRutas(props) {
                     <div className='card-rutauser-information '>
 
                         <div className='card-rutauser-izqu-modal'>
-                            <Badge bg="light" text="dark">
-                                Origen
-                            </Badge>
+                            <Box
+                                component="form"
+                                sx={{
+                                    '& > :not(style)': { m: 1, width: '12.5ch' },
+                                }}
+                                noValidate
+                                autoComplete="off"
+                                className='card-rutauser-izqu'
+                            >
+                                <TextField id="standard-basic" label="Origen" variant="standard" />
+                            </Box>
                         </div>
 
                         <div className='card-rutauser-dere'>
@@ -49,9 +58,17 @@ function AddButtonRutas(props) {
                     <div className='card-rutauser-information '>
 
                         <div className='card-rutauser-izqu-modal'>
-                            <Badge bg="light" text="dark">
-                                Destino
-                            </Badge>
+                            <Box
+                                component="form"
+                                sx={{
+                                    '& > :not(style)': { m: 1, width: '12.5ch' },
+                                }}
+                                noValidate
+                                autoComplete="off"
+                                className='card-rutauser-izqu'
+                            >
+                                <TextField id="standard-basic" label="Destino" variant="standard" />
+                            </Box>
                         </div>
 
                         <div className='card-rutauser-dere'>
@@ -76,25 +93,25 @@ function AddButtonRutas(props) {
             </Modal>
         </>
     );
-    
-function App() {
-    const [modalShow, setModalShow] = React.useState(false);
-  
-    return (
-      <>
-        <Button variant="primary" onClick={() => setModalShow(true)}>
-          Launch vertically centered modal
-        </Button>
-  
-        <MyVerticallyCenteredModal
-          show={modalShow}
-          onHide={() => setModalShow(false)}
-        />
-      </>
-    );
-  }
 
-  render(<App/>)
+    function App() {
+        const [modalShow, setModalShow] = React.useState(false);
+
+        return (
+            <>
+                <Button variant="primary" onClick={() => setModalShow(true)}>
+                    Launch vertically centered modal
+                </Button>
+
+                <MyVerticallyCenteredModal
+                    show={modalShow}
+                    onHide={() => setModalShow(false)}
+                />
+            </>
+        );
+    }
+
+    render(<App />)
 }
 
 export default AddButtonRutas;
