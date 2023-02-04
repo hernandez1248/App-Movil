@@ -29,12 +29,12 @@ function SearchRuta() {
 
                 <div className='items-rutas'>
                     <FaHome className='home-icon'></FaHome>
-                    <span className='items-font'>inicio</span>
+                    <a href='#' className='items-font'>Inicio</a>
                 </div>
 
                 <div className='items-rutas'>
                     <BsFillStarFill className='star-icon'></BsFillStarFill>
-                    <span className='items-font'>Favoritos</span>
+                    <a href='#' className='items-font'>Favoritos</a>
                 </div>
 
             </div>

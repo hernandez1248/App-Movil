@@ -16,6 +16,13 @@ if (config.use_env_variable) {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
+<<<<<<< HEAD
+=======
+import rutas from './rutas';
+import favoritos from './favoritos';
+
+/*
+>>>>>>> 376a9605e9d635647a2561eb088740a5c107d49e
 fs
   .readdirSync(__dirname)
   .filter(file => {
@@ -30,6 +37,14 @@ fs
     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
     db[model.name] = model;
   });
+<<<<<<< HEAD
+=======
+*/
+
+db.Rutas = rutas(sequelize, Sequelize.DataTypes);
+db.Favoritos = favoritos(sequelize, Sequelize.DataTypes);
+
+>>>>>>> 376a9605e9d635647a2561eb088740a5c107d49e
 
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {

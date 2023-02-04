@@ -2,12 +2,81 @@ import Head from 'next/head'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import Enlaces from '@/components/enlaces';
-import CardRutasUUsuario from '@/components/cardRutasUser';
-import SearchRuta from '@/components/searchRutas';
-import { Search } from 'react-bootstrap-icons';
+import CardRutasUsuario from '@/components/cardRutasUser';
+import React, { useState } from 'react';
+import apiClient from '@/apiClient';
+import Form from 'react-bootstrap/Form';
 
 export default function RutasUsuario() {
+
+  const [rutas, setRutas] = useState([]);
+  const [favoritos, setFavoritos] = useState([]);Z
+  const [favoritosSelected, setFavoritosSelected] = useState([]);
+
+  const [search, setSearch] = useState('');//capturar formulario de búsqueda
+
+  React.useEffect(()=>{
+    apiClient.get('/rutas')
+    .then(response => {
+      setRutas(response.data || [])
+    })
+    .catch(error  => {
+      console.log(error);
+    });
+
+    apiClient.get('/favoritos')
+    .then(response => {
+      setFavoritos(response.data || [])
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }, []);
+
+  React.useEffect(() => {
+    apiClient.get(`/rutas?favoritoId=${favoritosSelected || null}`)
+    .then(response => {
+      setRutas(response.data || [])
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }, [favoritosSelected]);
+
+  const onSelectFavorito = (e) => {
+    setFavoritosSelected(e.target.value);
+  }
+
+  const onSearch = (e) => {
+    setSearch(e.target.value);
+    filter(e.target.value);
+
+  }
+
+  const filter = (caracter) => {
+    var searchItem = rutas.filter((element) => {
+      if (element.origen.toString().toLowerCase().includes(caracter.toLowerCase())
+      ) {
+        return element;
+      }
+
+    });
+    setRutas(searchItem);
+    setFavoritos(searchItem);
+
+  }
+
+  const renderRutas = () => {
+    return rutas.map((ruta, index) =>(
+      <div className="tarjetasAcomodo" key={ruta.id}>
+        <CardRutasUsuario
+          index = {index}
+          ruta = {ruta}
+        />
+      </div>
+    )) 
+  }
+
   return (
     <>
       <Head>
@@ -50,6 +119,34 @@ export default function RutasUsuario() {
             <CardRutasUUsuario></CardRutasUUsuario>
           </div>
         </Container>
+<<<<<<< HEAD
+=======
+      </Navbar>
+      <Container className="formularioCrono">
+        <Form className="d-flex">
+          <Form.Control
+            type="search"
+            placeholder="Search"
+            className="me-2"
+            aria-label="Search"
+            value={search}
+            onChange={onSearch} />
+        </Form>
+      </Container>
+      <Form.Select 
+        id="category-id"
+        label="Categoría"
+        value={favoritosSelected}
+        onChange={onSelectFavorito}>
+        <option>Selecionar</option>
+          {favoritos.map((item) => (
+            <option key={item.id} value={item.id}>{item.name}</option>
+          ))}
+      </Form.Select>
+      <Container>
+        {renderRutas()}
+      </Container>
+>>>>>>> 376a9605e9d635647a2561eb088740a5c107d49e
       </main>
 
     </>

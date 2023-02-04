@@ -16,20 +16,32 @@
     "@mui/material": "^5.11.6",
     "@mui/styled-engine-sc": "^5.11.0",
     "@next/font": "13.1.2",
+    "axios": "^1.3.0",
     "bootstrap": "^5.2.3",
     "eslint": "8.32.0",
     "eslint-config-next": "13.1.2",
+<<<<<<< HEAD
     "mysql2": "^3.0.1",
+=======
+    "mysql2": "^3.1.0",
+>>>>>>> 376a9605e9d635647a2561eb088740a5c107d49e
     "next": "13.1.2",
     "react": "18.2.0",
     "react-bootstrap": "^2.7.0",
     "react-bootstrap-icons": "^1.10.2",
     "react-dom": "18.2.0",
+<<<<<<< HEAD
     "react-icons": "^4.7.1",
     "sequelize": "^6.28.0",
     "styled-components": "^5.3.6"
   },
   "devDependencies": {
+=======
+    "sequelize": "^6.28.0"
+  },
+  "devDependencies": {
+    "react-icons": "^4.7.1",
+>>>>>>> 376a9605e9d635647a2561eb088740a5c107d49e
     "sequelize-cli": "^6.6.0"
   }
 }

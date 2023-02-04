@@ -133,7 +133,7 @@ a {
   margin: auto;
   justify-content: center;
   align-items: center;
-  margin-top: 70px;
+  margin-top: 20px;
   flex-wrap: wrap;
 }
 
@@ -293,7 +293,6 @@ a {
   font-weight: bold;
   color: white;
 }
-
 .card-rutauser-dere{
   width: 70%;
   font-size: 15px;
@@ -360,7 +359,10 @@ a {
 .items-font{
   font-size: 12px;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 376a9605e9d635647a2561eb088740a5c107d49e
 .circulo{
   display: flex;
   justify-content: center;
@@ -476,6 +478,10 @@ a {
     position: relative;
     top: -37px;
   }
+  .form-select{
+    width: 88%;
+    margin-left: 20px;
+  }
 }
 
 
@@ -491,6 +497,7 @@ a {
   margin-left: 330px;
   position: relative;
   top: -37px;
+<<<<<<< HEAD
 }
 
 
@@ -540,3 +547,6 @@ a {
 #search-wrapper #search:focus + i {
   border-color: #999;
 }
+=======
+}
+>>>>>>> 376a9605e9d635647a2561eb088740a5c107d49e
