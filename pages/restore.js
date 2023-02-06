@@ -39,7 +39,7 @@ function SingIn() {
         </div>
         
         <p className="linkRestore">
-            ¿Recuerdas tu contraseña? <Link href="SingIn" className='link2'>Inicia sesión aquí</Link>
+            ¿Recuerdas tu contraseña? <Link href="singIn" className='link2'>Inicia sesión aquí</Link>
         </p>
 
         </Form>

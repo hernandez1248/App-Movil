@@ -10,7 +10,7 @@ import Form from 'react-bootstrap/Form';
 export default function RutasUsuario() {
 
   const [rutas, setRutas] = useState([]);
-  const [favoritos, setFavoritos] = useState([]);Z
+  const [favoritos, setFavoritos] = useState([]);
   const [favoritosSelected, setFavoritosSelected] = useState([]);
 
   const [search, setSearch] = useState('');//capturar formulario de búsqueda
