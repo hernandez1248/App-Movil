@@ -2,6 +2,7 @@ import * as React from 'react';
 import Card from 'react-bootstrap/Card';
 import { BsFillStarFill } from "react-icons/bs"
 import { VscArrowSwap } from "react-icons/vsc"
+
 function CardRutasUsuario({index, ruta}) {
     const [data, setData] = React.useState({...ruta});
 

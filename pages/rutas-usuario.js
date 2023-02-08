@@ -6,41 +6,43 @@ import CardRutasUsuario from '@/components/cardRutasUser';
 import React, { useState } from 'react';
 import apiClient from '@/apiClient';
 import Form from 'react-bootstrap/Form';
+import { InputBase, Paper } from '@mui/material';
+
 
 export default function RutasUsuario() {
 
   const [rutas, setRutas] = useState([]);
-  const [favoritos, setFavoritos] = useState([]);Z
+  const [favoritos, setFavoritos] = useState([]);
   const [favoritosSelected, setFavoritosSelected] = useState([]);
 
   const [search, setSearch] = useState('');//capturar formulario de búsqueda
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     apiClient.get('/rutas')
-    .then(response => {
-      setRutas(response.data || [])
-    })
-    .catch(error  => {
-      console.log(error);
-    });
+      .then(response => {
+        setRutas(response.data || [])
+      })
+      .catch(error => {
+        console.log(error);
+      });
 
     apiClient.get('/favoritos')
-    .then(response => {
-      setFavoritos(response.data || [])
-    })
-    .catch(error => {
-      console.log(error);
-    });
+      .then(response => {
+        setFavoritos(response.data || [])
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }, []);
 
   React.useEffect(() => {
     apiClient.get(`/rutas?favoritoId=${favoritosSelected || null}`)
-    .then(response => {
-      setRutas(response.data || [])
-    })
-    .catch(error => {
-      console.log(error);
-    });
+      .then(response => {
+        setRutas(response.data || [])
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }, [favoritosSelected]);
 
   const onSelectFavorito = (e) => {
@@ -67,14 +69,14 @@ export default function RutasUsuario() {
   }
 
   const renderRutas = () => {
-    return rutas.map((ruta, index) =>(
+    return rutas.map((ruta, index) => (
       <div className="tarjetasAcomodo" key={ruta.id}>
         <CardRutasUsuario
-          index = {index}
-          ruta = {ruta}
+          index={index}
+          ruta={ruta}
         />
       </div>
-    )) 
+    ))
   }
 
   return (
@@ -107,48 +109,45 @@ export default function RutasUsuario() {
             </Nav>
           </Container>
         </Navbar>
+
         <Container className="formularioCrono">
-          <SearchRuta></SearchRuta>
-        </Container>
-        <Container>
-          <div className="tarjetasAcomodo">
-            <CardRutasUUsuario></CardRutasUUsuario>
-            <CardRutasUUsuario></CardRutasUUsuario>
-            <CardRutasUUsuario></CardRutasUUsuario>
-            <CardRutasUUsuario></CardRutasUUsuario>
-            <CardRutasUUsuario></CardRutasUUsuario>
+          <div className="cardCronogramaInfo">
+
+            <Paper
+              component="form"
+              sx={{ p: '1px 4px', display: 'flex', alignItems: 'center', width: 400, margin: 1.5 }}
+            >
+              <InputBase
+                sx={{ ml: 1, flex: 1 }}
+                placeholder="Buscar"
+                inputProps={{ 'aria-label': 'search' }}
+                className="me-2"
+                aria-label="Search"
+                value={search}
+                onChange={onSearch}
+              />
+            </Paper>
+
           </div>
+
         </Container>
-<<<<<<< HEAD
-=======
-      </Navbar>
-      <Container className="formularioCrono">
-        <Form className="d-flex">
-          <Form.Control
-            type="search"
-            placeholder="Search"
-            className="me-2"
-            aria-label="Search"
-            value={search}
-            onChange={onSearch} />
-        </Form>
-      </Container>
-      <Form.Select 
-        id="category-id"
-        label="Categoría"
-        value={favoritosSelected}
-        onChange={onSelectFavorito}>
-        <option>Selecionar</option>
+
+        <Form.Select
+          id="category-id"
+          label="Categoría"
+          value={favoritosSelected}
+          onChange={onSelectFavorito}>
+          <option>Selecionar</option>
           {favoritos.map((item) => (
             <option key={item.id} value={item.id}>{item.name}</option>
           ))}
-      </Form.Select>
-      <Container>
-        {renderRutas()}
-      </Container>
->>>>>>> 376a9605e9d635647a2561eb088740a5c107d49e
-      </main>
+        </Form.Select>
 
+        <Container>
+          {renderRutas()}
+        </Container>
+
+      </main>
     </>
   )
 }

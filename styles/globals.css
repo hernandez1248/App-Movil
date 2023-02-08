@@ -359,10 +359,6 @@ a {
 .items-font{
   font-size: 12px;
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> 376a9605e9d635647a2561eb088740a5c107d49e
 .circulo{
   display: flex;
   justify-content: center;
@@ -497,10 +493,30 @@ a {
   margin-left: 330px;
   position: relative;
   top: -37px;
-<<<<<<< HEAD
 }
 
+.buttons-modal{
+  justify-content: space-between;
+}
 
+.card-unidad-information{
+  display: flex;
+  justify-content: space-around;
+  padding: 6px;
+  padding-left: 3px;
+}
+
+.card-unidad-izqu{
+  width: 100%;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.card-unidad-dere{
+  width: 70%;
+  font-size: 15px;
+  color: #003C8F;
+}
 #search-wrapper {
   -webkit-box-align: center;
   -webkit-align-items: center;
@@ -547,6 +563,3 @@ a {
 #search-wrapper #search:focus + i {
   border-color: #999;
 }
-=======
-}
->>>>>>> 376a9605e9d635647a2561eb088740a5c107d49e
