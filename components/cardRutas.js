@@ -36,7 +36,7 @@ function CardRutas() {
                 <div className='card-ruta-information'>
                     <div className='card-ruta-izqu'>
                         <Card.Text>
-                            N° de unidades:
+                            N° de unidad:
                         </Card.Text>
                     </div>
                     <div className='card-ruta-dere'>
