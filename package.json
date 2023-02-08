@@ -31,6 +31,9 @@
     "react-icons": "^4.7.1",
     "sequelize": "^6.28.0",
     "styled-components": "^5.3.6",
+
+    "sequelize": "^6.28.0",
+
     "sweetalert2": "^11.7.1"
   },
   "devDependencies": {

@@ -17,9 +17,12 @@ if (config.use_env_variable) {
 }
 
 import rutas from './rutas';
+
 import favoritos from './favoritos';
 import unidades from './unidades';
 
+import favoritos from './favoritos'
+import user from './user';
 /*
 fs
   .readdirSync(__dirname)
@@ -39,7 +42,11 @@ fs
 
 db.Rutas = rutas(sequelize, Sequelize.DataTypes);
 db.Favoritos = favoritos(sequelize, Sequelize.DataTypes);
+
 db.Unidades = unidades(sequelize, Sequelize.DataTypes);
+
+db.User = user(sequelize, Sequelize.DataTypes);
+
 
 
 Object.keys(db).forEach(modelName => {
