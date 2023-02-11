@@ -1,3 +1,4 @@
+import * as React from 'react';
 import Head from 'next/head'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -5,10 +6,39 @@ import Navbar from 'react-bootstrap/Navbar';
 import AddButtonRutas from '@/components/addButtonRutas';
 import Enlaces from '@/components/enlaces';
 import Title from '@/components/titulo';
+import { useState } from 'react';
+import apiClient from '@/apiClient';
 import CardRutas from '@/components/cardRutas';
-
+import { Grid } from '@mui/material';
 
 export default function RutasAdmin() {
+  const [route, setRoutes] = useState([]);
+
+  React.useEffect(() => {
+    refresh();
+  }, []);
+
+  const refresh = () => {
+    apiClient.get('/routes')
+    .then(response =>{
+      setRoutes(response.data || []);
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  }
+
+  const renderRoutes = () => {
+    return route.map((routes, index) => (
+     <Grid item xs={12} md={4} xl={2} key={routes.id}>
+        <CardRutas
+          index={index}
+          route={routes}
+        />
+      </Grid>
+    ))
+  };
+
   return (
     <>
       <Head>
@@ -25,7 +55,10 @@ export default function RutasAdmin() {
             Rutas
           </Navbar.Brand>
           <Nav className="d-flex justify-content-end">
-           <AddButtonRutas></AddButtonRutas>
+           <AddButtonRutas
+            recargar={refresh}
+            muestra = "hola"
+           />
           </Nav>
         </Container>
       </Navbar>
@@ -33,13 +66,9 @@ export default function RutasAdmin() {
         <Title></Title>
       </Container>  
       <Container>
-        <div className="tarjetasAcomodo">
-        <CardRutas></CardRutas>
-        <CardRutas></CardRutas>
-        <CardRutas></CardRutas>
-        <CardRutas></CardRutas>
-        <CardRutas></CardRutas>
-        </div>
+        <Grid container spacing={2} sx={{p: 2 }}>
+          {renderRoutes()}
+        </Grid>
       </Container>
       <Enlaces></Enlaces>
       </main>

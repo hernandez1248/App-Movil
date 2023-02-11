@@ -30,6 +30,7 @@
     "react-hook-form": "^7.43.0",
     "react-icons": "^4.7.1",
     "styled-components": "^5.3.6",
+
     "sequelize": "^6.28.0",
     "sweetalert2": "^11.7.1"
   },
