@@ -412,12 +412,23 @@ a {
   font-weight: bold;
 }
 
-.email{
+.form-control{
   max-width: 50%;
   color: #003C8F;
   font-size: 20px;
   border-color: #003C8F;
   margin: auto;
+}
+.formEmail{
+  margin-left: 10%;
+}
+.formPassword{
+  position: relative;
+  top: -30px;
+}
+
+.invalid-feedback{
+  margin-left: 25%;
 }
 
 .boton{
@@ -461,7 +472,22 @@ a {
   .formGroup-email{
     margin-left: 40px;
   }
-  .email{
+  .form-control{
+    max-width: 80%;
+  }
+
+  .formEmail{
+    margin-left: 10%;
+  }
+  .formPassword{
+    position: relative;
+    top: -30px;
+  }
+  .invalid-feedback{
+    margin-left: 10%;
+  }
+
+  .password{
     max-width: 80%;
   }
   .boton{
@@ -490,7 +516,7 @@ a {
 
 .eyeFill{
   font-size: 30px;
-  margin-left: 330px;
+  margin-left: 81%;
   position: relative;
   top: -37px;
 }
