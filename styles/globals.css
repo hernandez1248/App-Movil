@@ -121,6 +121,7 @@ a {
 .addPlusFill{
   font-size: 35px;
   color: white;
+  cursor: pointer;
 }
 
 .backButton{
@@ -142,7 +143,7 @@ a {
 }
 
 .card-unidad-chofer{
-  text-align: center;
+  
   color:#003C8F;
 }
 
@@ -527,9 +528,7 @@ a {
 
 .card-unidad-information{
   display: flex;
-  justify-content: space-around;
-  padding: 6px;
-  padding-left: 3px;
+  justify-content: center;
 }
 
 .card-unidad-izqu{
@@ -539,7 +538,7 @@ a {
 }
 
 .card-unidad-dere{
-  width: 70%;
+  width: 100%;
   font-size: 15px;
   color: #003C8F;
 }

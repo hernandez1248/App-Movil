@@ -17,12 +17,8 @@ if (config.use_env_variable) {
 }
 
 import rutas from './rutas';
-
 import favoritos from './favoritos';
 import unidades from './unidades';
-
-
-import favoritos from './favoritos'
 import user from './user';
 
 /*

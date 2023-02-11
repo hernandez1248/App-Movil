@@ -7,19 +7,38 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useForm } from "react-hook-form";
 import apiClient from '@/apiClient';
 import { PlusCircleFill } from 'react-bootstrap-icons';
-import { Container, Grid, TextField, Button, Paper, Alert } from '@mui/material';
+import { Container, Grid, TextField, Button, Paper, Alert, FormControl, InputLabel, Select, OutlinedInput, MenuItem } from '@mui/material';
 import Swal from 'sweetalert2';
 
-export default function AddButtonUnidad() {
+const AddButtonUnidad = ({ recargar }) => {
     const [unidad, setUnidades] = useState([]);
+    const [rutaSelected, setRuta] = useState(null);
 
-    const { register, handleSubmit, watch, formState: { errors }, setError } = useForm();
+    //Abrir modal para mostrar el formulario
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    //seleccionador para buscar por categoria
+    const onSelectRuta = (e) => {
+        setRuta(e.target.value)
+    }
+
+    //guardar los datos del formulario
+    const { register, handleSubmit, formState: { errors }, setError, reset } = useForm();
     const onSubmit = (data) => {
-        console.log(data);
+        //console.log(data);
 
         //enviar datos al backend
         apiClient.post('/unidades', data)
             .then((response) => {
+                setUnidades([...unidad, { data }]);
                 //console.log(response);
                 //alert(response.data.message);
                 Swal.fire({
@@ -27,13 +46,20 @@ export default function AddButtonUnidad() {
                     icon: 'success',
                     text: response.data.message,
                     showConfirmButton: false,
-                    timer:3000
+                    timer: 3000
                 })
                 setOpen(false);
+
+                //Recargar la pagina con las targetas actuales
+                if (recargar) {
+                    recargar();
+                }
+                //limpiar el formulario
+                reset();
+
             })
             .catch((error) => {
-                alert(error.response.data.message)
-
+                //alert(error.response.data.message)
                 if (error.response.data.errors) {
                     error.response.data.errors.forEach((errorItem) => {
                         setError(errorItem.field, {
@@ -44,29 +70,7 @@ export default function AddButtonUnidad() {
                     })
                 }
             });
-    };
 
-    const [data, setData] = useState({ ...unidad });
-    //Agrega elementos al array e inserta datos a la nueva tarjeta generada
-    const handleChange = (e) => {
-        setData({ ...data, [e.target.name]: e.target.value });
-    };
-
-    const addCard = () => {
-        const unidadCopy = [...unidad];
-        unidadCopy.push(data);
-        setUnidades(unidadCopy);
-        //setOpen(false);
-    }
-
-    const [open, setOpen] = React.useState(false);
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
     };
 
     return (
@@ -95,7 +99,7 @@ export default function AddButtonUnidad() {
                                             }
                                         )
                                         }
-                                        onChange={handleChange}
+
                                     />
                                 </Grid>
 
@@ -115,7 +119,7 @@ export default function AddButtonUnidad() {
                                             }
                                         )
                                         }
-                                        onChange={handleChange}
+
                                     />
                                 </Grid>
 
@@ -135,7 +139,7 @@ export default function AddButtonUnidad() {
                                             }
                                         )
                                         }
-                                        onChange={handleChange}
+
                                     />
                                 </Grid>
 
@@ -155,14 +159,14 @@ export default function AddButtonUnidad() {
                                             }
                                         )
                                         }
-                                        onChange={handleChange}
+
                                     />
                                 </Grid>
 
                                 <Grid item xs={12} md={6}>
                                     <TextField
                                         label="Vigencia de licencia" fullWidth variant="standard"
-                                        id="vigencia licencia"
+                                        id="vigencialicencia"
                                         error={!!errors.vigencialicencia}
                                         helperText={errors.vigencialicencia?.message}
                                         {...register('vigencialicencia',
@@ -175,16 +179,32 @@ export default function AddButtonUnidad() {
                                             }
                                         )
                                         }
-                                        onChange={handleChange}
+
                                     />
                                 </Grid>
 
+                                <Grid item xs={12} md={6}>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="category-id">Categoría</InputLabel>
+                                        <Select
+                                            id='ruta-id'
+                                            label="Ruta"
+                                            value={rutaSelected}
+                                            onChange={onSelectRuta}
+                                        >
+                                            <MenuItem value={0}>Todas</MenuItem>
+                                            {unidad.map((item) => (
+                                                <MenuItem key={item.id} value={item.id}>{item.rutaId}</MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
                             </Grid>
 
                             <DialogActions>
                                 <Button color='error' variant='outlined' onClick={handleClose}>Cancelar</Button>
 
-                                <Button type="submit" variant="contained" onClick={addCard}>Guardar</Button>
+                                <Button type="submit" variant="contained" >Guardar</Button>
                             </DialogActions>
                         </Container>
 
@@ -195,3 +215,5 @@ export default function AddButtonUnidad() {
         </div>
     );
 }
+
+export default AddButtonUnidad;

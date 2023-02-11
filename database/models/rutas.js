@@ -15,6 +15,12 @@ module.exports = (sequelize, DataTypes) => {
         as: 'favs',
         foreignKey: 'favoritoId'
       });
+
+      models.Rutas.hasMany(models.Unidades, 
+        {
+          as: 'unid',
+          foreignKey: 'rutaId'
+        });
     }
 
   }

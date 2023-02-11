@@ -6,6 +6,8 @@ export default function handler(req, res) {
             return unidadesList(req, res);
         case 'POST':
             return addUnidades(req, res);
+        case 'PUT':
+            return EditUnidades(req, res);
 
         default:
             res.status(400).json({ error: true, message: 'Petición errónea' });
@@ -13,7 +15,7 @@ export default function handler(req, res) {
     }
 }
 
-//POST: /customers
+//POST: /unidades
 const addUnidades = async (req, res) => {
     try {
         //los datos que vienen en el req.body
@@ -50,12 +52,12 @@ const addUnidades = async (req, res) => {
     }
 }
 
-// GET: /customer
+// GET: /unidades
 
 const unidadesList = async (req, res) => {
     try {
         const unid = await db.Unidades.findAll({});
-            
+
         return res.json(unid);
     } catch (error) {
         return res.status(400).json(
@@ -65,4 +67,49 @@ const unidadesList = async (req, res) => {
             }
         )
     }
-  }
+}
+
+//PUT: /unidades
+const EditUnidades = async (req, res) => {
+    try {
+        //los datos que vienen en el req.body
+        console.log(req.body);
+
+        //editar los datos del cliente
+        //let unids = [];
+        const unid = await db.Unidades.update({
+            where: {
+                id
+            }
+        });
+        unid.set({
+            ...req.body
+        });
+
+        res.json({
+            unid,
+            message: 'La unidad fue actualizada correctamente.'
+        });
+    } catch (error) {
+        console.log(error);
+
+        let errors = [];
+
+        if (error.errors) {
+            //extraer la información de los campos que tienen error
+            errors = error.errors.map((item) => ({
+                error: item.message,
+                field: item.path,
+            }));
+        }
+
+
+        return res.status(400).json(
+            {
+                error: true,
+                message: `Ocurrio un error al procesar la información: ${error.message}`,
+                errors,
+            }
+        )
+    }
+}
