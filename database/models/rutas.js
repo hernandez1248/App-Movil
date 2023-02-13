@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         as: 'favs',
         foreignKey: 'favoritoId'
       });
+
     }
 
   }

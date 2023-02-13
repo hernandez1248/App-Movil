@@ -6,7 +6,7 @@ import { VscArrowSwap } from "react-icons/vsc"
 function CardRutasUsuario({index, ruta}) {
     const [data, setData] = React.useState({...ruta});
 
-    console.log(ruta);
+    //console.log(ruta);
 
     return (
         <Card style={{ width: '18rem', backgroundColor: '#003C8F' }} className="card-ruta">
