@@ -13,6 +13,17 @@ export default function UnidadesAdmin() {
   const [unidad, setUnidades] = useState([]);
 
   React.useEffect(() => {
+    /*apiClient.get('/unidades')
+      .then(response => {
+        setUnidades(response.data || []);
+      })
+      .catch(error => {
+        console.log(error);
+      })*/
+      refresh();
+  }, []);
+
+  const refresh = () => {
     apiClient.get('/unidades')
       .then(response => {
         setUnidades(response.data || []);
@@ -20,7 +31,8 @@ export default function UnidadesAdmin() {
       .catch(error => {
         console.log(error);
       })
-  }, []);
+  }
+   
 
   const renderUnidades = () => {
     return unidad.map((unid, index) => (
@@ -60,7 +72,8 @@ export default function UnidadesAdmin() {
             Unidades
           </Navbar.Brand>
           <Nav className="d-flex justify-content-end">
-           <AddButtonUnidad></AddButtonUnidad>
+           <AddButtonUnidad
+           recargar={refresh}/>
           </Nav>
         </Container>
       </Navbar>

@@ -10,9 +10,14 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      models.Unidades.hasMany(models.Schedules,
+        {
+          as: 'schedules', // alias para la relacion 
+          foreignKey: 'unitId', // pf en products
+        });
     }
   }
+
   Unidades.init({
     numunidad: {
       type: DataTypes.INTEGER,
@@ -28,16 +33,16 @@ module.exports = (sequelize, DataTypes) => {
     },
     placas: {
       type: DataTypes.STRING,
-      /*allowNull: false,
+     allowNull: false,
       validate: {
         notNull: {
           msg: 'El campo es obligatorio',
         },
         is: {
-          arg: /^[A-Z]{3}[-][0-9]{3}$/,
+          args: /^[A-Z]{3}[-][0-9]{3}$/,
           msg: 'Las placas deben ser validas.',
         },
-      },*/
+      },
     },
     name: {
       type: DataTypes.STRING,

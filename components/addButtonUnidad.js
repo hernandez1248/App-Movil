@@ -10,16 +10,17 @@ import { PlusCircleFill } from 'react-bootstrap-icons';
 import { Container, Grid, TextField, Button, Paper, Alert } from '@mui/material';
 import Swal from 'sweetalert2';
 
-export default function AddButtonUnidad() {
+export default function AddButtonUnidad({recargar}) {
     const [unidad, setUnidades] = useState([]);
 
-    const { register, handleSubmit, watch, formState: { errors }, setError } = useForm();
+    const { register, handleSubmit, watch, formState: { errors }, setError, reset } = useForm();
     const onSubmit = (data) => {
         console.log(data);
 
         //enviar datos al backend
         apiClient.post('/unidades', data)
             .then((response) => {
+                setUnidades([...unidad,{...data}]); 
                 //console.log(response);
                 //alert(response.data.message);
                 Swal.fire({
@@ -30,6 +31,11 @@ export default function AddButtonUnidad() {
                     timer:3000
                 })
                 setOpen(false);
+                if(recargar){
+                    recargar();
+                }
+                //limpiar el formulario
+                reset();
             })
             .catch((error) => {
                 alert(error.response.data.message)
@@ -95,7 +101,7 @@ export default function AddButtonUnidad() {
                                             }
                                         )
                                         }
-                                        onChange={handleChange}
+                                        
                                     />
                                 </Grid>
 
@@ -115,7 +121,7 @@ export default function AddButtonUnidad() {
                                             }
                                         )
                                         }
-                                        onChange={handleChange}
+                                        
                                     />
                                 </Grid>
 
@@ -135,7 +141,7 @@ export default function AddButtonUnidad() {
                                             }
                                         )
                                         }
-                                        onChange={handleChange}
+                                        
                                     />
                                 </Grid>
 
@@ -155,7 +161,7 @@ export default function AddButtonUnidad() {
                                             }
                                         )
                                         }
-                                        onChange={handleChange}
+                                        
                                     />
                                 </Grid>
 
@@ -175,7 +181,7 @@ export default function AddButtonUnidad() {
                                             }
                                         )
                                         }
-                                        onChange={handleChange}
+                                        
                                     />
                                 </Grid>
 

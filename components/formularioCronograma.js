@@ -7,17 +7,17 @@ function FormularioCronograma() {
       <Form.Group className='formGroup' controlId="formBasicEmail">
         <Form.Label className="formGroup-Component">Ruta: </Form.Label>
         <Form.Select className="formGroup-Component" aria-label="Default select example">
-          <option>Elegir Destino</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
+          <option>Elegir Ruta</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
         </Form.Select>
       </Form.Group>
       <Form.Group  className='formGroup' controlId="formBasicPassword">
         <Form.Label className="formGroup-Component">Unidad: </Form.Label>
         <Form.Select className="formGroup-Component" aria-label="Default select example">
           <option>Elegir Unidad</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
         </Form.Select>
       </Form.Group>
       <Form.Group className='formGroup'>
