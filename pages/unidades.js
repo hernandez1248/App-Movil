@@ -14,14 +14,9 @@ export default function UnidadesAdmin() {
   const [unidad, setUnidades] = useState([]);
 
   React.useEffect(() => {
-    /*apiClient.get('/unidades')
-      .then(response => {
-        setUnidades(response.data || []);
-      })
-      .catch(error => {
-        console.log(error);
-      })*/
-      refresh();
+    refresh();
+    save();
+    deleteUnidad();
   }, []);
 
   const refresh = () => {
@@ -33,7 +28,37 @@ export default function UnidadesAdmin() {
         console.log(error);
       })
   }
-   
+
+  const save = (id) => {
+    apiClient.put(`/unidades/?id=${id}`)
+      .then(response => {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          text: response.data.message,
+        })
+        refresh();
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  }
+
+  const deleteUnidad = (id) => {
+    apiClient.delete(`/unidades/?id=${id}`)
+      .then(response => {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          text: response.data.message,
+        })
+        refresh();
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  }
+
 
   const renderUnidades = () => {
     return unidad.map((unid, index) => (
@@ -59,19 +84,20 @@ export default function UnidadesAdmin() {
         
 
 
-    </Head>
-    <main>
-      <Navbar className="menu" fixed="top">
-        <Container>
-          <Navbar.Brand id="unidadesTitle">
-            Unidades
-          </Navbar.Brand>
-          <Nav className="d-flex justify-content-end">
-           <AddButtonUnidad
-           recargar={refresh}/>
-          </Nav>
-        </Container>
-      </Navbar>
+      </Head>
+      <main>
+        <Navbar className="menu" fixed="top">
+          <Container>
+            <Navbar.Brand id="unidadesTitle">
+              Unidades
+            </Navbar.Brand>
+            <Nav className="d-flex justify-content-end">
+              <AddButtonUnidad
+                recargar={refresh}
+              />
+            </Nav>
+          </Container>
+        </Navbar>
 
         <div style={{ marginTop: '100px', marginBottom: '60px' }}>
           <Container className='tarjetasAcomodo'>
