@@ -25,12 +25,6 @@ export default function UnidadesAdmin() {
   }, []);
 
   const refresh = () => {
-    refresh();
-    save();
-    deleteUnidad();
-  }, []);
-
-  const refresh = () => {
     apiClient.get('/unidades')
       .then(response => {
         setUnidades(response.data || []);
@@ -40,38 +34,6 @@ export default function UnidadesAdmin() {
       })
   }
    
-  }
-
-  const save = (id) => {
-    apiClient.put(`/unidades/?id=${id}`)
-      .then(response => {
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          text: response.data.message,
-        })
-        refresh();
-      })
-      .catch(error => {
-        console.log(error);
-      })
-  }
-
-  const deleteUnidad = (id) => {
-    apiClient.delete(`/unidades/?id=${id}`)
-      .then(response => {
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          text: response.data.message,
-        })
-        refresh();
-      })
-      .catch(error => {
-        console.log(error);
-      })
-  }
-
 
   const renderUnidades = () => {
     return unidad.map((unid, index) => (
@@ -110,20 +72,6 @@ export default function UnidadesAdmin() {
           </Nav>
         </Container>
       </Navbar>
-      </Head>
-      <main>
-        <Navbar className="menu" fixed="top">
-          <Container>
-            <Navbar.Brand id="unidadesTitle">
-              Unidades
-            </Navbar.Brand>
-            <Nav className="d-flex justify-content-end">
-              <AddButtonUnidad
-                recargar={refresh}
-              />
-            </Nav>
-          </Container>
-        </Navbar>
 
         <div style={{ marginTop: '100px', marginBottom: '60px' }}>
           <Container className='tarjetasAcomodo'>
