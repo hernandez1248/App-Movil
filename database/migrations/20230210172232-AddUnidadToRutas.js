@@ -11,14 +11,14 @@ module.exports = {
           type: Sequelize.DataTypes.INTEGER,
           //establecer la relación de la tabla y la llave primaria
           references: {
-            model: 'Rutas',
+            model: 'Routes',
             key: 'id'
           },
           //integridad referencial
           onUpdate: 'CASCADE',
           onDelete: 'SET NULL',
           defaultValue: null,
-          after: 'numunidad'
+          after: 'vigencialicencia'
         },
       ),
     ]);

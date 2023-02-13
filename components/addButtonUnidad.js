@@ -4,15 +4,17 @@ import { useState } from 'react';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
+import { useEffect } from 'react';
 import apiClient from '@/apiClient';
 import { PlusCircleFill } from 'react-bootstrap-icons';
-import { Container, Grid, TextField, Button, Paper, Alert, FormControl, InputLabel, Select, OutlinedInput, MenuItem } from '@mui/material';
+import { Container, Grid, TextField, Button, Paper, FormControl, InputLabel, Select, MenuItem, Input } from '@mui/material';
 import Swal from 'sweetalert2';
 
-const AddButtonUnidad = ({ recargar }) => {
+const AddButtonUnidad = ({ recargar, asignament }) => {
     const [unidad, setUnidades] = useState([]);
-    const [rutaSelected, setRuta] = useState(null);
+    const [routes, setRutas] = useState([]);
+    const [rutaSelected, setRuta] = useState("");
 
     //Abrir modal para mostrar el formulario
     const [open, setOpen] = React.useState(false);
@@ -25,15 +27,10 @@ const AddButtonUnidad = ({ recargar }) => {
         setOpen(false);
     };
 
-    //seleccionador para buscar por categoria
-    const onSelectRuta = (e) => {
-        setRuta(e.target.value)
-    }
-
     //guardar los datos del formulario
     const { register, handleSubmit, formState: { errors }, setError, reset } = useForm();
     const onSubmit = (data) => {
-        //console.log(data);
+        // console.log(data);
 
         //enviar datos al backend
         apiClient.post('/unidades', data)
@@ -72,6 +69,37 @@ const AddButtonUnidad = ({ recargar }) => {
             });
 
     };
+
+    //devolver productos desde el back-end
+    useEffect(() => {
+        //ir por las routes desde el backend
+        apiClient.get('/routes')
+            .then(response => {
+                setRutas(response.data || []);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+
+    }, []);
+
+    //devuelve los datos desde el backend
+    useEffect(() => {
+        //ir por las routes desde el backend
+        if (rutaSelected) {
+            apiClient.get(`/unidades?rutaId=${rutaSelected || null}`)
+                .then(response => {
+                    setUnidades(response.data || []);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+    }, [rutaSelected]);
+    //seleccionador para buscar por categoria
+    const onSelectRuta = (e) => {
+        setRuta({[e.target.name]: e.target.value})
+    }
 
     return (
         <div>
@@ -184,17 +212,17 @@ const AddButtonUnidad = ({ recargar }) => {
                                 </Grid>
 
                                 <Grid item xs={12} md={6}>
-                                    <FormControl fullWidth>
-                                        <InputLabel id="category-id">Categoría</InputLabel>
+                                    <FormControl fullWidth >
+                                        <InputLabel id="ruta-id">Ruta</InputLabel>
                                         <Select
                                             id='ruta-id'
                                             label="Ruta"
                                             value={rutaSelected}
                                             onChange={onSelectRuta}
                                         >
-                                            <MenuItem value={0}>Todas</MenuItem>
-                                            {unidad.map((item) => (
-                                                <MenuItem key={item.id} value={item.id}>{item.rutaId}</MenuItem>
+                                            <MenuItem value={0}>Seleccionar</MenuItem>
+                                            {routes.map((item) => (
+                                                <MenuItem key={item.id} value={item.id}>{`${item.id} ${item.origen}-${item.destino}`}</MenuItem>
                                             ))}
                                         </Select>
                                     </FormControl>

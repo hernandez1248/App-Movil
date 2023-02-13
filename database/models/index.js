@@ -20,6 +20,7 @@ import route from './route';
 import favoritos from './favoritos';
 import unidades from './unidades';
 import user from './user';
+import rutas from './rutas';
 /*
 fs
   .readdirSync(__dirname)

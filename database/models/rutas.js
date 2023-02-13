@@ -16,11 +16,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'favoritoId'
       });
 
-      models.Rutas.hasMany(models.Unidades, 
-        {
-          as: 'unid',
-          foreignKey: 'rutaId'
-        });
     }
 
   }

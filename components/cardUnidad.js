@@ -5,15 +5,20 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Grid, TextField } from "@mui/material";
+import { FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import apiClient from '@/apiClient';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 
 
 
-function CardUnidad({ index, unidad, onDelete, onSave }) {
+function CardUnidad({ index, unidad, onDelete, onEdit, route }) {
   //const [unidad,setUnidad] = React.useState([]);
+  const [routes, setRoutes] = useState([])
   const [data, setData] = React.useState({ ...unidad });
   const [edit, setEdit] = React.useState(false);
+  const [rutaSelected, setRuta] = React.useState(null);
 
   //Editar datos de las tarjetas
   const handleEdit = () => {
@@ -23,14 +28,15 @@ function CardUnidad({ index, unidad, onDelete, onSave }) {
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
+    setRoutes({ ...routes, [e.target.name]: e.target.value });
   };
 
   const handleSave = () => {
 
     // mandar a llamar a la funcion padre que guarda los datos que estan en el estado
-    // onSave(data);
-    if (onSave) {
-      onSave(index, data);
+    // onEdit(data);
+    if (onEdit) {
+      onEdit(index, data);
 
     }
     setEdit(false);
@@ -43,8 +49,51 @@ function CardUnidad({ index, unidad, onDelete, onSave }) {
   }
 
   const handleDelete = () => {
-    onDelete(index);
+    onDelete(data.id);
   };
+
+  //devolver productos desde el back-end
+  useEffect(() => {
+    //ir por las routes desde el backend
+    /*apiClient.get('/routes')
+      .then(response => {
+        setRoutes(response.data || []);
+        //console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });*/
+    recibirDato();
+  }, []);
+
+  const recibirDato = () => {
+    apiClient.get('/routes')
+      .then(response => {
+        setRoutes(response.data || []);
+        //console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  //devuelve los datos desde el backend
+  useEffect(() => {
+    //ir por los productos desde el backend
+    if (rutaSelected) {
+      apiClient.get(`/unidades?rutaId=${rutaSelected || null}`)
+        .then(response => {
+          setUnidades(response.data || []);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  }, [rutaSelected]);
+  //seleccionador para buscar por categoria
+  const onSelectRuta = (e) => {
+    setRuta(e.target.value)
+  }
 
   return (
     <>
@@ -70,8 +119,11 @@ function CardUnidad({ index, unidad, onDelete, onSave }) {
                     <Typography className='card-unidad-izqu' gutterBottom >
                       Ruta:
                     </Typography>
-                    <Typography className='card-unidad-dere' gutterBottom >
-                      {data.rutaId}
+                    <Typography
+                      className='card-unidad-dere'
+                      gutterBottom
+                    >
+                      {`${data.rutaId} ${routes.origen}-${routes.destino}`}
                     </Typography>
                   </div>
 
@@ -105,13 +157,23 @@ function CardUnidad({ index, unidad, onDelete, onSave }) {
               )}
 
               {edit && (
-                <TextField
-                  name="ruta"
-                  label="Ruta"
-                  variant="standard"
-                  value={data.rutaId}
-                  onChange={handleChange}
-                />
+                <Grid item xs={12} md={6}>
+                  <FormControl fullWidth >
+                    <InputLabel id="ruta-id">Ruta</InputLabel>
+                    <Select
+                      id='ruta-id'
+                      label="Ruta"
+                      value={rutaSelected}
+                      onChange={onSelectRuta}
+                    //onSubmit={handleSubmit(onSubmit)}
+                    >
+                      <MenuItem value={0}>Seleccionar</MenuItem>
+                      {routes.map((item) => (
+                        <MenuItem key={item.id} value={item.id}>{`${item.id} ${item.origen}-${item.destino}`}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
               )}
 
               {edit && (

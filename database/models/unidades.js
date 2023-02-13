@@ -11,9 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.Unidades.belongsTo(models.Rutas,
+      models.Unidades.belongsTo(models.Route,
         {
-          as: 'rutas',//alias para la reación
+          as: 'ruta',//alias para la reación
           foreignKey: 'rutaId',//FK para rutas
         }
       );
@@ -83,7 +83,16 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
     },
-    rutaId:DataTypes.INTEGER
+    rutaId: DataTypes.INTEGER
+    /*rutaId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'El campo es oblogatorio'
+        }
+      }
+    }*/
   }, {
     sequelize,
     modelName: 'Unidades',
