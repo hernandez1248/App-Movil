@@ -4,23 +4,38 @@ import { useState } from 'react';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
+import { useEffect } from 'react';
 import apiClient from '@/apiClient';
 import { PlusCircleFill } from 'react-bootstrap-icons';
-import { Container, Grid, TextField, Button, Paper, Alert } from '@mui/material';
+import { Container, Grid, TextField, Button, Paper, FormControl, InputLabel, Select, MenuItem, Input } from '@mui/material';
 import Swal from 'sweetalert2';
 
-export default function AddButtonUnidad({recargar}) {
+const AddButtonUnidad = ({ recargar, asignament }) => {
     const [unidad, setUnidades] = useState([]);
+    const [routes, setRutas] = useState([]);
+    const [rutaSelected, setRuta] = useState("");
 
-    const { register, handleSubmit, watch, formState: { errors }, setError, reset } = useForm();
+    //Abrir modal para mostrar el formulario
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    //guardar los datos del formulario
+    const { register, handleSubmit, formState: { errors }, setError, reset } = useForm();
     const onSubmit = (data) => {
-        console.log(data);
+        // console.log(data);
 
         //enviar datos al backend
         apiClient.post('/unidades', data)
             .then((response) => {
-                setUnidades([...unidad,{...data}]); 
+                setUnidades([...unidad, { data }]);
                 //console.log(response);
                 //alert(response.data.message);
                 Swal.fire({
@@ -28,18 +43,20 @@ export default function AddButtonUnidad({recargar}) {
                     icon: 'success',
                     text: response.data.message,
                     showConfirmButton: false,
-                    timer:3000
+                    timer: 3000
                 })
                 setOpen(false);
-                if(recargar){
+
+                //Recargar la pagina con las targetas actuales
+                if (recargar) {
                     recargar();
                 }
                 //limpiar el formulario
                 reset();
+
             })
             .catch((error) => {
-                alert(error.response.data.message)
-
+                //alert(error.response.data.message)
                 if (error.response.data.errors) {
                     error.response.data.errors.forEach((errorItem) => {
                         setError(errorItem.field, {
@@ -50,30 +67,39 @@ export default function AddButtonUnidad({recargar}) {
                     })
                 }
             });
+
     };
 
-    const [data, setData] = useState({ ...unidad });
-    //Agrega elementos al array e inserta datos a la nueva tarjeta generada
-    const handleChange = (e) => {
-        setData({ ...data, [e.target.name]: e.target.value });
-    };
+    //devolver productos desde el back-end
+    useEffect(() => {
+        //ir por las routes desde el backend
+        apiClient.get('/routes')
+            .then(response => {
+                setRutas(response.data || []);
+            })
+            .catch(error => {
+                console.log(error);
+            });
 
-    const addCard = () => {
-        const unidadCopy = [...unidad];
-        unidadCopy.push(data);
-        setUnidades(unidadCopy);
-        //setOpen(false);
+    }, []);
+
+    //devuelve los datos desde el backend
+    useEffect(() => {
+        //ir por las routes desde el backend
+        if (rutaSelected) {
+            apiClient.get(`/unidades?rutaId=${rutaSelected || null}`)
+                .then(response => {
+                    setUnidades(response.data || []);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+    }, [rutaSelected]);
+    //seleccionador para buscar por categoria
+    const onSelectRuta = (e) => {
+        setRuta({[e.target.name]: e.target.value})
     }
-
-    const [open, setOpen] = React.useState(false);
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     return (
         <div>
@@ -101,7 +127,7 @@ export default function AddButtonUnidad({recargar}) {
                                             }
                                         )
                                         }
-                                        
+
                                     />
                                 </Grid>
 
@@ -121,7 +147,7 @@ export default function AddButtonUnidad({recargar}) {
                                             }
                                         )
                                         }
-                                        
+
                                     />
                                 </Grid>
 
@@ -141,7 +167,7 @@ export default function AddButtonUnidad({recargar}) {
                                             }
                                         )
                                         }
-                                        
+
                                     />
                                 </Grid>
 
@@ -161,14 +187,14 @@ export default function AddButtonUnidad({recargar}) {
                                             }
                                         )
                                         }
-                                        
+
                                     />
                                 </Grid>
 
                                 <Grid item xs={12} md={6}>
                                     <TextField
                                         label="Vigencia de licencia" fullWidth variant="standard"
-                                        id="vigencia licencia"
+                                        id="vigencialicencia"
                                         error={!!errors.vigencialicencia}
                                         helperText={errors.vigencialicencia?.message}
                                         {...register('vigencialicencia',
@@ -181,16 +207,32 @@ export default function AddButtonUnidad({recargar}) {
                                             }
                                         )
                                         }
-                                        
+
                                     />
                                 </Grid>
 
+                                <Grid item xs={12} md={6}>
+                                    <FormControl fullWidth >
+                                        <InputLabel id="ruta-id">Ruta</InputLabel>
+                                        <Select
+                                            id='ruta-id'
+                                            label="Ruta"
+                                            value={rutaSelected}
+                                            onChange={onSelectRuta}
+                                        >
+                                            <MenuItem value={0}>Seleccionar</MenuItem>
+                                            {routes.map((item) => (
+                                                <MenuItem key={item.id} value={item.id}>{`${item.id} ${item.origen}-${item.destino}`}</MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
                             </Grid>
 
                             <DialogActions>
                                 <Button color='error' variant='outlined' onClick={handleClose}>Cancelar</Button>
 
-                                <Button type="submit" variant="contained" onClick={addCard}>Guardar</Button>
+                                <Button type="submit" variant="contained" >Guardar</Button>
                             </DialogActions>
                         </Container>
 
@@ -201,3 +243,5 @@ export default function AddButtonUnidad({recargar}) {
         </div>
     );
 }
+
+export default AddButtonUnidad;

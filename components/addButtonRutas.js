@@ -1,117 +1,149 @@
-import { PlusCircleFill } from 'react-bootstrap-icons';
-import { Button } from 'react-bootstrap';
-import React, { useState } from 'react';
-import Form from 'react-bootstrap/Form';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Modal from 'react-bootstrap/Modal';
-import { render } from 'react-dom';
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { Grid, TextField } from '@mui/material';
+import { Container } from '@mui/system';
+import { useForm } from "react-hook-form";
+import apiClient from '@/apiClient';
+import Swal from 'sweetalert2';
 
-function AddButtonRutas(props) {
-    const [show, setShow] = useState(false);
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+export default function AddButtonRutas({recargar, muestra}) {
+  const [open, setOpen] = React.useState(false);
 
-    return (
-        <>
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-            <PlusCircleFill onClick={handleShow} className='addPlusFill'></PlusCircleFill>
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-            <Modal show={show}
-                onHide={handleClose}
-                {...props}
-                size="lg"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered
-            >
+  const { register, handleSubmit, watch, formState: { errors }, setError, reset } = useForm();
+  const onSubmit = (data) => {
+    //console.log(data);
+    // Enviar la informacion al backend
+    apiClient.post('/routes', data)
+    .then((response) => {
+      //console.log(response.data);
+      //alert(response.data.message);
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        text: response.data.message,
+      })
+      setOpen(false);
+      if(recargar){
+        recargar();
+      }
+      reset();
+    })
+    .catch((error) => {
+        console.log(error);
+        alert(error.response.data.message);
+        if (error.response.data.errors) {
+            error.response.data.errors.forEach((errorItem) => {
+                setError(errorItem.field, {
+                    //error: true,
+                    type: "validation",
+                    message: errorItem.error
+                });
+            })
+        }
+    });
+  };
 
-                <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter">Agregar Ruta</Modal.Title>
-                </Modal.Header>
-
-                <Modal.Body>
-                    <div className='card-rutauser-information '>
-
-                        <div className='card-rutauser-izqu-modal'>
-                            <Box
-                                component="form"
-                                sx={{
-                                    '& > :not(style)': { m: 1, width: '12.5ch' },
-                                }}
-                                noValidate
-                                autoComplete="off"
-                                className='card-rutauser-izqu'
-                            >
-                                <TextField id="standard-basic" label="Origen" variant="standard" />
-                            </Box>
-                        </div>
-
-                        <div className='card-rutauser-dere'>
-                            <Form.Group controlId="formFile" className="mb-3">
-                                <Form.Control type="file" />
-                            </Form.Group>
-                        </div>
-
-                    </div>
-
-                    <div className='card-rutauser-information '>
-
-                        <div className='card-rutauser-izqu-modal'>
-                            <Box
-                                component="form"
-                                sx={{
-                                    '& > :not(style)': { m: 1, width: '12.5ch' },
-                                }}
-                                noValidate
-                                autoComplete="off"
-                                className='card-rutauser-izqu'
-                            >
-                                <TextField id="standard-basic" label="Destino" variant="standard" />
-                            </Box>
-                        </div>
-
-                        <div className='card-rutauser-dere'>
-                            <Form.Group controlId="formFile" className="mb-3">
-                                <Form.Control type="file" />
-                            </Form.Group>
-                        </div>
-
-                    </div>
-
-                </Modal.Body>
-
-                <Modal.Footer>
-                    <Button variant="danger" onClick={handleClose}>
-                        Cancelar
-                    </Button>
-                    <Button variant="primary" onClick={handleClose}>
-                        Agregar
-                    </Button>
-                </Modal.Footer>
-
-            </Modal>
-        </>
-    );
-
-    function App() {
-        const [modalShow, setModalShow] = React.useState(false);
-
-        return (
-            <>
-                <Button variant="primary" onClick={() => setModalShow(true)}>
-                    Launch vertically centered modal
-                </Button>
-
-                <MyVerticallyCenteredModal
-                    show={modalShow}
-                    onHide={() => setModalShow(false)}
-                />
-            </>
-        );
-    }
-
-    render(<App />)
+  return (
+    <div>
+    <AddCircleIcon onClick={handleClickOpen} fontSize="large" sx={{ color: "white" }}/>
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-describedby="alert-dialog-slide-description"
+        component={"form"} 
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <DialogTitle>{"Agregar Ruta"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            <Container>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <TextField id="origen" label="Origen" variant="outlined" fullWidth
+                            error={!!errors.origen}
+                            helperText={errors.origen?.message}
+                            {...register('origen',
+                                {
+                                    required: 'Este campo es obligatorio',
+                                    pattern: {
+                                        value: /^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/g,
+                                        message: 'El nombre solo debe contener letras'
+                                    }
+                                }
+                            )
+                            }
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField id="imageOrigen" label="URL de Imagen" variant="outlined" fullWidth
+                            error={!!errors.imageOrigen}
+                            helperText={errors.imageOrigen?.message}
+                            {...register('imageOrigen',
+                                {
+                                    required: 'Este campo no puede quedar vacío',
+                                }
+                            )
+                            }
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField id="destino" label="Destino" variant="outlined" fullWidth
+                            error={!!errors.destino}
+                            helperText={errors.destino?.message}
+                            {...register('destino',
+                                {
+                                    required: 'Este campo es obligatorio',
+                                    pattern: {
+                                        value: /^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/g,
+                                        message: 'El destino solo debe contener letras'
+                                    }
+                                }
+                            )
+                            }
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField id="imageDestino" label="URL de Imagen" variant="outlined" fullWidth
+                            error={!!errors.imageDestino}
+                            helperText={errors.imageDestino?.message}
+                            {...register('imageDestino',
+                                {
+                                    required: 'Este campo no puede quedar vacío',
+                                }
+                            )
+                            }
+                        />
+                    </Grid>
+                </Grid>
+            </Container>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button color='error' variant='outlined' onClick={handleClose}>Cancelar</Button>
+          <Button variant='contained' type="submit">Agregar</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
 }
-
-export default AddButtonRutas;

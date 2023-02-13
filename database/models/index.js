@@ -16,11 +16,11 @@ if (config.use_env_variable) {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
-import rutas from './rutas';
+import route from './route';
 import favoritos from './favoritos';
 import unidades from './unidades';
 import user from './user';
-import schedule from './schedule';
+import rutas from './rutas';
 /*
 fs
   .readdirSync(__dirname)
@@ -39,11 +39,11 @@ fs
 */
 
 db.Rutas = rutas(sequelize, Sequelize.DataTypes);
+db.Route = route(sequelize, Sequelize.DataTypes);
 db.Favoritos = favoritos(sequelize, Sequelize.DataTypes);
 db.Unidades = unidades(sequelize, Sequelize.DataTypes);
 db.User = user(sequelize, Sequelize.DataTypes);
 db.Schedules = schedule(sequelize, Sequelize.DataTypes);
-
 
 
 Object.keys(db).forEach(modelName => {

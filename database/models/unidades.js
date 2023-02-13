@@ -16,6 +16,15 @@ module.exports = (sequelize, DataTypes) => {
           foreignKey: 'unitId', // pf en products
         });
     }
+    static associate(models) {
+      // define association here
+      models.Unidades.belongsTo(models.Route,
+        {
+          as: 'ruta',//alias para la reación
+          foreignKey: 'rutaId',//FK para rutas
+        }
+      );
+    }
   }
 
   Unidades.init({
@@ -33,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     placas: {
       type: DataTypes.STRING,
-     allowNull: false,
+      allowNull: false,
       validate: {
         notNull: {
           msg: 'El campo es obligatorio',
@@ -81,7 +90,17 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'La fecha debe ser valida.',
         },
       },
-    }
+    },
+    rutaId: DataTypes.INTEGER
+    /*rutaId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'El campo es oblogatorio'
+        }
+      }
+    }*/
   }, {
     sequelize,
     modelName: 'Unidades',
