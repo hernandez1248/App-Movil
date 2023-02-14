@@ -15,8 +15,6 @@ export default function UnidadesAdmin() {
 
   React.useEffect(() => {
     refresh();
-    //save();
-    deleteUnidad();
   }, []);
 
   const refresh = () => {
@@ -29,34 +27,34 @@ export default function UnidadesAdmin() {
       })
   }
 
-  const save = (id) => {
-    apiClient.put(`/unidades/?id=${id}`)
-      .then(response => {
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          text: response.data.message,
-        })
-        refresh();
-      })
-      .catch(error => {
-        console.log(error);
-      })
-  }
-
   const deleteUnidad = (id) => {
-    apiClient.delete(`/unidades/?id=${id}`)
-      .then(response => {
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          text: response.data.message,
+    Swal.fire({
+      title: '¿Estás Seguro de eliminar?',
+      text: "Los datos relacionados con la unidad se perderan permanentemente",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: "Cancelar",
+      confirmButtonText: 'si, eliminar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        apiClient.delete(`/unidades?id=${id}`)
+        .then(response =>{
+          console.log(response.data);
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            text: response.data.message,
+          })
+          refresh()
         })
-        refresh();
-      })
-      .catch(error => {
-        console.log(error);
-      })
+        .catch(error => {
+          console.log(error);
+        })
+      }
+    })
+   
   }
 
 
@@ -66,7 +64,7 @@ export default function UnidadesAdmin() {
         <CardUnidad
           index={index}
           unidad={unid}
-          onEdit={save}
+          recargar={refresh}
           onDelete={deleteUnidad}
         />
       </div>

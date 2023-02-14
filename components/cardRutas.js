@@ -37,7 +37,7 @@ export default function CardRutas({route, onDelete, recargar}) {
     const { register, handleSubmit, watch, formState: { errors }, setError } = useForm();
     const onSubmit = (data) => {
       // Enviar la informacion al backend
-      apiClient.put(`routes?id=${id}`,data)
+      apiClient.put(`/routes?id=${id}`,data)
       .then(response => {
         console.log(response.data);
         if(recargar){

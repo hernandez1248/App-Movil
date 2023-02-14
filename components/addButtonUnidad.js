@@ -4,20 +4,21 @@ import { useState } from 'react';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useEffect } from 'react';
 import apiClient from '@/apiClient';
 import { PlusCircleFill } from 'react-bootstrap-icons';
-import { Container, Grid, TextField, Button, Paper, FormControl, InputLabel, Select, MenuItem, Input } from '@mui/material';
+import { Container, Grid, TextField, Button, Paper, FormControl, InputLabel, MenuItem, Input, OutlinedInput } from '@mui/material';
+import Select from '@mui/material/Select';
 import Swal from 'sweetalert2';
 
-const AddButtonUnidad = ({ recargar, asignament }) => {
+const AddButtonUnidad = ({ recargar }) => {
     const [unidad, setUnidades] = useState([]);
-    const [routes, setRutas] = useState([]);
-    const [rutaSelected, setRuta] = useState("");
+    const [routes, setRoutes] = useState([]);
+    const [rutaSelected, setRuta] = useState('0');
 
     //Abrir modal para mostrar el formulario
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -30,7 +31,7 @@ const AddButtonUnidad = ({ recargar, asignament }) => {
     //guardar los datos del formulario
     const { register, handleSubmit, formState: { errors }, setError, reset } = useForm();
     const onSubmit = (data) => {
-        // console.log(data);
+        //console.log(data);
 
         //enviar datos al backend
         apiClient.post('/unidades', data)
@@ -42,7 +43,7 @@ const AddButtonUnidad = ({ recargar, asignament }) => {
                     position: 'center',
                     icon: 'success',
                     text: response.data.message,
-                    showConfirmButton: false,
+                    showConfirmButton: true,
                     timer: 3000
                 })
                 setOpen(false);
@@ -75,7 +76,7 @@ const AddButtonUnidad = ({ recargar, asignament }) => {
         //ir por las routes desde el backend
         apiClient.get('/routes')
             .then(response => {
-                setRutas(response.data || []);
+                setRoutes(response.data || []);
             })
             .catch(error => {
                 console.log(error);
@@ -97,9 +98,19 @@ const AddButtonUnidad = ({ recargar, asignament }) => {
         }
     }, [rutaSelected]);
     //seleccionador para buscar por categoria
+    /*const onSelectRuta = (e) =>{
+        setRuta(e.target.value)
+    }*/
+
     const onSelectRuta = (e) => {
-        setRuta( e.target.value)
-    }
+        const {
+            target: { value },
+        } = e;
+        setRuta(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+        );
+    };
 
     return (
         <div>
@@ -176,7 +187,7 @@ const AddButtonUnidad = ({ recargar, asignament }) => {
                                         label="Teléfono" fullWidth variant="standard"
                                         id="phone"
                                         error={!!errors.phone}
-                                        helperText={errors.phone?.message}
+                                        helpertext={errors.phone?.message}
                                         {...register('phone',
                                             {
                                                 required: 'Este campo es obligatorio',
@@ -212,18 +223,34 @@ const AddButtonUnidad = ({ recargar, asignament }) => {
                                 </Grid>
 
                                 <Grid item xs={12} md={6}>
-                                    <FormControl fullWidth >
+                                    <FormControl fullWidth>
                                         <InputLabel id="ruta-id">Ruta</InputLabel>
                                         <Select
                                             id='ruta-id'
-                                            label="Ruta"
-                                            value={rutaSelected}
-                                            onChange={onSelectRuta}
+                                            labelId="ruta-id-name"
+                                            defaultValue={rutaSelected}
+                                            input={<OutlinedInput label="Ruta" />}
+                                            onSubmit={handleSubmit(onSubmit)}
+                                            error={!!errors.rutaId}
+                                            helperText={errors.rutaId?.message}
+                                            {...register('rutaId',
+                                                {
+                                                    required: 'Este campo es obligatorio',
+                                                }
+                                            )
+                                            }
                                         >
                                             <MenuItem value={0}>Seleccionar</MenuItem>
-                                            {routes.map((item) => (
-                                                <MenuItem key={item.id} value={item.id}>{item.id}</MenuItem>
-                                            ))}
+                                            {routes.map((item) => {
+                                                return (
+                                                    <MenuItem
+                                                        key={item.id}
+                                                        value={item.id}
+                                                    >
+                                                        {item.id} {item.origen}-{item.destino}
+                                                    </MenuItem>
+                                                );
+                                            })}
                                         </Select>
                                     </FormControl>
                                 </Grid>
