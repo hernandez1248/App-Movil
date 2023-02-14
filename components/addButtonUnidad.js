@@ -12,13 +12,13 @@ import { Container, Grid, TextField, Button, Paper, FormControl, InputLabel, Men
 import Select from '@mui/material/Select';
 import Swal from 'sweetalert2';
 
-const AddButtonUnidad = ({ recargar, asignament }) => {
+const AddButtonUnidad = ({ recargar }) => {
     const [unidad, setUnidades] = useState([]);
     const [routes, setRoutes] = useState([]);
-    const [rutaSelected, setRuta] = useState('');
+    const [rutaSelected, setRuta] = useState('0');
 
     //Abrir modal para mostrar el formulario
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -37,13 +37,13 @@ const AddButtonUnidad = ({ recargar, asignament }) => {
         apiClient.post('/unidades', data)
             .then((response) => {
                 setUnidades([...unidad, { data }]);
-                console.log(data);
-                console.log(response.data.message);
+                //console.log(response);
+                //alert(response.data.message);
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
                     text: response.data.message,
-                    showConfirmButton: false,
+                    showConfirmButton: true,
                     timer: 3000
                 })
                 setOpen(false);
@@ -57,7 +57,7 @@ const AddButtonUnidad = ({ recargar, asignament }) => {
 
             })
             .catch((error) => {
-                alert(error.response.data.message)
+                //alert(error.response.data.message)
                 if (error.response.data.errors) {
                     error.response.data.errors.forEach((errorItem) => {
                         setError(errorItem.field, {
@@ -97,10 +97,19 @@ const AddButtonUnidad = ({ recargar, asignament }) => {
                 });
         }
     }, [rutaSelected]);
+    //seleccionador para buscar por categoria
+    /*const onSelectRuta = (e) =>{
+        setRuta(e.target.value)
+    }*/
 
     const onSelectRuta = (e) => {
-        setRuta(e.target.value);
-        console.log(e.target.value);
+        const {
+            target: { value },
+        } = e;
+        setRuta(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+        );
     };
 
     return (
@@ -219,11 +228,17 @@ const AddButtonUnidad = ({ recargar, asignament }) => {
                                         <Select
                                             id='ruta-id'
                                             labelId="ruta-id-name"
-                                            value={rutaSelected}
-                                            onChange={onSelectRuta}
+                                            defaultValue={rutaSelected}
                                             input={<OutlinedInput label="Ruta" />}
                                             onSubmit={handleSubmit(onSubmit)}
-                                            ref={register('rutaId')}
+                                            error={!!errors.rutaId}
+                                            helperText={errors.rutaId?.message}
+                                            {...register('rutaId',
+                                                {
+                                                    required: 'Este campo es obligatorio',
+                                                }
+                                            )
+                                            }
                                         >
                                             <MenuItem value={0}>Seleccionar</MenuItem>
                                             {routes.map((item) => {
@@ -231,7 +246,6 @@ const AddButtonUnidad = ({ recargar, asignament }) => {
                                                     <MenuItem
                                                         key={item.id}
                                                         value={item.id}
-                                                        
                                                     >
                                                         {item.id} {item.origen}-{item.destino}
                                                     </MenuItem>
