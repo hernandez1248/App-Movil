@@ -97,29 +97,36 @@ const CardUnidad = ({ unidad, onDelete, recargar }) => {
   }
 
   return (
-    <Card style={{ width: '17rem', height: 'auto' }} className="card-unidad">
-      <CardMedia sx={{ height: 140 }} image={"https://autoselrentacar.com/themes/default/images/t4.png"} title="Unidad" />
-      {!edit && (
-        <>
-          <Typography className="card-unidad-chofer" variant="h5" component="div">
-            {unidades.name}
-          </Typography>
+    <>
+      <Card style={{ width: '17rem', height: 'auto' }} className="card-unidad">
+
+        <CardMedia sx={{ height: 140 }} image={"https://autoselrentacar.com/themes/default/images/t4.png"} title="Unidad" />
+
+
+        <CardContent>
+          <Grid container>
+            <Grid item xs={12}>
+              {!edit && (
+                <>
+                  <Typography className="card-unidad-chofer" gutterBottom variant="h5" component="div">
+                    {data.name}
+                  </Typography>
 
           <Typography variant="h5" component="div">
             {`Unidad ${unidades.numunidad}`}
           </Typography>
 
-          <div className='card-unidad-information'>
-            <Typography className='card-unidad-izqu'  >
-              Ruta:
-            </Typography>
-            <Typography
-              className='card-unidad-dere'
-
-            >
-              {`${unidades.rutaId} ${unidades.ruta.origen}-${unidades.ruta.destino}`}
-            </Typography>
-          </div>
+                  <div className='card-unidad-information'>
+                    <Typography className='card-unidad-izqu' gutterBottom >
+                      Ruta:
+                    </Typography>
+                    <Typography
+                      className='card-unidad-dere'
+                      gutterBottom
+                    >
+                      {`${data.rutaId} ${routes.origen}-${routes.destino}`}
+                    </Typography>
+                  </div>
 
           <div className='card-unidad-information'>
             <Typography className='card-unidad-izqu'  >

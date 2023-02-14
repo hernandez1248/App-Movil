@@ -15,6 +15,8 @@ export default function UnidadesAdmin() {
 
   React.useEffect(() => {
     refresh();
+    save();
+    deleteUnidad();
   }, []);
 
   const refresh = () => {

@@ -2,7 +2,8 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
 
-function CardCronoUser() {
+function CardCronoUser(index, schedule, onDelete, onEdit, route) {
+    const [data, setData] = React.useState({ ...schedule });
     return (
         <>
             <Card border="primary" className="cardCronograma cards">
@@ -16,7 +17,7 @@ function CardCronoUser() {
                         </div>
                         <div className="cardCronogramaDatosDer">
                             <Card.Text>
-                                06:00 A.M
+                                {data.hora}
                             </Card.Text>
                         </div>
                     </div>

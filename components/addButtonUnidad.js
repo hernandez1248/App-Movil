@@ -103,14 +103,8 @@ const AddButtonUnidad = ({ recargar }) => {
     }*/
 
     const onSelectRuta = (e) => {
-        const {
-            target: { value },
-        } = e;
-        setRuta(
-            // On autofill we get a stringified value.
-            typeof value === 'string' ? value.split(',') : value,
-        );
-    };
+        setRuta({[e.target.name]: e.target.value})
+    }
 
     return (
         <div>
@@ -241,16 +235,9 @@ const AddButtonUnidad = ({ recargar }) => {
                                             }
                                         >
                                             <MenuItem value={0}>Seleccionar</MenuItem>
-                                            {routes.map((item) => {
-                                                return (
-                                                    <MenuItem
-                                                        key={item.id}
-                                                        value={item.id}
-                                                    >
-                                                        {item.id} {item.origen}-{item.destino}
-                                                    </MenuItem>
-                                                );
-                                            })}
+                                            {routes.map((item) => (
+                                                <MenuItem key={item.id} value={item.id}>{`${item.id} ${item.origen}-${item.destino}`}</MenuItem>
+                                            ))}
                                         </Select>
                                     </FormControl>
                                 </Grid>

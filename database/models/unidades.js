@@ -10,15 +10,23 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      models.Unidades.hasMany(models.Schedules,
+        {
+          as: 'schedules', // alias para la relacion 
+          foreignKey: 'unitId', // pf en products
+        });
+    }
+
+     static associate(models) {
       models.Unidades.belongsTo(models.Route,
         {
-          as: 'ruta',//alias para la reación
-          foreignKey: 'rutaId',//FK para rutas
-        }
-      );
-    }
+          as: 'ruta', // alias para la relacion 
+          foreignKey: 'rutaId', // pf en products
+        });
+    } 
+   
   }
+
   Unidades.init({
     numunidad: {
       type: DataTypes.INTEGER,
@@ -83,8 +91,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
     },
-    rutaId: DataTypes.INTEGER
-    /*rutaId: {
+    rutaId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
@@ -92,7 +99,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'El campo es oblogatorio'
         }
       }
-    }*/
+    }
   }, {
     sequelize,
     modelName: 'Unidades',
