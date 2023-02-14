@@ -6,6 +6,38 @@ import Button from 'react-bootstrap/Button';
 function CardCronoAdmin({index, crono, onDelete, onEdit, route}) {
   const [data, setData] = React.useState({ ...crono });
   console.log(data);
+
+    //Editar datos de las tarjetas
+    const handleEdit = () => {
+      setEdit(!edit);
+    };
+  
+  
+    const handleChange = (e) => {
+      setData({ ...data, [e.target.name]: e.target.value });
+      setRoutes({ ...routes, [e.target.name]: e.target.value });
+    };
+  
+    const handleSave = () => {
+  
+      // mandar a llamar a la funcion padre que guarda los datos que estan en el estado
+      // onEdit(data);
+      if (onEdit) {
+        onEdit(index, data);
+  
+      }
+      setEdit(false);
+    };
+  
+    const cancelSave = () => {
+      // resetear los datos
+      setData({ ...unidad });
+      setEdit(false);
+    }
+  
+    const handleDelete = () => {
+      onDelete(data.id);
+    };
   
 
   return (
@@ -53,7 +85,12 @@ function CardCronoAdmin({index, crono, onDelete, onEdit, route}) {
             <Button type="submit" variant="primary" className="BtnCancelarCrono">
               Editar
             </Button>
-            <Button type="submit" variant="danger" className="BtnCancelarCrono">
+            <Button 
+              type="submit" 
+              variant="danger" 
+              className="BtnCancelarCrono" 
+              onClick={handleDelete}
+            >
               Eliminar
           </Button>
           </div>

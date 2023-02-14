@@ -57,6 +57,8 @@ export default function handler(req, res) {
             return schedulesList(req, res);
         case 'POST':
             return addSchedules(req, res);
+        case 'DELETE':
+            return deleteSchedules(req, res);
 
         /* case 'POST':
             return filterProducts(req, res); */
@@ -80,7 +82,7 @@ export default function handler(req, res) {
             }
         )
     }
-  }
+}
 
 
   const addSchedules = async (req, res) => {
@@ -93,7 +95,7 @@ export default function handler(req, res) {
 
         res.json({
             schedule,
-            message: 'EL cronograma fue registrada correctamente.'
+            message: 'EL cronograma fue registrado correctamente.'
         });
     } catch (error) {
         console.log(error);
@@ -109,6 +111,39 @@ export default function handler(req, res) {
         }
 
 
+        return res.status(400).json(
+            {
+                error: true,
+                message: `Ocurrio un error al procesar la información: ${error.message}`,
+                errors,
+            }
+        )
+    }
+}
+
+const deleteSchedules = async (req, res) => {
+    try {
+        //eliminar los datos de la unidad
+        const { id } = req.query;
+        await db.Schedules.destroy({
+            where: {
+                id: id
+            }
+        });
+
+        res.json({
+            message: 'El cronograma fue eliminada correctamente.'
+        });
+    } catch (error) {
+        console.log(error);
+        let errors = [];
+        if (error.errors) {
+            //extraer la información de los campos que tienen error
+            errors = error.errors.map((item) => ({
+                error: item.message,
+                field: item.path,
+            }));
+        }
         return res.status(400).json(
             {
                 error: true,

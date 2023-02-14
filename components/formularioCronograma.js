@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useForm } from 'react-hook-form';
 
-function FormularioCronograma() {
+function FormularioCronograma({recargar}) {
   const [routes, setRutas] = useState([]);
   const [unidades, setUnits, setUnidades] = useState([]);
   const [rutaSelected, setRuta] = useState(null);
@@ -28,6 +28,10 @@ function FormularioCronograma() {
           showConfirmButton: false,
           timer: 3000
         })
+
+        if(recargar){
+          recargar();
+        }
       })
       .catch((error) => {
         console.log(error);

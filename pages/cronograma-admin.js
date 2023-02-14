@@ -11,6 +11,7 @@ import { useState } from 'react';
 import apiClient from '@/apiClient';
 import { Grid } from '@mui/material';
 import { useEffect } from 'react';
+import Swal from 'sweetalert2';
 
 
 export default function CronogramaAdmin() {
@@ -21,15 +22,33 @@ export default function CronogramaAdmin() {
 
   useEffect(() => {
     // ir por los productos desde el backend
-    apiClient.get('/schedules')
-    .then(response => {
-      console.log(response.data);
-      setCronograma(response.data || []);
-    })
-    .catch(error => { 
-      console.log(error);
-    })
+    refresh();
   }, []);
+
+  const refresh = () => {
+    apiClient.get('/schedules')
+      .then(response => {
+        setCronograma(response.data || []);
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  }
+
+  const deleteSchedules = (id) => {
+    apiClient.delete(`/schedules/?id=${id}`)
+      .then(response => {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          text: response.data.message,
+        })
+        refresh();
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  }
 
   const renderCronograma = () => {
     return schedules.map((crono, index) => (
@@ -37,6 +56,7 @@ export default function CronogramaAdmin() {
         <CardCronoAdmin
           index={index}
           crono={crono}
+          onDelete={deleteSchedules}
         />
       </Grid>
     ))
@@ -60,7 +80,9 @@ export default function CronogramaAdmin() {
         </Container>
       </Navbar>
       <Container className="formularioCrono">
-        <FormularioCronograma ></FormularioCronograma>
+        <FormularioCronograma 
+          recargar={refresh}
+        ></FormularioCronograma>
       </Container> 
         <Grid style={{ paddingLeft: "20px", paddingRight: "20px"}} container spacing={2} mt={0} mb={10}>
             {renderCronograma()}
