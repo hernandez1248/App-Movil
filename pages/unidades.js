@@ -15,29 +15,12 @@ export default function UnidadesAdmin() {
 
   React.useEffect(() => {
     refresh();
-    save();
-    deleteUnidad();
   }, []);
 
   const refresh = () => {
     apiClient.get('/unidades')
       .then(response => {
         setUnidades(response.data || []);
-      })
-      .catch(error => {
-        console.log(error);
-      })
-  }
-
-  const save = (id) => {
-    apiClient.put(`/unidades/?id=${id}`)
-      .then(response => {
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          text: response.data.message,
-        })
-        refresh();
       })
       .catch(error => {
         console.log(error);
@@ -66,7 +49,7 @@ export default function UnidadesAdmin() {
         <CardUnidad
           index={index}
           unidad={unid}
-          onEdit={save}
+          recargar={refresh}
           onDelete={deleteUnidad}
         />
       </div>

@@ -5,80 +5,94 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { FormControl, Grid, InputLabel, MenuItem, OutlinedInput, Select, TextField } from "@mui/material";
 import apiClient from '@/apiClient';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import Swal from 'sweetalert2';
+import { useForm } from 'react-hook-form';
 
 
 
 
-function CardUnidad({ index, unidad, onDelete, onEdit, route }) {
-  //const [unidad,setUnidad] = React.useState([]);
-  const [routes, setRoutes] = useState([])
+function CardUnidad({ unidad, onDelete, recargar }) {
+  const [routes, setRoutes] = React.useState([]);
+  //const [original, setOriginal] = React.useState(false);
   const [data, setData] = React.useState({ ...unidad });
   const [edit, setEdit] = React.useState(false);
-  const [rutaSelected, setRuta] = React.useState(null);
+  const [rutaSelected, setRuta] = React.useState('');
 
-  //Editar datos de las tarjetas
-  const handleEdit = () => {
-    setEdit(!edit);
-  };
-
-
-  const handleChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
-    setRoutes({ ...routes, [e.target.name]: e.target.value });
-  };
-
-  const handleSave = () => {
-
-    // mandar a llamar a la funcion padre que guarda los datos que estan en el estado
-    // onEdit(data);
-    if (onEdit) {
-      onEdit(index, data);
-
-    }
-    setEdit(false);
-  };
-
-  const cancelSave = () => {
-    // resetear los datos
-    setData({ ...unidad });
-    setEdit(false);
-  }
+  /*handleOriginal = () => {
+    setOriginal(!original);
+  }*/
 
   const handleDelete = () => {
     onDelete(data.id);
   };
 
-  //devolver productos desde el back-end
-  useEffect(() => {
-    //ir por las routes desde el backend
-    /*apiClient.get('/routes')
-      .then(response => {
-        setRoutes(response.data || []);
-        //console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });*/
-    recibirDato();
-  }, []);
+    //Editar datos de las tarjetas
+    const handleEdit = () => {
+      setEdit(!edit);
+    };
 
-  const recibirDato = () => {
+  const cancelSave = () => {
+    // resetear los datos
+    //setData({ ...unidad });
+    setEdit(false);
+    recargar();
+    
+  }
+
+  /*const handleChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };*/
+
+  const id = data.id;
+  const { register, handleSubmit, formState: { errors }, setError } = useForm();
+  const onSubmit = (data) => {
+    //console.log(data);
+
+    //enviar datos al backend
+    apiClient.put(`/unidades?id=${id}`, data)
+        .then((response) => {
+            //Recargar la pagina con las targetas actuales
+            if (recargar) {
+              recargar();
+          }
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                text: response.data.message,
+            })
+            setEdit(false);
+        })
+        .catch((error) => {
+            //alert(error.response.data.message)
+            if (error.response.data.errors) {
+                error.response.data.errors.forEach((errorItem) => {
+                    setError(errorItem.field, {
+                        //error: true,
+                        type: "validation",
+                        message: errorItem.error
+                    });
+                })
+            }
+        });
+
+};
+
+  //devolver productos desde el back-end
+  React.useEffect(() => {
+    //ir por las routes desde el backend
     apiClient.get('/routes')
       .then(response => {
         setRoutes(response.data || []);
-        //console.log(response);
       })
       .catch(error => {
         console.log(error);
       });
-  }
 
+  }, []);
   //devuelve los datos desde el backend
-  useEffect(() => {
+  /*useEffect(() => {
     //ir por los productos desde el backend
     if (rutaSelected) {
       apiClient.get(`/unidades?rutaId=${rutaSelected || null}`)
@@ -89,7 +103,7 @@ function CardUnidad({ index, unidad, onDelete, onEdit, route }) {
           console.log(error);
         });
     }
-  }, [rutaSelected]);
+  }, [rutaSelected]);*/
   //seleccionador para buscar por categoria
   const onSelectRuta = (e) => {
     setRuta(e.target.value)
@@ -102,54 +116,57 @@ function CardUnidad({ index, unidad, onDelete, onEdit, route }) {
         <CardMedia sx={{ height: 140 }} image={"https://autoselrentacar.com/themes/default/images/t4.png"} title="Unidad" />
 
 
-        <CardContent>
-          <Grid container>
+        <CardContent component={'form'}>
+          <Grid container onSubmit={handleSubmit(onSubmit)}>
             <Grid item xs={12}>
               {!edit && (
                 <>
-                  <Typography className="card-unidad-chofer" gutterBottom variant="h5" component="div">
+                  <Typography className="card-unidad-chofer"  variant="h5" component="div">
                     {data.name}
                   </Typography>
 
-                  <Typography gutterBottom variant="h5" component="div">
+                  <Typography  variant="h5" component="div">
                     {`Unidad ${data.numunidad}`}
                   </Typography>
 
                   <div className='card-unidad-information'>
-                    <Typography className='card-unidad-izqu' gutterBottom >
+                    <Typography className='card-unidad-izqu'  >
                       Ruta:
                     </Typography>
                     <Typography
                       className='card-unidad-dere'
-                      gutterBottom
+                      
                     >
-                      {`${data.rutaId} ${routes.origen}-${routes.destino}`}
+                      {`${data.rutaId} ${data.ruta.origen}-${data.ruta.destino}`}
                     </Typography>
                   </div>
 
                   <div className='card-unidad-information'>
-                    <Typography className='card-unidad-izqu' gutterBottom >
+                  <Typography className='card-unidad-izqu'  >
                       Placas:
                     </Typography>
-                    <Typography className='card-unidad-dere' gutterBottom >
+                    <Typography
+                      className='card-unidad-dere'
+                      
+                    >
                       {data.placas}
                     </Typography>
                   </div>
 
                   <div className='card-unidad-information'>
-                    <Typography className='card-unidad-izqu' gutterBottom >
+                    <Typography className='card-unidad-izqu'  >
                       Teléfono:
                     </Typography>
-                    <Typography className='card-unidad-dere' gutterBottom >
+                    <Typography className='card-unidad-dere'  >
                       {data.phone}
                     </Typography>
                   </div>
 
                   <div className='card-unidad-information'>
-                    <Typography className='card-unidad-izqu' gutterBottom >
+                    <Typography className='card-unidad-izqu'  >
                       Vigencia:
                     </Typography>
-                    <Typography className='card-unidad-dere' gutterBottom >
+                    <Typography className='card-unidad-dere'  >
                       {data.vigencialicencia}
                     </Typography>
                   </div>
@@ -158,19 +175,28 @@ function CardUnidad({ index, unidad, onDelete, onEdit, route }) {
 
               {edit && (
                 <Grid item xs={12} md={6}>
-                  <FormControl fullWidth >
+                  <FormControl fullWidth>
                     <InputLabel id="ruta-id">Ruta</InputLabel>
                     <Select
                       id='ruta-id'
-                      label="Ruta"
-                      value={rutaSelected}
-                      onChange={onSelectRuta}
-                    //onSubmit={handleSubmit(onSubmit)}
+                      labelId="ruta-id-name"
+                      defaulValue={`${data.rutaId} ${data.ruta.origen}-${data.ruta.destino}`}
+                      onChange={(value) => setRuta(value)}
+                      input={<OutlinedInput label="Ruta" />}
+                      onSubmit={handleSubmit(onSubmit)}
+                      ref={register('rutaId')}
                     >
                       <MenuItem value={0}>Seleccionar</MenuItem>
-                      {routes.map((item) => (
-                        <MenuItem key={item.id} value={item.id}>{`${item.id} ${item.origen}-${item.destino}`}</MenuItem>
-                      ))}
+                      {routes.map((item) => {
+                        return (
+                          <MenuItem
+                            key={item.id}
+                            value={item.id}
+                          >
+                            {item.id} {item.origen}-{item.destino}
+                          </MenuItem>
+                        );
+                      })}
                     </Select>
                   </FormControl>
                 </Grid>
@@ -178,31 +204,67 @@ function CardUnidad({ index, unidad, onDelete, onEdit, route }) {
 
               {edit && (
                 <TextField
-                  name="name"
+                  id="name"
                   label="Nombre"
                   variant="standard"
-                  value={data.name}
-                  onChange={handleChange}
+                  defaultValue={data.name}
+                  //onChange={handleChange}
+                  error={!!errors.name}
+                  helperText={errors.name?.message}
+                  {...register('name',
+                    {
+                      required: 'Este campo es obligatorio',
+                      pattern: {
+                        value: /^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/g,
+                        message: 'El campo solo debe contener texto.'
+                      }
+                    }
+                  )
+                  }
                 />
               )}
 
               {edit && (
                 <TextField
-                  name="numunidad"
+                  id="numunidad"
                   label="Numero de unidad"
                   variant="standard"
-                  value={data.numunidad}
-                  onChange={handleChange}
+                  defaultValue={data.numunidad}
+                  //onChange={handleChange}
+                  error={!!errors.numunidad}
+                  helperText={errors.numunidad?.message}
+                  {...register('numunidad',
+                    {
+                      required: 'Este campo es obligatorio',
+                      pattern: {
+                        value: /^[0-9]+$/i,
+                        message: 'No es un número válido.'
+                      }
+                    }
+                  )
+                  }
                 />
               )}
 
               {edit && (
                 <TextField
-                  name="placas"
+                  id="placas"
                   label="Placas"
                   variant="standard"
-                  value={data.placas}
-                  onChange={handleChange}
+                  defaultValue={data.placas}
+                  //onChange={handleChange}
+                  error={!!errors.placas}
+                  helperText={errors.placas?.message}
+                  {...register('placas',
+                    {
+                      required: 'Este campo es obligatorio',
+                      pattern: {
+                        value: /^[A-Z]{3}[-][0-9]{3}/,
+                        message: 'No es una placa válida.'
+                      }
+                    }
+                  )
+                  }
                 />
               )}
             </Grid>
@@ -210,20 +272,44 @@ function CardUnidad({ index, unidad, onDelete, onEdit, route }) {
 
           {edit && (
             <TextField
-              name="phone"
+              id="phone"
               label="Teléfono"
               variant="standard"
-              value={data.phone}
+              defaultValue={data.phone}
+              error={!!errors.phone}
+              helpertext={errors.phone?.message}
+              {...register('phone',
+                {
+                  required: 'Este campo es obligatorio',
+                  pattern: {
+                    value: /^[0-9]{2}[0-9]{8}$/,
+                    message: 'El campo solo debe contener numerós y 10 caracteres.'
+                  }
+                }
+              )
+              }
             />
           )}
 
           {edit && (
             <TextField
-              name="vigencialicencia"
+              id="vigencialicencia"
               label="Vigencia de licencia"
               variant="standard"
-              value={data.vigencialicencia}
-              onChange={handleChange}
+              defaultValue={data.vigencialicencia}
+              //onChange={handleChange}
+              error={!!errors.vigencialicencia}
+              helperText={errors.vigencialicencia?.message}
+              {...register('vigencialicencia',
+                {
+                  required: 'Este campo es obligatorio',
+                  pattern: {
+                    value: /^[0-9]{4}$/,
+                    message: 'No es un año válido.'
+                  }
+                }
+              )
+              }
             />
           )}
         </CardContent>
@@ -236,7 +322,7 @@ function CardUnidad({ index, unidad, onDelete, onEdit, route }) {
           )}
           {edit && (
             <>
-              <Button size="small" sx={{ fontWeight: "600" }} onClick={handleSave}>
+              <Button size="small" sx={{ fontWeight: "600" }} onClick={onSubmit}>
                 Guardar
               </Button>
               <Button size="small" color="error" sx={{ fontWeight: "600" }} onClick={cancelSave}>
