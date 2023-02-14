@@ -36,18 +36,32 @@ export default function CronogramaAdmin() {
   }
 
   const deleteSchedules = (id) => {
-    apiClient.delete(`/schedules/?id=${id}`)
-      .then(response => {
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          text: response.data.message,
+    Swal.fire({
+      title: '¿Estás Seguro de eliminar?',
+      text: "Los datos relacionados con la unidad se perderan permanentemente",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: "Cancelar",
+      confirmButtonText: 'Si, eliminar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        apiClient.delete(`/schedules?id=${id}`)
+        .then(response =>{
+          console.log(response.data);
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            text: response.data.message,
+          })
+          refresh()
         })
-        refresh();
-      })
-      .catch(error => {
-        console.log(error);
-      })
+        .catch(error => {
+          console.log(error);
+        })
+      }
+    })
   }
 
   const renderCronograma = () => {
