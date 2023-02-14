@@ -10,6 +10,7 @@ import { useState } from 'react';
 import apiClient from '@/apiClient';
 import CardRutas from '@/components/cardRutas';
 import { Grid } from '@mui/material';
+import Swal from 'sweetalert2';
 
 export default function RutasAdmin() {
   const [route, setRoutes] = useState([]);
@@ -28,12 +29,44 @@ export default function RutasAdmin() {
     })
   }
 
+  const deleteRoute = (id) => {
+    Swal.fire({
+      title: '¿Estás Seguro de eliminar?',
+      text: "Los datos relacionados con la ruta se perderan permanentemente",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: "Cancelar",
+      confirmButtonText: 'si, eliminar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        apiClient.delete(`/routes?id=${id}`)
+        .then(response =>{
+          console.log(response.data);
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            text: response.data.message,
+          })
+          refresh()
+        })
+        .catch(error => {
+          console.log(error);
+        })
+      }
+    })
+   
+  }
+
   const renderRoutes = () => {
     return route.map((routes, index) => (
      <Grid item xs={12} md={4} xl={2} key={routes.id}>
         <CardRutas
           index={index}
           route={routes}
+          recargar={refresh}
+          onDelete={deleteRoute}          
         />
       </Grid>
     ))

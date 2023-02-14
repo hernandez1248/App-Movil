@@ -17,7 +17,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function AddButtonRutas({recargar, muestra}) {
+export default function AddButtonRutas({recargar}) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
