@@ -11,13 +11,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.Route.hasMany(models.Unidades,
+        {
+          as: 'unidad',
+          foreignKey: 'rutaId'
+        });
     }
   }
   Route.init({
     origen: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate:{
+      validate: {
         notNull: {
           msg: "El origen es obligatorio",
         },
@@ -27,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       }
     },
-    imageOrigen:{ 
+    imageOrigen: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
@@ -38,8 +43,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     destino: {
       type: DataTypes.STRING,
-      allowNull:false,
-      validate:{
+      allowNull: false,
+      validate: {
         notNull: {
           msg: "El destino es obligatorio",
         },

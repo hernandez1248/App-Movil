@@ -10,7 +10,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      unidad: {
+      Ruta: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },

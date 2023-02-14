@@ -30,7 +30,7 @@ export default function AddButtonRutas({recargar}) {
 
   const { register, handleSubmit, watch, formState: { errors }, setError, reset } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
+    //console.log(data);
     // Enviar la informacion al backend
     apiClient.post('/routes', data)
     .then((response) => {
