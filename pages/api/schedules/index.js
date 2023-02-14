@@ -66,7 +66,7 @@ export default function handler(req, res) {
   const schedulesList = async (req, res) => {
     try {
         const schedules = await db.Schedules.findAll({
-            include: ['unit']
+            include: ['unit', 'route'],
         });
         
         return res.json(schedules);

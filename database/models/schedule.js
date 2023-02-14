@@ -15,12 +15,23 @@ module.exports = (sequelize, DataTypes) => {
           as: 'unit', // alias para la relacion 
           foreignKey: 'unitId', // pf en products
         });
+
+         models.Schedules.belongsTo(models.Route,
+          {
+            as: 'route', // alias para la relacion 
+            foreignKey: 'routeId', // pf en products
+          }); 
     }
+
+
+
+    
   }
 
   Schedule.init({
     hora: DataTypes.STRING,
-    unitId: DataTypes.INTEGER
+    unitId: DataTypes.INTEGER,
+    routeId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Schedule',

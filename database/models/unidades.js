@@ -16,15 +16,15 @@ module.exports = (sequelize, DataTypes) => {
           foreignKey: 'unitId', // pf en products
         });
     }
-    static associate(models) {
-      // define association here
+
+     static associate(models) {
       models.Unidades.belongsTo(models.Route,
         {
-          as: 'ruta',//alias para la reación
-          foreignKey: 'rutaId',//FK para rutas
-        }
-      );
-    }
+          as: 'ruta', // alias para la relacion 
+          foreignKey: 'rutaId', // pf en products
+        });
+    } 
+   
   }
 
   Unidades.init({
@@ -91,8 +91,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
     },
-    rutaId: DataTypes.INTEGER
-    /*rutaId: {
+    rutaId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
@@ -100,7 +99,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'El campo es oblogatorio'
         }
       }
-    }*/
+    }
   }, {
     sequelize,
     modelName: 'Unidades',

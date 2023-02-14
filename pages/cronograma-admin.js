@@ -1,3 +1,4 @@
+import * as React from 'react';
 import Head from 'next/head'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -6,9 +7,41 @@ import AddButton from '@/components/addButton';
 import Enlaces from '@/components/enlaces';
 import FormularioCronograma from '@/components/formularioCronograma';
 import CardCronoAdmin from '@/components/cardCronoAdmin';
+import { useState } from 'react';
+import apiClient from '@/apiClient';
+import { Grid } from '@mui/material';
+import { useEffect } from 'react';
 
 
 export default function CronogramaAdmin() {
+  const [schedules, setCronograma] = useState([]);
+
+ 
+ 
+
+  useEffect(() => {
+    // ir por los productos desde el backend
+    apiClient.get('/schedules')
+    .then(response => {
+      console.log(response.data);
+      setCronograma(response.data || []);
+    })
+    .catch(error => { 
+      console.log(error);
+    })
+  }, []);
+
+  const renderCronograma = () => {
+    return schedules.map((crono, index) => (
+      <Grid item xs={12} lg={4} xl={2} mt={4} key={crono.id}>
+        <CardCronoAdmin
+          index={index}
+          crono={crono}
+        />
+      </Grid>
+    ))
+  }; 
+
   return (
     <>
       <Head>
@@ -28,13 +61,10 @@ export default function CronogramaAdmin() {
       </Navbar>
       <Container className="formularioCrono">
         <FormularioCronograma ></FormularioCronograma>
-      </Container>  
-      <Container className='cardsCronograma'>
-        <CardCronoAdmin></CardCronoAdmin>
-        <CardCronoAdmin></CardCronoAdmin>
-        <CardCronoAdmin></CardCronoAdmin>
-        <CardCronoAdmin></CardCronoAdmin>
-      </Container>
+      </Container> 
+        <Grid container spacing={2} mt={0}>
+            {renderCronograma()}
+        </Grid>
       <Enlaces></Enlaces>
       </main>
       

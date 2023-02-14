@@ -1,12 +1,17 @@
+import * as React from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
 
-function CardCronoAdmin() {
+function CardCronoAdmin({index, crono, onDelete, onEdit, route}) {
+  const [data, setData] = React.useState({ ...crono });
+  console.log(data);
+  
+
   return (
     <>
       <Card border="primary" className="cardCronograma cards">
-        <Card.Header className="d-flex justify-content-center"><Card.Title className="cardCronogramaUnidad">UNIDAD 1</Card.Title></Card.Header>
+        <Card.Header className="d-flex justify-content-center"><Card.Title className="cardCronogramaUnidad">Unidad {data.unitId}</Card.Title></Card.Header>
         <Card.Body>
           <div className="cardCronogramaInfo">
             <div className="cardCronogramaDatosIzq">
@@ -16,7 +21,7 @@ function CardCronoAdmin() {
             </div>
             <div className="cardCronogramaDatosDer">
               <Card.Text>
-                Juan Domínguez Rosas
+                {data.unit.name}
               </Card.Text>
             </div>
           </div>
@@ -28,7 +33,7 @@ function CardCronoAdmin() {
             </div>
             <div className="cardCronogramaDatosDer">
               <Card.Text>
-                06:00 A.M
+                {data.hora}
               </Card.Text>
             </div>
           </div>
@@ -40,16 +45,16 @@ function CardCronoAdmin() {
             </div>
             <div className="cardCronogramaDatosDer">
               <Card.Text>
-                Xuchapa - Matamoros
+                {data.route.origen} - {data.route.destino}
               </Card.Text>
             </div>
           </div>
           <div className="cardCronogramaBotones">
-          <Button type="submit" variant="danger" className="BtnCancelarCrono">
-            Cancelar
-          </Button>
-          <Button type="submit" variant="primary">
-            Hacer Cambios
+            <Button type="submit" variant="primary" className="BtnCancelarCrono">
+              Editar
+            </Button>
+            <Button type="submit" variant="danger" className="BtnCancelarCrono">
+              Eliminar
           </Button>
           </div>
         </Card.Body>

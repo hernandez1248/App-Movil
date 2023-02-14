@@ -97,7 +97,7 @@ function CardUnidad({ index, unidad, onDelete, onEdit, route }) {
 
   return (
     <>
-      <Card style={{ width: '17rem', height: 'auto' }} className="card-unidad">
+      <Card style={{ width: '18rem', height: 'auto' }} className="card-unidad">
 
         <CardMedia sx={{ height: 140 }} image={"https://autoselrentacar.com/themes/default/images/t4.png"} title="Unidad" />
 
@@ -123,7 +123,7 @@ function CardUnidad({ index, unidad, onDelete, onEdit, route }) {
                       className='card-unidad-dere'
                       gutterBottom
                     >
-                      {`${data.rutaId} ${routes.origen}-${routes.destino}`}
+                      {`${data.rutaId} ${data.ruta.origen}-${data.ruta.destino}`}
                     </Typography>
                   </div>
 

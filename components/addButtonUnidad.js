@@ -98,7 +98,7 @@ const AddButtonUnidad = ({ recargar, asignament }) => {
     }, [rutaSelected]);
     //seleccionador para buscar por categoria
     const onSelectRuta = (e) => {
-        setRuta({[e.target.name]: e.target.value})
+        setRuta( e.target.value)
     }
 
     return (
@@ -222,7 +222,7 @@ const AddButtonUnidad = ({ recargar, asignament }) => {
                                         >
                                             <MenuItem value={0}>Seleccionar</MenuItem>
                                             {routes.map((item) => (
-                                                <MenuItem key={item.id} value={item.id}>{`${item.id} ${item.origen}-${item.destino}`}</MenuItem>
+                                                <MenuItem key={item.id} value={item.id}>{item.id}</MenuItem>
                                             ))}
                                         </Select>
                                     </FormControl>
