@@ -55,13 +55,15 @@ export default function handler(req, res) {
     switch (req.method) {
         case 'GET':
             return schedulesList(req, res);
+        case 'POST':
+            return addSchedules(req, res);
 
         /* case 'POST':
             return filterProducts(req, res); */
         default:
             res.status(400).json({error: true, message: 'Petición errónea'});
     }
-  }
+}
 
   const schedulesList = async (req, res) => {
     try {
@@ -79,3 +81,40 @@ export default function handler(req, res) {
         )
     }
   }
+
+
+  const addSchedules = async (req, res) => {
+    try {
+        //los datos que vienen en el req.body
+        //console.log(req.body);
+
+        //guardar los datos del cliente
+        const schedule = await db.Schedules.create({ ...req.body });
+
+        res.json({
+            schedule,
+            message: 'EL cronograma fue registrada correctamente.'
+        });
+    } catch (error) {
+        console.log(error);
+
+        let errors = [];
+
+        if (error.errors) {
+            //extraer la información de los campos que tienen error
+            errors = error.errors.map((item) => ({
+                error: item.message,
+                field: item.path,
+            }));
+        }
+
+
+        return res.status(400).json(
+            {
+                error: true,
+                message: `Ocurrio un error al procesar la información: ${error.message}`,
+                errors,
+            }
+        )
+    }
+}

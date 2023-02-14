@@ -62,7 +62,7 @@ export default function CronogramaAdmin() {
       <Container className="formularioCrono">
         <FormularioCronograma ></FormularioCronograma>
       </Container> 
-        <Grid container spacing={2} mt={0}>
+        <Grid style={{ paddingLeft: "20px", paddingRight: "20px"}} container spacing={2} mt={0} mb={10}>
             {renderCronograma()}
         </Grid>
       <Enlaces></Enlaces>

@@ -6,57 +6,43 @@ import Form from 'react-bootstrap/Form';
 import { useForm } from 'react-hook-form';
 
 function FormularioCronograma() {
-  const [schedule, setSchedule] = useState([]);
   const [routes, setRutas] = useState([]);
-  const [unidades, setUnits] = useState([]);
+  const [unidades, setUnits, setUnidades] = useState([]);
   const [rutaSelected, setRuta] = useState(null);
   const [unitSelected, setUnit] = useState(null);
 
-  
-  //guardar los datos del formulario
-  const { register, handleSubmit, formState: { errors }, setError, reset } = useForm();
-  const onSubmit = (data) => {
-      // console.log(data);
 
-      //enviar datos al backend
-      apiClient.post('/schedules', data)
-          .then((response) => {
-            setSchedule([...schedule, { data }]);
-              //console.log(response);
-              //alert(response.data.message);
-              Swal.fire({
-                  position: 'center',
-                  icon: 'success',
-                  text: response.data.message,
-                  showConfirmButton: false,
-                  timer: 3000
-              })
+  const {control, handleSubmit, formState:{errors}, setError} = useForm();
+  const formSubmit = (data) => {
+    console.log(data);
 
-              //Recargar la pagina con las targetas actuales
-              if (recargar) {
-                  recargar();
-              }
-              //limpiar el formulario
-              reset();
+    // Enviar la informacion al backend
+    apiClient.post("/schedules", data)
+      .then((response) => {
+        //console.log(response.data);
+        //alert(response.data.message);
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          text: response.data.message,
+          showConfirmButton: false,
+          timer: 3000
+        })
+      })
+      .catch((error) => {
+        console.log(error);
+        alert(error.response.data.message);
 
-          })
-          .catch((error) => {
-              //alert(error.response.data.message)
-              if (error.response.data.errors) {
-                  error.response.data.errors.forEach((errorItem) => {
-                      setError(errorItem.field, {
-                          //error: true,
-                          type: "validation",
-                          message: errorItem.error
-                      });
-                  })
-              }
-          })
-        };
-
-
-
-
+        if (error.response.data.errors) {
+          error.response.data.errors.forEach((errorItem) => {
+            setError(errorItem.field, {
+              type: "validation",
+              message: errorItem.error,
+            });
+          });
+        }
+      });
+  };
 
 
   useEffect(() => {
@@ -89,7 +75,7 @@ function FormularioCronograma() {
     if (rutaSelected) {
       apiClient.get(`/unidades?rutaId=${rutaSelected || null}`)
         .then((response) => {
-          setUnidades(response.data || []);
+          setUnits(response.data || []);
         })
         .catch((error) => {
           console.log(error);
@@ -124,8 +110,7 @@ function FormularioCronograma() {
 
 
   return (
-    <Container component={"form"} onSubmit={handleSubmit(onSubmit)}> 
-      <Form>
+      <Form onSubmit={handleSubmit(formSubmit)}>
         <Form.Group className="formGroup" controlId="formBasicEmail">
           <Form.Label className="formGroup-Component">Ruta: </Form.Label>
           <FormControl fullWidth >
@@ -133,11 +118,11 @@ function FormularioCronograma() {
               <Select
                   id='ruta-id'
                   label="Ruta"
-                  value={rutaSelected}
+                  defaultValue={rutaSelected}
                   onChange={onSelectRuta}
               >
                   {routes.map((item) => (
-                      <MenuItem key={item.id} value={item.id}>{item.id}</MenuItem> //{item.origen}-{item.destino}
+                      <MenuItem key={item.id} value={item.id}>{item.id} {item.origen}-{item.destino}</MenuItem>
                   ))}
               </Select>
           </FormControl>
@@ -149,7 +134,7 @@ function FormularioCronograma() {
                 <Select
                     id='unidad-id'
                     label="Unidad"
-                    value={unitSelected}
+                    defaulValue={unitSelected}
                     onChange={onSelectUnit}
                 >
                     {unidades.map((item) => (
@@ -171,7 +156,6 @@ function FormularioCronograma() {
           </Button>
         </div>
       </Form>
-    </Container>
   );
 }
 

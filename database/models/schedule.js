@@ -29,9 +29,33 @@ module.exports = (sequelize, DataTypes) => {
   }
 
   Schedule.init({
-    hora: DataTypes.STRING,
-    unitId: DataTypes.INTEGER,
-    routeId: DataTypes.INTEGER
+    hora: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'El campo es obligatorio',
+        },
+      } 
+    },
+    unitId:{
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'El campo es obligatorio',
+        },
+      } 
+    },
+    routeId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'El campo es obligatorio',
+        },
+      } 
+    } 
   }, {
     sequelize,
     modelName: 'Schedule',
