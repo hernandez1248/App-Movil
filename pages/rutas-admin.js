@@ -121,7 +121,6 @@ export default function RutasAdmin() {
           <Nav className="d-flex justify-content-end">
            <AddButtonRutas
             recargar={refresh}
-            muestra = "hola"
            />
           </Nav>
         </Container>
