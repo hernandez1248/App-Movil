@@ -21,6 +21,8 @@ import favoritos from './favoritos';
 import unidades from './unidades';
 import user from './user';
 import rutas from './rutas';
+import schedule from './schedule'
+import usuarios from './usuarios';
 /*
 fs
   .readdirSync(__dirname)
@@ -43,6 +45,8 @@ db.Route = route(sequelize, Sequelize.DataTypes);
 db.Favoritos = favoritos(sequelize, Sequelize.DataTypes);
 db.Unidades = unidades(sequelize, Sequelize.DataTypes);
 db.User = user(sequelize, Sequelize.DataTypes);
+db.Schedules = schedule(sequelize, Sequelize.DataTypes);
+db.Usuarios = usuarios(sequelize, Sequelize.DataTypes);
 
 
 Object.keys(db).forEach(modelName => {

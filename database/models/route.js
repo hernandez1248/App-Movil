@@ -17,6 +17,15 @@ module.exports = (sequelize, DataTypes) => {
           foreignKey: 'rutaId'
         });
     }
+
+    /* static associate(models) {
+      // define association here
+      models.Route.hasMany(models.Schedules,
+        {
+          as: 'unidads',
+          foreignKey: 'routeId'
+        });
+    } */
   }
   Route.init({
     origen: {
