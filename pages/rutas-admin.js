@@ -48,7 +48,7 @@ export default function RutasAdmin() {
             position: 'center',
             icon: 'success',
             text: response.data.message,
-          })
+          });
           refresh()
         })
         .catch(error => {
@@ -56,7 +56,38 @@ export default function RutasAdmin() {
         })
       }
     })
-   
+  }
+
+
+  const editRoute = (info, index) => {
+    apiClient.put(`routes?id=${info.id}`, info)
+      .then(response => {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          text: response.data.message,
+          confirmButtonText: "Aceptar"
+        }).then((result) =>{
+          if(result.isConfirmed){
+            const routesCopy = [...route];
+            routesCopy.splice(index, 1, info)
+            setRoutes(routesCopy);
+          }
+        })
+      })
+      .catch(error =>{
+        console.log(error);
+        alert(error.response.data.message)
+        if (error.response.data.errors) {
+            error.response.data.errors.forEach((errorItem) => {
+                setError(errorItem.field, {
+                    //error: true,
+                    type: "validation",
+                    message: errorItem.error
+                });
+            })
+        }
+      })
   }
 
   const renderRoutes = () => {
@@ -65,8 +96,8 @@ export default function RutasAdmin() {
         <CardRutas
           index={index}
           route={routes}
-          recargar={refresh}
-          onDelete={deleteRoute}          
+          onDelete={deleteRoute}
+          onEdit = {editRoute}  
         />
       </Grid>
     ))
@@ -99,7 +130,7 @@ export default function RutasAdmin() {
         <Title></Title>
       </Container>  
       <Container>
-        <Grid container spacing={2} sx={{p: 2 }}>
+        <Grid container spacing={2} sx={{p: 4}}>
           {renderRoutes()}
         </Grid>
       </Container>
