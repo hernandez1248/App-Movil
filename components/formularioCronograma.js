@@ -1,18 +1,19 @@
 import apiClient from '@/apiClient';
-import { Container, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useForm } from 'react-hook-form';
+import Swal from 'sweetalert2';
 
-function FormularioCronograma() {
+function FormularioCronograma({recargar}) {
   const [routes, setRutas] = useState([]);
   const [unidades, setUnits, setUnidades] = useState([]);
-  const [rutaSelected, setRuta] = useState(null);
-  const [unitSelected, setUnit] = useState(null);
+  const [rutaSelected, setRuta] = useState("");
+  const [unitSelected, setUnit] = useState("");
 
 
-  const {control, handleSubmit, formState:{errors}, setError} = useForm();
+  const {register, handleSubmit, formState:{errors}, setError,reset} = useForm();
   const formSubmit = (data) => {
     console.log(data);
 
@@ -28,6 +29,11 @@ function FormularioCronograma() {
           showConfirmButton: false,
           timer: 3000
         })
+
+        if(recargar){
+          recargar();
+        }
+        reset();
       })
       .catch((error) => {
         console.log(error);
@@ -120,6 +126,13 @@ function FormularioCronograma() {
                   label="Ruta"
                   defaultValue={rutaSelected}
                   onChange={onSelectRuta}
+                  error={!!errors.routeId}
+                  helperText={errors.routeId?.message}
+                  {...register('routeId',
+                    {
+                        required: 'Este campo es obligatorio',
+                    })
+                  }
               >
                   {routes.map((item) => (
                       <MenuItem key={item.id} value={item.id}>{item.id} {item.origen}-{item.destino}</MenuItem>
@@ -134,8 +147,15 @@ function FormularioCronograma() {
                 <Select
                     id='unidad-id'
                     label="Unidad"
-                    defaulValue={unitSelected}
+                    defaultValue={unitSelected}
                     onChange={onSelectUnit}
+                    error={!!errors.unitId}
+                    helperText={errors.unitId?.message}
+                    {...register('unitId',
+                      {
+                          required: 'Este campo es obligatorio',
+                      })
+                    }
                 >
                     {unidades.map((item) => (
                         <MenuItem key={item.id} value={item.id}>{item.numunidad}</MenuItem>
@@ -148,6 +168,11 @@ function FormularioCronograma() {
             className="dateComponent"
             type="time"
             placeholder="Ingrese la Hora de Salida"
+            error={!!errors.hora}
+            helperText={errors.hora?.message}
+            {...register("hora", {
+              required: "Este campo es obligatorio",
+            })}
           />
         </Form.Group>
         <div className="d-flex justify-content-end">

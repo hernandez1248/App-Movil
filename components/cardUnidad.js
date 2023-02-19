@@ -13,7 +13,7 @@ import { useEffect } from 'react';
 
 
 
-const CardUnidad = ({ unidad, onDelete, recargar }) => {
+const CardUnidad = ({index, unidad, onDelete, onSave }) => {
   const [routes, setRoutes] = useState([]);
   const [unidades, setData] = useState({ ...unidad });
   const [edit, setEdit] = useState(false);
@@ -31,9 +31,12 @@ const CardUnidad = ({ unidad, onDelete, recargar }) => {
     setEdit(false);
   }
 
-  const id = unidades.id;
-  const { register, handleSubmit, watch, formState: { errors }, setError, setValue, resetField } = useForm();
+  const { register, handleSubmit, watch, formState: { errors } } = useForm();
   const onSubmit = (data) => {
+    const id = unidades.id;
+    onSave(id,data);
+    setEdit(false);
+    /*
     // Enviar la informacion al backend
     apiClient.put(`/unidades?id=${id}`, data)
       .then(response => {
@@ -61,7 +64,7 @@ const CardUnidad = ({ unidad, onDelete, recargar }) => {
             });
           })
         }
-      })
+      })*/
   };
 
 
@@ -97,36 +100,29 @@ const CardUnidad = ({ unidad, onDelete, recargar }) => {
   }
 
   return (
-    <>
-      <Card style={{ width: '17rem', height: 'auto' }} className="card-unidad">
-
-        <CardMedia sx={{ height: 140 }} image={"https://autoselrentacar.com/themes/default/images/t4.png"} title="Unidad" />
-
-
-        <CardContent>
-          <Grid container>
-            <Grid item xs={12}>
-              {!edit && (
-                <>
-                  <Typography className="card-unidad-chofer" gutterBottom variant="h5" component="div">
-                    {data.name}
-                  </Typography>
+    <Card style={{ width: '17rem', height: 'auto' }} className="card-unidad">
+      <CardMedia sx={{ height: 140 }} image={"https://autoselrentacar.com/themes/default/images/t4.png"} title="Unidad" />
+      {!edit && (
+        <>
+          <Typography className="card-unidad-chofer" variant="h5" component="div">
+            {unidades.name}
+          </Typography>
 
           <Typography variant="h5" component="div">
             {`Unidad ${unidades.numunidad}`}
           </Typography>
 
-                  <div className='card-unidad-information'>
-                    <Typography className='card-unidad-izqu' gutterBottom >
-                      Ruta:
-                    </Typography>
-                    <Typography
-                      className='card-unidad-dere'
-                      gutterBottom
-                    >
-                      {`${data.rutaId} ${routes.origen}-${routes.destino}`}
-                    </Typography>
-                  </div>
+          <div className='card-unidad-information'>
+            <Typography className='card-unidad-izqu'  >
+              Ruta:
+            </Typography>
+            <Typography
+              className='card-unidad-dere'
+
+            >
+              {`${unidades.rutaId} ${unidades.ruta.origen}-${unidades.ruta.destino}`}
+            </Typography>
+          </div>
 
           <div className='card-unidad-information'>
             <Typography className='card-unidad-izqu'  >
@@ -227,7 +223,6 @@ const CardUnidad = ({ unidad, onDelete, recargar }) => {
                   label="Numero de unidad"
                   variant="standard"
                   defaultValue={unidades.numunidad}
-
                   error={!!errors.numunidad}
                   helperText={errors.numunidad?.message}
                   {...register('numunidad',
@@ -249,7 +244,6 @@ const CardUnidad = ({ unidad, onDelete, recargar }) => {
                   label="Placas"
                   variant="standard"
                   defaultValue={unidades.placas}
-
                   error={!!errors.placas}
                   helperText={errors.placas?.message}
                   {...register('placas',

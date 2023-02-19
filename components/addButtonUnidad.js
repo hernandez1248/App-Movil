@@ -103,7 +103,7 @@ const AddButtonUnidad = ({ recargar }) => {
     }*/
 
     const onSelectRuta = (e) => {
-        setRuta({[e.target.name]: e.target.value})
+        setRuta({ [e.target.name]: e.target.value })
     }
 
     return (
@@ -181,7 +181,7 @@ const AddButtonUnidad = ({ recargar }) => {
                                         label="Teléfono" fullWidth variant="standard"
                                         id="phone"
                                         error={!!errors.phone}
-                                        helpertext={errors.phone?.message}
+                                        helperText={errors.phone?.message}
                                         {...register('phone',
                                             {
                                                 required: 'Este campo es obligatorio',
@@ -218,13 +218,11 @@ const AddButtonUnidad = ({ recargar }) => {
 
                                 <Grid item xs={12} md={6}>
                                     <FormControl fullWidth>
-                                        <InputLabel id="ruta-id">Ruta</InputLabel>
+                                        <InputLabel id="rutaId">Ruta</InputLabel>
                                         <Select
                                             id='ruta-id'
-                                            labelId="ruta-id-name"
+                                            label="Ruta"
                                             defaultValue={rutaSelected}
-                                            input={<OutlinedInput label="Ruta" />}
-                                            onSubmit={handleSubmit(onSubmit)}
                                             error={!!errors.rutaId}
                                             helperText={errors.rutaId?.message}
                                             {...register('rutaId',

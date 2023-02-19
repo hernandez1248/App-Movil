@@ -1,32 +1,27 @@
-import db from "@/database/models" 
+import db from "database/models/"
 
-// responsable de detectar el tipo de request 
-// e invocar la funcion adecuada 
 export default function handler(req, res) {
     switch (req.method) {
         case 'GET':
-            return schedulesList(req, res);
+            return usuariosList(req, res);
         case 'POST':
-            return addSchedules(req, res);
+            return addUsuarios(req, res);
         case 'PUT':
-            return editSchedules(req, res);
+            return editUsuarios(req, res);
         case 'DELETE':
-            return deleteSchedules(req, res);
+            return deleteUsuarios(req, res);
 
-        /* case 'POST':
-            return filterProducts(req, res); */
         default:
-            res.status(400).json({error: true, message: 'Petición errónea'});
+            res.status(400).json({ error: true, message: 'Petición errónea' });
     }
 }
 
-  const schedulesList = async (req, res) => {
+
+// GET: /usuarios
+const usuariosList = async (req, res) => {
     try {
-        const schedules = await db.Schedules.findAll({
-            include: ['unit', 'route'],
-        });
-        
-        return res.json(schedules);
+        const usuarios = await db.Usuarios.findAll({...req.body});   
+        return res.json(usuarios);
     } catch (error) {
         return res.status(400).json(
             {
@@ -35,20 +30,20 @@ export default function handler(req, res) {
             }
         )
     }
-}
+  }
 
-
-  const addSchedules = async (req, res) => {
+//POST: /unidades
+const addUsuarios = async (req, res) => {
     try {
         //los datos que vienen en el req.body
         //console.log(req.body);
 
         //guardar los datos del cliente
-        const schedule = await db.Schedules.create({ ...req.body });
+        const usuarios = await db.Usuarios.create({ ...req.body });
 
         res.json({
-            schedule,
-            message: 'EL cronograma fue registrado correctamente.'
+            usuarios,
+            message: 'El usuario fue registrado correctamente.'
         });
     } catch (error) {
         console.log(error);
@@ -74,13 +69,64 @@ export default function handler(req, res) {
     }
 }
 
-const editSchedules = async (req, res) => {
-    try {
-        //eliminar los datos de la unidad
-        const { id } = req.query;
+// GET: /usuarios
 
-        //let unids = await db.Unidades.create({...req.body});
-        await db.Schedules.update({ ...req.body },
+/*const usuariosList = async (req, res) => {
+    try {
+        const unid = await db.Usuarios.findAll({});
+
+        return res.json(unid);
+    } catch (error) {
+        return res.status(400).json(
+            {
+                error: true,
+                message: `Ocurrió un error al procesar la petición: ${error.message}`
+            }
+        )
+    }
+}*/
+
+/*const usuariosList = async (req, res) => {
+
+    try {
+
+        //leer la ruta a mostrar
+        const { rutaId } = req.query;
+
+        //Leer los productos
+        let usuarios = [];
+
+        if (rutaId) {
+            unidads = await db.Usuarios.findAll({
+                where: {
+                    rutaId,
+                },
+                include: ['ruta'],
+            });
+        } else {
+            unidads = await db.Usuarios.findAll({
+                include: ['ruta'],
+            });
+        }
+
+        return res.json(unidads)
+
+    } catch (error) {
+        return res.status(400).json(
+            {
+                error: true,
+                message: `Ocurrio un error al procesar la petición ${error.message}`
+            }
+        )
+    }
+}*/
+
+//PUT: /usuarios
+const editUsuarios = async (req, res) => {
+    try {
+        //eliminar los datos del usuario
+        const { id } = req.query;
+        await db.Usuarios.update({ ...req.body },
             {
                 where: {
                     id
@@ -88,9 +134,9 @@ const editSchedules = async (req, res) => {
             }
         )
 
-        //await db.Unidades.save();
+        //await db.Usuarios.save();
         res.json({
-            message: 'El cronograma fue actualizada correctamente.'
+            message: 'El usuario fue actualizado correctamente.'
         });
     } catch (error) {
         console.log(error);
@@ -112,18 +158,19 @@ const editSchedules = async (req, res) => {
     }
 }
 
-const deleteSchedules = async (req, res) => {
+//DELETE: /usuarios
+const deleteUsuarios = async (req, res) => {
     try {
-        //eliminar los datos de la unidad
+        //eliminar los datos del usuario
         const { id } = req.query;
-        await db.Schedules.destroy({
+        await db.Usuarios.destroy({
             where: {
                 id: id
             }
         });
 
         res.json({
-            message: 'El cronograma fue eliminada correctamente.'
+            message: 'El usuario fue eliminado correctamente.'
         });
     } catch (error) {
         console.log(error);
