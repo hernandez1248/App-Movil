@@ -13,7 +13,7 @@ import { useEffect } from 'react';
 
 
 
-const CardUnidad = ({ unidad, onDelete, recargar }) => {
+const CardUnidad = ({index, unidad, onDelete, onSave }) => {
   const [routes, setRoutes] = useState([]);
   const [unidades, setData] = useState({ ...unidad });
   const [edit, setEdit] = useState(false);
@@ -31,9 +31,12 @@ const CardUnidad = ({ unidad, onDelete, recargar }) => {
     setEdit(false);
   }
 
-  const id = unidades.id;
-  const { register, handleSubmit, watch, formState: { errors }, setError, setValue, resetField } = useForm();
+  const { register, handleSubmit, watch, formState: { errors } } = useForm();
   const onSubmit = (data) => {
+    const id = unidades.id;
+    onSave(id,data);
+    setEdit(false);
+    /*
     // Enviar la informacion al backend
     apiClient.put(`/unidades?id=${id}`, data)
       .then(response => {
@@ -61,7 +64,7 @@ const CardUnidad = ({ unidad, onDelete, recargar }) => {
             });
           })
         }
-      })
+      })*/
   };
 
 
@@ -220,7 +223,6 @@ const CardUnidad = ({ unidad, onDelete, recargar }) => {
                   label="Numero de unidad"
                   variant="standard"
                   defaultValue={unidades.numunidad}
-
                   error={!!errors.numunidad}
                   helperText={errors.numunidad?.message}
                   {...register('numunidad',
@@ -242,7 +244,6 @@ const CardUnidad = ({ unidad, onDelete, recargar }) => {
                   label="Placas"
                   variant="standard"
                   defaultValue={unidades.placas}
-
                   error={!!errors.placas}
                   helperText={errors.placas?.message}
                   {...register('placas',
