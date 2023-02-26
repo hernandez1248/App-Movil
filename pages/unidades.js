@@ -26,7 +26,7 @@ export default function UnidadesAdmin() {
         console.log(error);
       })
   }
-
+  
   const deleteUnidad = (id) => {
     Swal.fire({
       title: '¿Estás Seguro de eliminar?',

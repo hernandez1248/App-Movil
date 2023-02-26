@@ -7,13 +7,9 @@ import { Button, CardActions } from '@mui/material';
 import { Grid, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { Container } from '@mui/system';
-import apiClient from '@/apiClient';
-import Swal from 'sweetalert2';
 
-
-
-export default function CardRutas({route, onDelete, recargar}) {
-    const [routes, setRoutes] = React.useState({...route});
+export default function CardRutas({route, onDelete, onEdit, index}) {
+    const [routes] = React.useState({...route});
     const [original, setOriginal] = React.useState(false);
     const [edit, setEdit] = React.useState(false);
   
@@ -33,7 +29,6 @@ export default function CardRutas({route, onDelete, recargar}) {
       setEdit(false);
     }
 
-    const id = routes.id;
     const { register, handleSubmit, watch, formState: { errors }, setError } = useForm();
     const onSubmit = (data) => {
       // Enviar la informacion al backend
@@ -66,7 +61,7 @@ export default function CardRutas({route, onDelete, recargar}) {
     };
  
   return (
-    <Card sx={{ maxWidth: 345 }} elevation={4}>
+    <Card sx={{ maxWidth: 345 }} elevation={8}>
       {edit && (
         <>
            <Container component={"form"} onSubmit={handleSubmit(onSubmit)} sx={{padding:2}}>
@@ -134,7 +129,7 @@ export default function CardRutas({route, onDelete, recargar}) {
                 </Grid>
             
             <CardActions  sx={{display:'flex', justifyContent:'space-around'}}>
-              <Button size="small" color="error" onClick={cancelSave}>Cancelar</Button>
+              <Button size="small" color="error" variant={"outlined"} onClick={cancelSave}>Cancelar</Button>
               <Button size="small" color="success" variant="contained" type="submit">Guardar</Button>
           </CardActions>
           </Container>

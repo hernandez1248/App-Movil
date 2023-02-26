@@ -46,7 +46,6 @@ const addSchedules = async (req, res) => {
   }
       */   
 
-
 import db from "@/database/models" 
 
 // responsable de detectar el tipo de request 

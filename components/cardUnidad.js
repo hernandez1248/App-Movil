@@ -11,8 +11,6 @@ import Swal from 'sweetalert2';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
-
-
 const CardUnidad = ({ unidad, onDelete, recargar }) => {
   const [routes, setRoutes] = useState([]);
   const [unidades, setData] = useState({ ...unidad });
@@ -62,8 +60,6 @@ const CardUnidad = ({ unidad, onDelete, recargar }) => {
           })
         }
       })
-  };
-
 
   //devolver productos desde el back-end
   useEffect(() => {
@@ -220,7 +216,6 @@ const CardUnidad = ({ unidad, onDelete, recargar }) => {
                   label="Numero de unidad"
                   variant="standard"
                   defaultValue={unidades.numunidad}
-
                   error={!!errors.numunidad}
                   helperText={errors.numunidad?.message}
                   {...register('numunidad',
@@ -242,7 +237,6 @@ const CardUnidad = ({ unidad, onDelete, recargar }) => {
                   label="Placas"
                   variant="standard"
                   defaultValue={unidades.placas}
-
                   error={!!errors.placas}
                   helperText={errors.placas?.message}
                   {...register('placas',

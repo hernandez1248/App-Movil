@@ -5,8 +5,6 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
-
-
 import * as React from 'react';
 import dayjs from 'dayjs';
 import TextField from '@mui/material/TextField';
@@ -19,15 +17,11 @@ function FormularioCronograma({recargar}) {
   const [unidades, setUnits, setUnidades] = useState([]);
   const [rutaSelected, setRuta] = useState("");
   const [unitSelected, setUnit] = useState("");
-
-
   const [time, setTime] = React.useState(dayjs());
 
   const handleTime = (newValue) => {
     setTime(newValue);
   };
-
-  
 
   const {
     register, 
@@ -38,7 +32,7 @@ function FormularioCronograma({recargar}) {
   } = useForm({
 
   });
-
+  
   const formSubmit = (data) => {
     console.log(data);
 
@@ -62,7 +56,6 @@ function FormularioCronograma({recargar}) {
         if(recargar){
           recargar();
         }
-
       })
       .catch((error) => {
         console.log(error);
