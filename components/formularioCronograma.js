@@ -1,18 +1,44 @@
 import apiClient from '@/apiClient';
-import { Container, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useForm } from 'react-hook-form';
+import Swal from 'sweetalert2';
+
+
+import * as React from 'react';
+import dayjs from 'dayjs';
+import TextField from '@mui/material/TextField';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 
 function FormularioCronograma({recargar}) {
   const [routes, setRutas] = useState([]);
   const [unidades, setUnits, setUnidades] = useState([]);
-  const [rutaSelected, setRuta] = useState(null);
-  const [unitSelected, setUnit] = useState(null);
+  const [rutaSelected, setRuta] = useState("");
+  const [unitSelected, setUnit] = useState("");
 
 
-  const {control, handleSubmit, formState:{errors}, setError} = useForm();
+  const [time, setTime] = React.useState(dayjs());
+
+  const handleTime = (newValue) => {
+    setTime(newValue);
+  };
+
+  
+
+  const {
+    register, 
+    handleSubmit, 
+    formState:{errors},
+    setError,
+    setValue,
+  } = useForm({
+
+  });
+
   const formSubmit = (data) => {
     console.log(data);
 
@@ -28,10 +54,15 @@ function FormularioCronograma({recargar}) {
           showConfirmButton: false,
           timer: 3000
         })
-
+        setValue("routeId", null);
+        setRuta("");
+        setValue("unitId", null);
+        setUnit("");
+        
         if(recargar){
           recargar();
         }
+
       })
       .catch((error) => {
         console.log(error);
@@ -122,13 +153,22 @@ function FormularioCronograma({recargar}) {
               <Select
                   id='ruta-id'
                   label="Ruta"
-                  defaultValue={rutaSelected}
-                  onChange={onSelectRuta}
+                  error={!!errors.routeId}
+                  value={rutaSelected}
+                  {...register('routeId',
+                    {
+                        required: 'Este campo es obligatorio',
+                        onChange: onSelectRuta
+                    })
+                  }
               >
                   {routes.map((item) => (
-                      <MenuItem key={item.id} value={item.id}>{item.id} {item.origen}-{item.destino}</MenuItem>
+                      <MenuItem key={`r-${item.id}`} value={item.id}>{item.id} {item.origen}-{item.destino}</MenuItem>
                   ))}
               </Select>
+              {!!errors.routeId && (
+                <FormHelperText>{errors.routeId?.message || ""}</FormHelperText>
+              )}
           </FormControl>
         </Form.Group>
         <Form.Group className="formGroup" controlId="formBasicPassword">
@@ -138,24 +178,47 @@ function FormularioCronograma({recargar}) {
                 <Select
                     id='unidad-id'
                     label="Unidad"
-                    defaulValue={unitSelected}
-                    onChange={onSelectUnit}
+                    value={unitSelected}
+                    error={!!errors.unitId}
+                    {...register('unitId',
+                      {
+                          required: 'Este campo es obligatorio',
+                          onChange: onSelectUnit,
+                      })
+                    }
                 >
                     {unidades.map((item) => (
-                        <MenuItem key={item.id} value={item.id}>{item.numunidad}</MenuItem>
+                        <MenuItem key={`u-${item.id}`} value={item.id}>{item.numunidad}</MenuItem>
                     ))}
                 </Select>
+                {!!errors.unitId && (
+                <FormHelperText>{errors.unitId?.message || ""}</FormHelperText>
+              )}
             </FormControl>
         </Form.Group>
-        <Form.Group className="formGroup">
-          <Form.Control
-            className="dateComponent"
-            type="time"
-            placeholder="Ingrese la Hora de Salida"
-          />
+        <Form.Group className="formGroup" style={{marginLeft: 190, marginTop: 20}}>
+          <FormControl>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <TimePicker
+                name="hora"
+                label="Hora"
+                value={time}
+                type="time"
+                onChange={handleTime}
+                error={!!errors.hora}
+                {...register("hora", {
+                  required: "Este campo es obligatorio",
+                })}
+                renderInput={(params) => <TextField {...params} />}
+              />
+              {!!errors.hora && (
+                  <FormHelperText>{errors.hora?.message || ""}</FormHelperText>
+              )}
+            </LocalizationProvider>
+          </FormControl>
         </Form.Group>
         <div className="d-flex justify-content-end">
-          <Button type="submit" className="boton-crono">
+          <Button type="submit" className="boton">
             Agregar
           </Button>
         </div>

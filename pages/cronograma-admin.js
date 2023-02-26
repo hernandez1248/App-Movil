@@ -1,12 +1,11 @@
 import * as React from 'react';
 import Head from 'next/head'
 import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import AddButton from '@/components/addButton';
+import Nav from 'react-bootstrap/Nav';
 import Enlaces from '@/components/enlaces';
-import FormularioCronograma from '@/components/formularioCronograma';
 import CardCronoAdmin from '@/components/cardCronoAdmin';
+import AddButtonCrono from '@/components/addButtonCrono';
 import { useState } from 'react';
 import apiClient from '@/apiClient';
 import { Grid } from '@mui/material';
@@ -16,9 +15,6 @@ import Swal from 'sweetalert2';
 
 export default function CronogramaAdmin() {
   const [schedules, setCronograma] = useState([]);
-
- 
- 
 
   useEffect(() => {
     // ir por los productos desde el backend
@@ -35,10 +31,10 @@ export default function CronogramaAdmin() {
       })
   }
 
-  const deleteSchedules = (id) => {
+  const deleteUnidad = (id) => {
     Swal.fire({
       title: '¿Estás Seguro de eliminar?',
-      text: "Los datos relacionados con la unidad se perderan permanentemente",
+      text: "Los datos relacionados con el horario se perderan permanentemente",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -62,15 +58,16 @@ export default function CronogramaAdmin() {
         })
       }
     })
+   
   }
-
   const renderCronograma = () => {
     return schedules.map((crono, index) => (
       <Grid item xs={12} lg={4} xl={2} mt={4} key={crono.id}>
         <CardCronoAdmin
           index={index}
           crono={crono}
-          onDelete={deleteSchedules}
+          recargar={refresh}
+          onDelete={deleteUnidad}
         />
       </Grid>
     ))
@@ -91,14 +88,14 @@ export default function CronogramaAdmin() {
           <Navbar.Brand id="unidadesTitle">
             Cronograma
           </Navbar.Brand>
+          <Nav className="d-flex justify-content-end">
+           <AddButtonCrono
+            recargar={refresh}
+           />
+          </Nav>
         </Container>
       </Navbar>
-      <Container className="formularioCrono">
-        <FormularioCronograma 
-          recargar={refresh}
-        ></FormularioCronograma>
-      </Container> 
-        <Grid style={{ paddingLeft: "20px", paddingRight: "20px"}} container spacing={2} mt={0} mb={10}>
+        <Grid style={{ paddingLeft: "20px", paddingRight: "20px"}} container spacing={2} mt={4} mb={10}>
             {renderCronograma()}
         </Grid>
       <Enlaces></Enlaces>

@@ -97,7 +97,7 @@ const CardUnidad = ({ unidad, onDelete, recargar }) => {
   }
 
   return (
-    <Card style={{ width: '17rem', height: 'auto' }} className="card-unidad">
+    <Card elevation={10} style={{ width: '18rem', height: 'auto' }} className="card-unidad">
       <CardMedia sx={{ height: 140 }} image={"https://autoselrentacar.com/themes/default/images/t4.png"} title="Unidad" />
       {!edit && (
         <>
@@ -117,7 +117,7 @@ const CardUnidad = ({ unidad, onDelete, recargar }) => {
               className='card-unidad-dere'
 
             >
-              {`${unidades.rutaId} ${unidades.ruta.origen}-${unidades.ruta.destino}`}
+              {`${unidades.ruta.origen}-${unidades.ruta.destino}`}
             </Typography>
           </div>
 
@@ -312,7 +312,7 @@ const CardUnidad = ({ unidad, onDelete, recargar }) => {
       {!edit && (
         <>
           <CardActions sx={{ display: 'flex', justifyContent: 'space-around' }}>
-            <Button size="small" color='error' variant='outlined' onClick={handleDelete}>Eliminar</Button>
+            <Button size="small" color='error' variant='contained' onClick={handleDelete}>Eliminar</Button>
             <Button size="small" color='primary' variant='contained' onClick={handleEdit}>Editar</Button>
           </CardActions>
         </>
