@@ -1,3 +1,51 @@
+/* import db from "database/models/"
+
+export default function handler(req, res) {
+    switch (req.method) {
+        case 'GET':
+            return addSchedules(req, res);
+
+        default:
+            res.status(400).json({ error: true, message: 'Petición errónea' });
+
+    }
+}
+
+//POST: /customers
+const addSchedules = async (req, res) => {
+    try {
+         //los datos vienen en el req.body
+         //console.log(req.body);
+         // guardar el cliente 
+         const hora = await db.Schedules.create({...req.body});
+ 
+         res.json({
+             hora,
+             message: 'La hora fue registrado correctamente.'
+         });
+    } catch (error) {
+        console.log(error);
+
+        let errors = []
+        if(error.errors){
+            // estraer la informacion de los campos que tienen error
+            errors = error.errors.map((item) => ({
+                error: item.message,
+                field: item.path,
+            }));
+        }
+
+        return res.status(400).json(
+            {
+                error: true,
+                message: `Ocurrió un error al procesar la petición: ${error.message}`,
+                errors,
+            }
+        )
+    }
+  }
+      */   
+
 import db from "@/database/models" 
 
 // responsable de detectar el tipo de request 
@@ -22,7 +70,7 @@ export default function handler(req, res) {
 
   const schedulesList = async (req, res) => {
     try {
-        const schedules = await db.Schedules.findAll({
+        const schedules = await db.Schedules.finAll({
             include: ['unit', 'route'],
         });
         
@@ -48,7 +96,7 @@ export default function handler(req, res) {
 
         res.json({
             schedule,
-            message: 'EL cronograma fue registrado correctamente.'
+            message: 'La hora destinada fue registrado correctamente.'
         });
     } catch (error) {
         console.log(error);
@@ -90,7 +138,7 @@ const editSchedules = async (req, res) => {
 
         //await db.Unidades.save();
         res.json({
-            message: 'El cronograma fue actualizada correctamente.'
+            message: 'El horario fue actualizada correctamente.'
         });
     } catch (error) {
         console.log(error);
@@ -123,7 +171,7 @@ const deleteSchedules = async (req, res) => {
         });
 
         res.json({
-            message: 'El cronograma fue eliminada correctamente.'
+            message: 'El horario fue eliminada correctamente.'
         });
     } catch (error) {
         console.log(error);

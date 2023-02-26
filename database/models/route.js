@@ -18,14 +18,14 @@ module.exports = (sequelize, DataTypes) => {
         });
     }
 
-    /* static associate(models) {
+     static associate(models) {
       // define association here
       models.Route.hasMany(models.Schedules,
         {
-          as: 'unidads',
+          as: 'unidades',
           foreignKey: 'routeId'
         });
-    } */
+    } 
   }
   Route.init({
     origen: {

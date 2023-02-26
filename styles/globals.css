@@ -198,16 +198,18 @@ a {
 }
 
 .dateComponent{
-  width: 100%;
-  color: #003C8F;
+  width: 23.8rem;
+  margin-right: -55px;
+  margin-left: -55px;
+  color: black;
   font-size: 18px;
-  border-color: #003C8F;
   margin-top: 3px;
 }
 
 .cardsCronograma{
   display: flex;
   margin: auto;
+  height: 300px;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
@@ -236,21 +238,25 @@ a {
   width: 30%;
   font-size: 18px;
   font-weight: bold;
+  margin-left: 15%;
 }
 
 .cardCronogramaDatosDer{
   width: 70%;
   font-size: 18px;
+  margin-left: 10%;
 }
 
 .cardCronogramaBotones{
   display: flex;
   justify-content: space-around;
-  margin-top: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .BtnCancelarCrono{
   width: 40%;
+  font-weight: 600;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -414,11 +420,13 @@ a {
 }
 
 .form-control{
-  max-width: 50%;
-  color: #003C8F;
   font-size: 20px;
-  border-color: #003C8F;
   margin: auto;
+}
+.date{
+  font-size: 20px;
+  margin: auto;
+  height: 80%;
 }
 .formEmail{
   margin-left: 10%;
@@ -474,7 +482,7 @@ a {
     margin-left: 40px;
   }
   .form-control{
-    max-width: 80%;
+    max-width: 100%;
   }
 
   .formEmail{

@@ -11,9 +11,7 @@ import Swal from 'sweetalert2';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
-
-
-const CardUnidad = ({index, unidad, onDelete, onSave }) => {
+const CardUnidad = ({ unidad, onDelete, recargar }) => {
   const [routes, setRoutes] = useState([]);
   const [unidades, setData] = useState({ ...unidad });
   const [edit, setEdit] = useState(false);
@@ -31,12 +29,9 @@ const CardUnidad = ({index, unidad, onDelete, onSave }) => {
     setEdit(false);
   }
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const id = unidades.id;
+  const { register, handleSubmit, watch, formState: { errors }, setError, setValue, resetField } = useForm();
   const onSubmit = (data) => {
-    const id = unidades.id;
-    onSave(id,data);
-    setEdit(false);
-    /*
     // Enviar la informacion al backend
     apiClient.put(`/unidades?id=${id}`, data)
       .then(response => {
@@ -64,9 +59,7 @@ const CardUnidad = ({index, unidad, onDelete, onSave }) => {
             });
           })
         }
-      })*/
-  };
-
+      })
 
   //devolver productos desde el back-end
   useEffect(() => {
@@ -100,7 +93,7 @@ const CardUnidad = ({index, unidad, onDelete, onSave }) => {
   }
 
   return (
-    <Card style={{ width: '17rem', height: 'auto' }} className="card-unidad">
+    <Card elevation={10} style={{ width: '18rem', height: 'auto' }} className="card-unidad">
       <CardMedia sx={{ height: 140 }} image={"https://autoselrentacar.com/themes/default/images/t4.png"} title="Unidad" />
       {!edit && (
         <>
@@ -120,7 +113,7 @@ const CardUnidad = ({index, unidad, onDelete, onSave }) => {
               className='card-unidad-dere'
 
             >
-              {`${unidades.rutaId} ${unidades.ruta.origen}-${unidades.ruta.destino}`}
+              {`${unidades.ruta.origen}-${unidades.ruta.destino}`}
             </Typography>
           </div>
 
@@ -313,7 +306,7 @@ const CardUnidad = ({index, unidad, onDelete, onSave }) => {
       {!edit && (
         <>
           <CardActions sx={{ display: 'flex', justifyContent: 'space-around' }}>
-            <Button size="small" color='error' variant='outlined' onClick={handleDelete}>Eliminar</Button>
+            <Button size="small" color='error' variant='contained' onClick={handleDelete}>Eliminar</Button>
             <Button size="small" color='primary' variant='contained' onClick={handleEdit}>Editar</Button>
           </CardActions>
         </>

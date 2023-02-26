@@ -1,9 +1,7 @@
-import * as React from 'react';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+import * as React from 'react';;
 import Form from 'react-bootstrap/Form';
 import { useEffect, useState } from 'react';
-import { Container, Grid } from '@mui/material';
+import { Card, Button, Container, Grid, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
@@ -11,16 +9,125 @@ import MenuItem from '@mui/material/MenuItem';
 import apiClient from '@/apiClient';
 import Swal from 'sweetalert2';
 
-
-function CardCronoAdmin({crono, onDelete, onSave }) {
-  const [data, setData] = useState({ ...crono });
+function CardCronoAdmin({ crono, onDelete, recargar }) {
+  const [data, setData] = React.useState({ ...crono });
   const [edit, setEdit] = useState(false);
   const [routes, setRutas] = useState([]);
   const [unidades, setUnits, setUnidades] = useState([]);
-  const [rutaSelected, setRuta] = useState("");
-  const [unitSelected, setUnit] = useState("");
+  const [rutaSelected, setRuta] = useState('');
+  const [unitSelected, setUnit] = useState('');
 
-  console.log(data);
+
+  const handleDelete = () => {
+    onDelete(data.id);
+  }
+
+  const handleEdit = () => {
+    setEdit(!edit);
+  }     
+
+  const cancelSave = () => {
+    setEdit(false);
+  }
+  
+  const id = data.id;
+  const { register, handleSubmit, formState: { errors }, setError} = useForm();
+  const onSubmit = (data) => {
+    console.log(data);
+
+    
+    apiClient.put(`/schedules?id=${id}`, data)
+      .then(response => {
+        //console.log(response.data);
+        if (recargar) {
+          recargar(data.id);
+        }
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          text: response.data.message,
+          showConfirmButton: false,
+          timer: 3000
+        })
+        setEdit(false);
+      })
+      .catch(error => {
+        console.log(error);
+        alert(error.response.data.message)
+
+        if (error.response.data.errors) {
+          error.response.data.errors.forEach((errorItem) => {
+            setError(errorItem.field, {
+              //error: true,
+              type: "validation",
+              message: errorItem.error
+            });
+          })
+        }
+      })
+  };
+
+
+
+  useEffect(() => {
+    //ir por las routes desde el backend
+    apiClient
+      .get("/routes")
+      .then((response) => {
+        setRutas(response.data || []);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    //ir por las routes desde el backend
+    apiClient
+      .get("/unidades")
+      .then((response) => {
+        setUnits(response.data || []);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  //devuelve los datos desde el backend
+  useEffect(() => {
+    //ir por las routes desde el backend
+    if (rutaSelected) {
+      apiClient.get(`/unidades?rutaId=${rutaSelected || null}`)
+        .then((response) => {
+          setUnits(response.data || []);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [rutaSelected]);
+  //seleccionador para buscar por categoria
+  const onSelectRuta = (e) => {
+    setRutas(e.target.value);
+  };
+
+
+  useEffect(() => {
+    //ir por las routes desde el backend
+    if (unitSelected) {
+      apiClient.get(`/unidades?rutaId=${unitSelected || null}`)
+        .then((response) => {
+          setUnidades(response.data || []);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [unitSelected]);
+  //seleccionador para buscar por categoria
+  const onSelectUnit = (e) => {
+    setUnit(e.target.value);
+  };
 
   const handleDelete = () => {
     onDelete(data.id);
@@ -132,48 +239,65 @@ function CardCronoAdmin({crono, onDelete, onSave }) {
     setUnit(e.target.value);
   };
   return (
-    <Card border="primary" className="cardCronograma cards">
+    <Card elevation={10} style={{ width: '100%', height: 'auto' }} className="cardCronograma cards">
       {!edit && (
         <>
-          <Card.Header className="d-flex justify-content-center"><Card.Title className="cardCronogramaUnidad">Unidad {data.unitId}</Card.Title></Card.Header>
-          <Card.Body>
+            <Typography 
+              gutterBottom 
+              variant="h4" 
+              textAlign="center" 
+              mt={2} 
+              fontWeight="bold"
+              component="div">
+              Unidad: {data.unitId}
+            </Typography>
+           
             <div className="cardCronogramaInfo">
               <div className="cardCronogramaDatosIzq">
-                <Card.Text>
                   Chofer:
-                </Card.Text>
+
               </div>
               <div className="cardCronogramaDatosDer">
-                <Card.Text>
-                  {data.unit.name}
-                </Card.Text>
+                  {data.unit.name || ""}
               </div>
             </div>
             <div className="cardCronogramaInfo">
               <div className="cardCronogramaDatosIzq">
-                <Card.Text>
                   Salida:
-                </Card.Text>
               </div>
               <div className="cardCronogramaDatosDer">
-                <Card.Text>
                   {data.hora}
-                </Card.Text>
               </div>
             </div>
             <div className="cardCronogramaInfo">
               <div className="cardCronogramaDatosIzq">
-                <Card.Text>
                   Ruta:
-                </Card.Text>
+
               </div>
               <div className="cardCronogramaDatosDer">
-                <Card.Text>
                   {data.route.origen} - {data.route.destino}
-                </Card.Text>
+
               </div>
             </div>
-          </Card.Body>
+            <div className="cardCronogramaBotones">
+            <Button
+              type="submit"
+              color='error' 
+              variant='contained'
+              className="BtnCancelarCrono"
+              onClick={handleDelete}
+            >
+              Eliminar
+            </Button>
+            <Button
+              type="submit"
+              variant='contained'
+              className="BtnCancelarCrono"
+              onClick={handleEdit}
+            >
+              Editar
+            </Button>
+          </div>
         </>
       )}
 
@@ -190,7 +314,6 @@ function CardCronoAdmin({crono, onDelete, onSave }) {
                   defaultValue={data.routeId}
                   onChange={onSelectRuta}
                   error={!!errors.routeId}
-                  helperText={errors.routeId?.message}
                   {...register('routeId',
                     {
                       required: 'Este campo es obligatorio',
@@ -212,7 +335,6 @@ function CardCronoAdmin({crono, onDelete, onSave }) {
                   defaultValue={data.unitId}
                   onChange={onSelectUnit}
                   error={!!errors.unitId}
-                  helperText={errors.unitId?.message}
                   {...register('unitId',
                     {
                       required: 'Este campo es obligatorio',
@@ -225,53 +347,46 @@ function CardCronoAdmin({crono, onDelete, onSave }) {
                 </Select>
               </Grid>
 
-              <Form.Group className="formGroup">
+              <Grid item xs={12} >
+                <InputLabel id="hora-id">Hora</InputLabel>
                 <Form.Control
-                  className="dateComponent"
+                  fullWidth
+                  className="date"
                   type="time"
-                  placeholder="Ingrese la Hora de Salida"
                   defaultValue={data.hora}
+                  placeholder="Ingrese la Hora de Salida"
                   error={!!errors.hora}
                   helperText={errors.hora?.message}
                   {...register("hora", {
                     required: "Este campo es obligatorio",
                   })}
                 />
-              </Form.Group>
+                  {!!errors.unitId && (
+                    <FormHelperText>{errors.unitId?.message || ""}</FormHelperText>
+                  )}
+              </Grid>
             </Grid>
             <div className="cardCronogramaBotones" >
-              <Button type="submit" variant="danger" className="BtnCancelarCrono" onClick={cancelSave}>
+              <Button 
+                type="submit"  
+                color='error' 
+                variant='contained'
+                className="BtnCancelarCrono"
+                onClick={cancelSave}
+              >
                 Cancelar
               </Button>
-              <Button type="submit" variant="primary" className="BtnCancelarCrono">
+              <Button t
+                type="submit"
+                color='success'  
+                variant="contained" 
+                className="BtnCancelarCrono"
+              >
                 Guardar
               </Button>
             </div>
           </Container>
 
-        </>
-      )}
-      {!edit && (
-        <>
-
-          <div className="cardCronogramaBotones">
-            <Button
-              type="submit"
-              variant="danger"
-              className="BtnCancelarCrono"
-              onClick={handleDelete}
-            >
-              Eliminar
-            </Button>
-            <Button
-              type="submit"
-              variant="primary"
-              className="BtnCancelarCrono"
-              onClick={handleEdit}
-            >
-              Editar
-            </Button>
-          </div>
         </>
       )}
     </Card>

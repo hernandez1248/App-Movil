@@ -31,9 +31,33 @@ export default function CardRutas({route, onDelete, onEdit, index}) {
 
     const { register, handleSubmit, watch, formState: { errors }, setError } = useForm();
     const onSubmit = (data) => {
-      data.id = routes.id;
-      onEdit(data, index);      
-      setEdit(false);
+      // Enviar la informacion al backend
+      apiClient.put(`/routes?id=${id}`,data)
+      .then(response => {
+        console.log(response.data);
+        if(recargar){
+          recargar();
+        }
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          text: response.data.message,
+        })
+        setEdit(false);
+      })
+      .catch(error =>{
+        console.log(error);
+        alert(error.response.data.message)
+        if (error.response.data.errors) {
+            error.response.data.errors.forEach((errorItem) => {
+                setError(errorItem.field, {
+                    //error: true,
+                    type: "validation",
+                    message: errorItem.error
+                });
+            })
+        }
+      })
     };
  
   return (

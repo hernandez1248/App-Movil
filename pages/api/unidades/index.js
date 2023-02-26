@@ -18,7 +18,7 @@ export default function handler(req, res) {
 
 //POST: /unidades
 const addUnidades = async (req, res) => {
-    try {
+        try {
         //los datos que vienen en el req.body
         //console.log(req.body);
 

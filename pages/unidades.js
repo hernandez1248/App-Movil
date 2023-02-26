@@ -26,35 +26,7 @@ export default function UnidadesAdmin() {
         console.log(error);
       })
   }
-
-  const updateUnidad = (id,data, index) => {
-    apiClient.put(`/unidades?id=${id}`, data)
-      .then(response => {
-        //console.log(response.data);
-        /*const unidadCopy = [...unidad];
-        unidadCopy.splice(index,1,data);
-        setUnidades(unidadCopy);*/
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          text: response.data.message,
-        });
-      })
-      .catch(error => {
-        console.log(error);
-        alert(error.response.data.message)
-        if (error.response.data.errors) {
-          error.response.data.errors.forEach((errorItem) => {
-            setError(errorItem.field, {
-              //error: true,
-              type: "validation",
-              message: errorItem.error
-            });
-          })
-        }
-      })
-  }
-
+  
   const deleteUnidad = (id) => {
     Swal.fire({
       title: '¿Estás Seguro de eliminar?',
@@ -92,7 +64,7 @@ export default function UnidadesAdmin() {
         <CardUnidad
           index={index}
           unidad={unid}
-          onSave={updateUnidad}
+          recargar={refresh}
           onDelete={deleteUnidad}
         />
       </div>

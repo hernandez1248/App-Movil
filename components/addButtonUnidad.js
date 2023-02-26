@@ -103,8 +103,15 @@ const AddButtonUnidad = ({ recargar }) => {
     }*/
 
     const onSelectRuta = (e) => {
-        setRuta({ [e.target.name]: e.target.value })
-    }
+        const {
+            target: { value },
+        } = e;
+        setRuta(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+        );
+    };
+
 
     return (
         <div>
@@ -181,7 +188,7 @@ const AddButtonUnidad = ({ recargar }) => {
                                         label="Teléfono" fullWidth variant="standard"
                                         id="phone"
                                         error={!!errors.phone}
-                                        helperText={errors.phone?.message}
+                                        helpertext={errors.phone?.message}
                                         {...register('phone',
                                             {
                                                 required: 'Este campo es obligatorio',
@@ -218,11 +225,13 @@ const AddButtonUnidad = ({ recargar }) => {
 
                                 <Grid item xs={12} md={6}>
                                     <FormControl fullWidth>
-                                        <InputLabel id="rutaId">Ruta</InputLabel>
+                                        <InputLabel id="ruta-id">Ruta</InputLabel>
                                         <Select
                                             id='ruta-id'
-                                            label="Ruta"
+                                            labelId="ruta-id-name"
                                             defaultValue={rutaSelected}
+                                            input={<OutlinedInput label="Ruta" />}
+                                            onSubmit={handleSubmit(onSubmit)}
                                             error={!!errors.rutaId}
                                             helperText={errors.rutaId?.message}
                                             {...register('rutaId',
@@ -233,9 +242,16 @@ const AddButtonUnidad = ({ recargar }) => {
                                             }
                                         >
                                             <MenuItem value={0}>Seleccionar</MenuItem>
-                                            {routes.map((item) => (
-                                                <MenuItem key={item.id} value={item.id}>{`${item.id} ${item.origen}-${item.destino}`}</MenuItem>
-                                            ))}
+                                            {routes.map((item) => {
+                                                return (
+                                                    <MenuItem
+                                                        key={item.id}
+                                                        value={item.id}
+                                                    >
+                                                        {item.id} {item.origen}-{item.destino}
+                                                    </MenuItem>
+                                                );
+                                            })}
                                         </Select>
                                     </FormControl>
                                 </Grid>
