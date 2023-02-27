@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import apiClient from '@/apiClient';
 import Form from 'react-bootstrap/Form';
 import { InputBase, Paper } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 
 export default function RutasUsuario() {
@@ -18,7 +19,7 @@ export default function RutasUsuario() {
   const [search, setSearch] = useState('');//capturar formulario de búsqueda
 
   React.useEffect(() => {
-    apiClient.get('/rutas')
+    apiClient.get('/schedules')
       .then(response => {
         setRutas(response.data || [])
       })
@@ -35,7 +36,7 @@ export default function RutasUsuario() {
       });
   }, []);
 
-  React.useEffect(() => {
+ /*React.useEffect(() => {
     apiClient.get(`/rutas?favoritoId=${favoritosSelected || null}`)
       .then(response => {
         setRutas(response.data || [])
@@ -43,7 +44,7 @@ export default function RutasUsuario() {
       .catch(error => {
         console.log(error);
       });
-  }, [favoritosSelected]);
+  }, [favoritosSelected]);*/
 
   const onSelectFavorito = (e) => {
     setFavoritosSelected(e.target.value);
@@ -70,12 +71,12 @@ export default function RutasUsuario() {
 
   const renderRutas = () => {
     return rutas.map((ruta, index) => (
-      <div className="tarjetasAcomodo" key={ruta.id}>
+      <Grid item xs={12} md={4} xl={2} key={ruta.id}>
         <CardRutasUsuario
           index={index}
           ruta={ruta}
         />
-      </div>
+      </Grid>
     ))
   }
 
@@ -144,9 +145,10 @@ export default function RutasUsuario() {
         </Form.Select>
 
         <Container>
-          {renderRutas()}
+          <Grid container spacing={2} sx={{ p: 1}}>
+            {renderRutas()}
+          </Grid>
         </Container>
-
       </main>
     </>
   )
