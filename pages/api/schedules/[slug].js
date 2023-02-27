@@ -14,8 +14,10 @@ export default function handler(req, res) {
   const showRoute = async (req, res) => {
     try {
         // leer la categoria
-        const route = await db.Route.findOne({
-            where: {id: req.query.slug }
+        const route = await db.Schedules.findOne({
+            include: ['unit', 'route'],
+            where: {id: req.query.slug 
+            }
         }); 
 
         if(!route) {
