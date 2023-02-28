@@ -1,69 +1,43 @@
 import * as React from 'react';
-import Card from 'react-bootstrap/Card';
-import { BsFillStarFill } from "react-icons/bs"
-import { VscArrowSwap } from "react-icons/vsc"
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import { useRouter } from 'next/router';
 
-function CardRutasUsuario({index, ruta}) {
-    const [data, setData] = React.useState({...ruta});
+function CardRutasUsuario({ index, ruta }) {
+    const [data, setData] = React.useState({ ...ruta });
+    const router = useRouter()
 
     //console.log(ruta);
 
     return (
-        <Card style={{ width: '18rem', backgroundColor: '#003C8F' }} className="card-ruta">
-            <div className='card-rutas-image'>
-            <Card.Img variant="top" src={data.imageDestino} />
-            </div>
-            <Card.Body>
-                <Card.Title className='text-center text-light'>
-                    {data.origen} - {data.destino}
-                </Card.Title>
-
-                <div className='card-rutauser-information text-center'>
-                    <div className='card-rutauser-izqu'>
-                        <VscArrowSwap></VscArrowSwap>
-                    </div>
-                    <div className='card-rutauser-dere'>
-                        <BsFillStarFill/>
-                    </div>
-                </div>
-
-                <div className='card-rutauser-information'>
-                    <div className='card-rutauser-izqu'>
-                        <Card.Text>
-                            Anterior salida:
-                        </Card.Text>
-                    </div>
-                    <div className='card-rutauser-dere'>
-                        <Card.Text>
-                           {data.salidaAnterior}
-                        </Card.Text>
-                    </div>
-                </div>
-                <div className='card-rutauser-information'>
-                    <div className='card-rutauser-izqu'>
-                        <Card.Text>
-                            Próxima salida:
-                        </Card.Text>
-                    </div>
-                    <div className='card-rutauser-dere'>
-                        <Card.Text>
-                            {data.horaSalida}
-                        </Card.Text>
-                    </div>
-                </div>
-                <div className='card-rutauser-information'>
-                    <div className='card-rutauser-izqu'>
-                        <Card.Text>
-                            Unidad:
-                        </Card.Text>
-                    </div>
-                    <div className='card-rutauser-dere'>
-                        <Card.Text>
-                            {data.unidad}
-                        </Card.Text>
-                    </div>
-                </div>
-            </Card.Body>
+        <Card sx={{ maxWidth: 345 }} elevation={12} onClick={()=> router.push(`/rutas-usuario/${data.id}`)} >
+            <CardMedia
+                sx={{ height: 250 }}
+                image={data.route.imageDestino}
+                title={data.route.destino}
+            />
+            <CardContent >
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <Typography gutterBottom variant="h5" component="div" sx={{ display: 'flex', justifyContent: 'center',fontWeight: 'bold' }}>
+                            {data.route.origen} - {data.route.destino}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Typography gutterBottom variant="h5" component="div" >
+                            Hora Salida: {data.hora}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Typography gutterBottom variant="h5" component="div" >
+                            Unidad: {data.unit.numunidad}
+                        </Typography>
+                    </Grid>
+                </Grid>
+            </CardContent>
         </Card>
     );
 }

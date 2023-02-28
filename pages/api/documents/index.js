@@ -42,7 +42,7 @@ const uploadFile = async (req, res) => {
       });
     });
 
-    const serverFilesPath = "/Users/jesus/Downloads/Pruebas";
+    const serverFilesPath = "C:/Users/alexi/OneDrive/Escritorio/prueba";
     const filePath = "images"; // subcarpeta de donde se guardarÃ¡ el archivo
     const targetPath = path.join(serverFilesPath, filePath);  // destino final
 
@@ -92,7 +92,7 @@ const uploadFile = async (req, res) => {
     return res.status(400).json(
       {
         error: true,
-        message: `Ocurrió un error al procesa la peticiÃ³n: ${error.message}`
+        message: `Ocurrió un error al procesa la petición: ${error.message}`
       }
     )
   }

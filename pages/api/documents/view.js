@@ -14,7 +14,8 @@ import extToMimes from "@/database/config/extToMimes";
 const viewDocument = async (req, res) => {
     try {
         const fileName = req.query.file;
-        const serverFilesPath = "/Users/jesus/Downloads/Pruebas/";
+        console.log(fileName)
+        const serverFilesPath = "C:/Users/alexi/OneDrive/Escritorio/prueba/";
         const filePath = `${serverFilesPath}${fileName}`;
         console.log(filePath);
 
