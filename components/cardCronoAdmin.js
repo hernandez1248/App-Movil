@@ -24,18 +24,18 @@ function CardCronoAdmin({ crono, onDelete, recargar }) {
 
   const handleEdit = () => {
     setEdit(!edit);
-  }     
+  }
 
   const cancelSave = () => {
     setEdit(false);
   }
-  
+
   const id = data.id;
-  const { register, handleSubmit, formState: { errors }, setError} = useForm();
+  const { register, handleSubmit, formState: { errors }, setError } = useForm();
   const onSubmit = (data) => {
     console.log(data);
 
-    
+
     apiClient.put(`/schedules?id=${id}`, data)
       .then(response => {
         //console.log(response.data);
@@ -106,6 +106,7 @@ function CardCronoAdmin({ crono, onDelete, recargar }) {
         });
     }
   }, [rutaSelected]);
+
   //seleccionador para buscar por categoria
   const onSelectRuta = (e) => {
     setRutas(e.target.value);
@@ -124,6 +125,8 @@ function CardCronoAdmin({ crono, onDelete, recargar }) {
         });
     }
   }, [unitSelected]);
+
+  /*
   //seleccionador para buscar por categoria
   const onSelectUnit = (e) => {
     setUnit(e.target.value);
@@ -140,6 +143,7 @@ function CardCronoAdmin({ crono, onDelete, recargar }) {
   const cancelSave = () => {
     setEdit(false);
   }
+
 
   const id = data.id;
   const { register, handleSubmit, formState: { errors }, setError } = useForm();
@@ -238,51 +242,52 @@ function CardCronoAdmin({ crono, onDelete, recargar }) {
   const onSelectUnit = (e) => {
     setUnit(e.target.value);
   };
+  */
   return (
     <Card elevation={10} style={{ width: '100%', height: 'auto' }} className="cardCronograma cards">
       {!edit && (
         <>
-            <Typography 
-              gutterBottom 
-              variant="h4" 
-              textAlign="center" 
-              mt={2} 
-              fontWeight="bold"
-              component="div">
-              Unidad: {data.unitId}
-            </Typography>
-           
-            <div className="cardCronogramaInfo">
-              <div className="cardCronogramaDatosIzq">
-                  Chofer:
+          <Typography
+            gutterBottom
+            variant="h4"
+            textAlign="center"
+            mt={2}
+            fontWeight="bold"
+            component="div">
+            Unidad: {data.unit.numunidad}
+          </Typography>
 
-              </div>
-              <div className="cardCronogramaDatosDer">
-                  {data.unit.name || ""}
-              </div>
-            </div>
-            <div className="cardCronogramaInfo">
-              <div className="cardCronogramaDatosIzq">
-                  Salida:
-              </div>
-              <div className="cardCronogramaDatosDer">
-                  {data.hora}
-              </div>
-            </div>
-            <div className="cardCronogramaInfo">
-              <div className="cardCronogramaDatosIzq">
-                  Ruta:
+          <div className="cardCronogramaInfo">
+            <div className="cardCronogramaDatosIzq">
+              Chofer:
 
-              </div>
-              <div className="cardCronogramaDatosDer">
-                  {data.route.origen} - {data.route.destino}
-
-              </div>
             </div>
-            <div className="cardCronogramaBotones">
+            <div className="cardCronogramaDatosDer">
+              {data.unit.name || ""}
+            </div>
+          </div>
+          <div className="cardCronogramaInfo">
+            <div className="cardCronogramaDatosIzq">
+              Salida:
+            </div>
+            <div className="cardCronogramaDatosDer">
+              {data.hora}
+            </div>
+          </div>
+          <div className="cardCronogramaInfo">
+            <div className="cardCronogramaDatosIzq">
+              Ruta:
+
+            </div>
+            <div className="cardCronogramaDatosDer">
+              {data.route.origen} - {data.route.destino}
+
+            </div>
+          </div>
+          <div className="cardCronogramaBotones">
             <Button
               type="submit"
-              color='error' 
+              color='error'
               variant='contained'
               className="BtnCancelarCrono"
               onClick={handleDelete}
@@ -361,15 +366,15 @@ function CardCronoAdmin({ crono, onDelete, recargar }) {
                     required: "Este campo es obligatorio",
                   })}
                 />
-                  {!!errors.unitId && (
-                    <FormHelperText>{errors.unitId?.message || ""}</FormHelperText>
-                  )}
+                {!!errors.unitId && (
+                  <FormHelperText>{errors.unitId?.message || ""}</FormHelperText>
+                )}
               </Grid>
             </Grid>
             <div className="cardCronogramaBotones" >
-              <Button 
-                type="submit"  
-                color='error' 
+              <Button
+                type="submit"
+                color='error'
                 variant='contained'
                 className="BtnCancelarCrono"
                 onClick={cancelSave}
@@ -378,8 +383,8 @@ function CardCronoAdmin({ crono, onDelete, recargar }) {
               </Button>
               <Button t
                 type="submit"
-                color='success'  
-                variant="contained" 
+                color='success'
+                variant="contained"
                 className="BtnCancelarCrono"
               >
                 Guardar

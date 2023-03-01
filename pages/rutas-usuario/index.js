@@ -8,10 +8,15 @@ import apiClient from '@/apiClient';
 import Form from 'react-bootstrap/Form';
 import { InputBase, Paper } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import { Autoplay,EffectCoverflow,Pagination, Navigation } from 'swiper';
 
 
 export default function RutasUsuario() {
-
   const [rutas, setRutas] = useState([]);
   const [favoritos, setFavoritos] = useState([]);
   const [favoritosSelected, setFavoritosSelected] = useState([]);
@@ -36,15 +41,15 @@ export default function RutasUsuario() {
       });
   }, []);
 
- /*React.useEffect(() => {
-    apiClient.get(`/rutas?favoritoId=${favoritosSelected || null}`)
-      .then(response => {
-        setRutas(response.data || [])
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, [favoritosSelected]);*/
+  /*React.useEffect(() => {
+     apiClient.get(`/rutas?favoritoId=${favoritosSelected || null}`)
+       .then(response => {
+         setRutas(response.data || [])
+       })
+       .catch(error => {
+         console.log(error);
+       });
+   }, [favoritosSelected]);*/
 
   const onSelectFavorito = (e) => {
     setFavoritosSelected(e.target.value);
@@ -70,14 +75,51 @@ export default function RutasUsuario() {
   }
 
   const renderRutas = () => {
-    return rutas.map((ruta, index) => (
-      <Grid item xs={12} md={4} xl={2} key={ruta.id}>
-        <CardRutasUsuario
-          index={index}
-          ruta={ruta}
-        />
-      </Grid>
-    ))
+    return (
+      <Swiper
+        style={{padding:'100px'}}
+        effect={'coverflow'}
+        grabCursor={true}
+        centeredSlides={true}
+        loop={true}
+        //slidesPerView={1}
+        autoplay={{delay: 10000, disableOnInteraction: false}}
+        coverflowEffect={{
+          rotate: 0,
+          stretch: 0,
+          depth: 100,
+          modifier: 1,
+          slideShadows:true
+        }}
+        pagination={{ el: '.swiper-pagination', clickable: true }}
+        navigation={{
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+          clickable: true,
+        }}
+        modules={[Autoplay,EffectCoverflow, Pagination, Navigation]}
+        className="myswiper"
+      >
+        {rutas.map((ruta, index) => (
+          <SwiperSlide key={ruta.id} >
+            <CardRutasUsuario
+              index={index}
+              ruta={ruta}
+            />
+          </SwiperSlide>
+        ))}
+
+        <div className="slider-controler">
+          <div className="swiper-button-prev slider-arrow">
+            <ion-icon name="arrow-back-outline"></ion-icon>
+          </div>
+          <div className="swiper-button-next slider-arrow">
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+          </div>
+          <div className="swiper-pagination"></div>
+        </div>
+      </Swiper>
+    );
   }
 
   return (
@@ -97,8 +139,6 @@ export default function RutasUsuario() {
           rel="stylesheet"
           href="https://fonts.googleapis.com/icon?family=Material+Icons"
         />
-
-
       </Head>
       <main>
         <Navbar className="menu" fixed="top">
@@ -145,10 +185,20 @@ export default function RutasUsuario() {
         </Form.Select>
 
         <Container>
-          <Grid container spacing={2} sx={{ p: 1}}>
+          <Grid container spacing={2} sx={{ p: 1 }}>
             {renderRutas()}
           </Grid>
         </Container>
+
+        <script
+          type="module"
+          src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+        ></script>
+        <script
+          nomodule
+          src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+        ></script>
+        <script type="module" src="/src/main.jsx"></script>
       </main>
     </>
   )
