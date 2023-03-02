@@ -139,12 +139,18 @@ a {
 }
 
 .card-unidad{
-  margin: 15px
+  margin: 15px;
+  padding: 3px;
 }
 
 .card-unidad-chofer{
-  
+  margin-left: 32px;
   color:#003C8F;
+}
+
+.card-unidad-num{
+  margin-left: 32px;
+  color:#000;
 }
 
 .card-unidad-info{
@@ -537,18 +543,21 @@ a {
 .card-unidad-information{
   display: flex;
   justify-content: center;
+  margin-bottom: 10px;
 }
 
 .card-unidad-izqu{
   width: 100%;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: bold;
+  margin-left: 32px;
 }
 
 .card-unidad-dere{
   width: 100%;
-  font-size: 15px;
+  font-size: 14px;
   color: #003C8F;
+  margin-right: 12px;
 }
 #search-wrapper {
   -webkit-box-align: center;
