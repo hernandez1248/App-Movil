@@ -42,7 +42,7 @@ const uploadFile = async (req, res) => {
       });
     });
 
-    const serverFilesPath = "C:/Users/alexi/OneDrive/Escritorio/prueba";
+    const serverFilesPath = "/Users/jesus/Downloads/Pruebas";
     const filePath = "images"; // subcarpeta de donde se guardarÃ¡ el archivo
     const targetPath = path.join(serverFilesPath, filePath);  // destino final
 

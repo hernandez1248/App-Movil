@@ -15,7 +15,7 @@ const viewDocument = async (req, res) => {
     try {
         const fileName = req.query.file;
         console.log(fileName)
-        const serverFilesPath = "C:/Users/alexi/OneDrive/Escritorio/prueba/";
+        const serverFilesPath = "/Users/jesus/Downloads/Pruebas/";
         const filePath = `${serverFilesPath}${fileName}`;
         console.log(filePath);
 
