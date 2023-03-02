@@ -7,8 +7,9 @@ import { Button, CardActions } from '@mui/material';
 import { Grid, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { Container } from '@mui/system';
+import apiClient from '@/apiClient';
 
-export default function CardRutas({route, onDelete, onEdit, index}) {
+export default function CardRutas({route, onDelete, onEdit, index, key}) {
     const [routes] = React.useState({...route});
     const [original, setOriginal] = React.useState(false);
     const [edit, setEdit] = React.useState(false);
@@ -32,32 +33,7 @@ export default function CardRutas({route, onDelete, onEdit, index}) {
     const { register, handleSubmit, watch, formState: { errors }, setError } = useForm();
     const onSubmit = (data) => {
       // Enviar la informacion al backend
-      apiClient.put(`/routes?id=${id}`,data)
-      .then(response => {
-        console.log(response.data);
-        if(recargar){
-          recargar();
-        }
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          text: response.data.message,
-        })
-        setEdit(false);
-      })
-      .catch(error =>{
-        console.log(error);
-        alert(error.response.data.message)
-        if (error.response.data.errors) {
-            error.response.data.errors.forEach((errorItem) => {
-                setError(errorItem.field, {
-                    //error: true,
-                    type: "validation",
-                    message: errorItem.error
-                });
-            })
-        }
-      })
+      onEdit(routes.id, data, index)
     };
  
   return (
