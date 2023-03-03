@@ -35,7 +35,7 @@
     "sequelize": "^6.28.0",
     "styled-components": "^5.3.6",
     "sweetalert2": "^11.4.8",
-    "swiper": "^9.0.5"
+    "swiper": "^9.1.0"
   },
   "devDependencies": {
     "react-icons": "^4.7.1",

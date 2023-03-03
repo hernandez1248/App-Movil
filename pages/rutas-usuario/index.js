@@ -77,7 +77,7 @@ export default function RutasUsuario() {
   const renderRutas = () => {
     return (
       <Swiper
-        style={{padding:'100px'}}
+        style={{padding:'30px'}}
         effect={'coverflow'}
         grabCursor={true}
         centeredSlides={true}
