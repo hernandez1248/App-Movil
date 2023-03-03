@@ -59,8 +59,8 @@ export default function RutasAdmin() {
   }
 
 
-  const editRoute = (info, index) => {
-    apiClient.put(`routes?id=${info.id}`, info)
+  const editRoute = (id,info, index) => {
+    apiClient.put(`routes?id=${id}`, info)
       .then(response => {
         Swal.fire({
           position: 'center',
