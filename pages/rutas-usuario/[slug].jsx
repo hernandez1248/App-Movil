@@ -13,14 +13,17 @@ export default function RutasUsuario() {
   const router = useRouter()
   const [data, setData] = useState(undefined)
   React.useEffect(() => {
-    apiClient.get(`/schedules/${router.query?.slug}`)
-    .then((response) =>{
-      console.log(response.data);
-      setData(response.data)
-    }).catch((error) =>{
-      console.log(error);
-    })
-  }, [])
+    if (router.query?.slug) {
+      apiClient.get(`/schedules/${router.query.slug}`)
+        .then((response) => {
+          console.log(response.data);
+          setData(response.data)
+        }).catch((error) => {
+          console.log(error);
+        })
+    }
+
+  }, [router])
   return (
     <>
       <Head>
@@ -31,24 +34,30 @@ export default function RutasUsuario() {
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
       </Head>
       <main>
-      <Navbar className="menu">
+        <Navbar className="menu">
+          <Container>
+            <Navbar.Brand id="unidadesTitle" href='/rutas-usuario'>
+              {data?.route.origen} - {data?.route.destino}
+            </Navbar.Brand>
+          </Container>
+        </Navbar>
         <Container>
-          <Navbar.Brand id="unidadesTitle" href='/rutas-usuario'>
-            {data?.route.origen} - {data?.route.destino}
-          </Navbar.Brand>
+          <Typography variant="h5">
+            Visita estos lugares en {data?.route.destino}
+          </Typography>
+          <Grid container>
+
+            {data && data?.gallery && (
+              <Grid item xs={12}>
+                <Gallery
+                  basePath="http://localhost:3000/api/documents/view?file="
+                  gallery={data.gallery}
+                />
+              </Grid>
+            )}
+          </Grid>
+
         </Container>
-      </Navbar>
-      <Container>
-        <Typography variant="h5">
-          Visita estos lugares en {data?.route.destino}
-        </Typography>
-        {data && data?.gallery && (
-          <Gallery
-            basePath="http://localhost:3000/api/documents/view?file="
-            gallery={data.gallery}
-          />
-        )}
-      </Container>
       </main>
     </>
   )
