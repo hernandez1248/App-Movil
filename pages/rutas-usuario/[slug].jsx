@@ -12,15 +12,20 @@ import Gallery from '@/components/gallery';
 export default function RutasUsuario() {
   const router = useRouter()
   const [data, setData] = useState(undefined)
+
   React.useEffect(() => {
-    apiClient.get(`/schedules/${router.query?.slug}`)
-    .then((response) =>{
-      console.log(response.data);
-      setData(response.data)
-    }).catch((error) =>{
-      console.log(error);
-    })
-  }, [])
+    if(router.query.slug){
+      apiClient.get(`/schedules/${router.query?.slug}`)
+      .then((response) =>{
+        console.log(response.data);
+        setData(response.data)
+      }).catch((error) =>{
+        console.log(error);
+      })
+    }
+  }, [router])
+
+  
   return (
     <>
       <Head>
