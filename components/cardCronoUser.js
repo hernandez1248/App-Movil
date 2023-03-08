@@ -1,42 +1,40 @@
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+import * as React from 'react';
+import { Card, Typography } from '@mui/material';
 
 
-function CardCronoUser(index, schedule, onDelete, onEdit, route) {
-    const [data, setData] = React.useState({ ...schedule });
-    return (
-        <>
-            <Card border="primary" className="cardCronograma cards">
-                <Card.Header className="d-flex justify-content-center"><Card.Title className="cardCronogramaUnidad">UNIDAD 1</Card.Title></Card.Header>
-                <Card.Body>
-                    <div className="cardCronogramaInfo">
-                        <div className="cardCronogramaDatosIzq">
-                            <Card.Text>
-                                Hora:
-                            </Card.Text>
-                        </div>
-                        <div className="cardCronogramaDatosDer">
-                            <Card.Text>
-                                {data.hora}
-                            </Card.Text>
-                        </div>
-                    </div>
-                    <div className="cardCronogramaInfo">
-                        <div className="cardCronogramaDatosIzq">
-                            <Card.Text>
-                                Placas:
-                            </Card.Text>
-                        </div>
-                        <div className="cardCronogramaDatosDer">
-                            <Card.Text>
-                                UTI-300
-                            </Card.Text>
-                        </div>
-                    </div>
-                </Card.Body>
-            </Card>
-        </>
-    );
+function CardCronoUser({ crono}) {
+  const [data, setData] = React.useState({ ...crono });
+  
+  return (
+    <Card elevation={10} style={{ width: '100%', height: 'auto' }} className="cardCronograma cards">
+          <Typography
+            gutterBottom
+            variant="h5"
+            textAlign="center"
+            mt={2}
+            fontWeight="bold"
+            component="div">
+            Unidad: {data.unit.numunidad || ""}
+          </Typography>
+
+          <div className="cardCronogramaInfo">
+            <div className="cardCronogramaDatosIzq">
+              Salida:
+            </div>
+            <div className="cardCronogramaDatosDer">
+              {data.hora}
+            </div>
+          </div>
+          <div className="cardCronogramaInfo" style={{marginBottom: '20px'}}>
+            <div className="cardCronogramaDatosIzq">
+              Chofer:
+            </div>
+            <div className="cardCronogramaDatosDer">
+              {data.unit.name || ""}
+            </div>
+          </div>
+    </Card>
+  );
 }
 
 export default CardCronoUser;

@@ -6,11 +6,38 @@ import BackButton from '@/components/backButton';
 import MenuCrono from '@/components/menuCrono';
 import React, { useState } from 'react';
 import apiClient from '@/apiClient';
-
-
-
+import CardCronoUser from '@/components/cardCronoUser';
+import { Grid } from '@mui/material';
+import { useEffect } from 'react';
 
 export default function CronogramaUser() {
+  const [schedules, setCronograma] = useState([]);
+
+  useEffect(() => {
+    // ir por los productos desde el backend
+    refresh();
+  }, []);
+
+  const refresh = () => {
+    apiClient.get('/schedules')
+      .then(response => {
+        setCronograma(response.data || []);
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  }
+
+  const renderCronograma = () => {
+    return schedules.map((crono) => (
+      <Grid item xs={12} lg={4} xl={2} mt={4} key={crono.id}>
+        <CardCronoUser
+          crono={crono}
+          recargar={refresh}
+        />
+      </Grid>
+    ))
+  };
   
   return (
     <>
@@ -34,9 +61,14 @@ export default function CronogramaUser() {
       </Navbar>
       <Container className="formularioCrono">
         <MenuCrono></MenuCrono>
+        <Grid container spacing={2} mt={-4} mb={20}>
+            {renderCronograma()}
+        </Grid>
+  
       </Container>  
       <Container className="tarjetasAcomodo">
-        
+
+      
       </Container>
       </main>
       

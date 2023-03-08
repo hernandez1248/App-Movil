@@ -42,7 +42,7 @@ const uploadFile = async (req, res) => {
       });
     });
 
-    const serverFilesPath = "C:/Users/alexi/OneDrive/Escritorio/prueba";
+    const serverFilesPath = "/Users/jesus/Downloads/Pruebas";
     const filePath = "images"; // subcarpeta de donde se guardarÃ¡ el archivo
     const targetPath = path.join(serverFilesPath, filePath);  // destino final
 
@@ -66,16 +66,6 @@ const uploadFile = async (req, res) => {
       const originalFilename = file[1].originalFilename;
       const extension = originalFilename.substring(originalFilename.lastIndexOf('.'));
 
-      // validate allowed file
-      /*
-      if (!allowedFiles.includes((file[1].mimetype).toLowerCase())) {
-        return res.status(400).json({ 
-          success: false,
-          message: 'Formato de archivo no vÃ¡lido.',
-        });
-      }
-      */
-
        // define file name from timestamp
        const fileName = `${Date.now()}${extension}`;
        // ruta final del archivo destino
@@ -85,20 +75,13 @@ const uploadFile = async (req, res) => {
        // mover el archivo de carpeta temporal a la carpeta correspondiente de destino
        await fs.rename(tempPath, fullFilePath);
  
-       // guardar la informaciÃ³n del archivo en la base de datos
+       // guardar la información del archivo en la base de datos
        
        // file was moved and has valid data, save on document
        documentData.name = fileName;
        documentData.docType = fileName.substring(fileName.lastIndexOf('.') + 1); // don't include dot
        documentData.path = finalFilePath; //fullFilePath.replace(process.env.DOCS_PATH as string, '');
        
-       /*
-       // si se maneja sesiÃ³n, se podrÃ­a asociar el archivo al usuario que lo subiÃ³
-       if (!documentData.creatorId && session?.user?.id) {
-         documentData.creatorId = session.user.id;
-       } */
-       
- 
        const document = await db.Document.create(documentData);
        
     }

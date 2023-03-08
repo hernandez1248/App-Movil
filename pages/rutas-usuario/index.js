@@ -85,6 +85,7 @@ export default function RutasUsuario() {
   const renderRutas = () => {
     return (
       <Swiper
+
         style={{ padding: '30px', paddingTop: '100px' }}
         effect={'coverflow'}
         spaceBetween={30}
