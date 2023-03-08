@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 function MenuCrono() {
     return (
         <>
-            <div className="cardCronogramaInfo">
+{/*             <div className="cardCronogramaInfo">
 
                 <BsFillStarFill className="star-icon"></BsFillStarFill>
 
@@ -13,7 +13,7 @@ function MenuCrono() {
                 <VscArrowSwap className="return-icon"></VscArrowSwap>
 
                 <Button variant="outline-secondary">Invertir ruta</Button>
-            </div><br></br>
+            </div><br></br> */}
             <div>
                 <h2 className="text-center">Próxima Salida</h2>
             </div>

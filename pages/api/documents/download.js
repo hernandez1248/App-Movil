@@ -1,4 +1,3 @@
-import db from "@/database/models";
 import fs from "fs";
 import extToMimes from "@/database/config/extToMimes";
 
@@ -8,7 +7,7 @@ import extToMimes from "@/database/config/extToMimes";
         return downloadDocument(req, res);
   
       default:
-        res.status(400).json({error: true, message: 'Petición errÃ³nea'});
+        res.status(400).json({error: true, message: 'Petición errónea'});
     }
   }
 
@@ -44,3 +43,4 @@ const downloadDocument = async (req, res) => {
         )
     }
 }
+

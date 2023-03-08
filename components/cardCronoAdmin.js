@@ -1,4 +1,4 @@
-import * as React from 'react';;
+import * as React from 'react';
 import Form from 'react-bootstrap/Form';
 import { useEffect, useState } from 'react';
 import { Card, Button, Container, Grid, Typography } from '@mui/material';
@@ -125,124 +125,11 @@ function CardCronoAdmin({ crono, onDelete, recargar }) {
         });
     }
   }, [unitSelected]);
-
-  /*
-  //seleccionador para buscar por categoria
-  const onSelectUnit = (e) => {
+   //seleccionador para buscar por categoria
+   const onSelectUnit = (e) => {
     setUnit(e.target.value);
   };
 
-  const handleDelete = () => {
-    onDelete(data.id);
-  }
-
-  const handleEdit = () => {
-    setEdit(!edit);
-  }
-
-  const cancelSave = () => {
-    setEdit(false);
-  }
-
-
-  const id = data.id;
-  const { register, handleSubmit, formState: { errors }, setError } = useForm();
-  const onSubmit = (data) => {
-    //console.log(data);
-
-    apiClient.put(`/schedules?id=${id}`, data)
-      .then(response => {
-        //console.log(response.data);
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          text: response.data.message,
-          showConfirmButton: false,
-          timer: 3000
-        })
-        if(onSave){
-          onSave()
-        }
-        setEdit(false);
-      })
-      .catch(error => {
-        console.log(error);
-        alert(error.response.data.message)
-
-        if (error.response.data.errors) {
-          error.response.data.errors.forEach((errorItem) => {
-            setError(errorItem.field, {
-              //error: true,
-              type: "validation",
-              message: errorItem.error
-            });
-          })
-        }
-      })
-  };
-
-
-
-  useEffect(() => {
-    //ir por las routes desde el backend
-    apiClient
-      .get("/routes")
-      .then((response) => {
-        setRutas(response.data || []);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
-  useEffect(() => {
-    //ir por las routes desde el backend
-    apiClient
-      .get("/unidades")
-      .then((response) => {
-        setUnits(response.data || []);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
-  //devuelve los datos desde el backend
-  useEffect(() => {
-    //ir por las routes desde el backend
-    if (rutaSelected) {
-      apiClient.get(`/unidades?rutaId=${rutaSelected || null}`)
-        .then((response) => {
-          setUnits(response.data || []);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  }, [rutaSelected]);
-  //seleccionador para buscar por categoria
-  const onSelectRuta = (e) => {
-    setRuta(e.target.value);
-  };
-
-
-  useEffect(() => {
-    //ir por las routes desde el backend
-    if (unitSelected) {
-      apiClient.get(`/unidades?rutaId=${unitSelected || null}`)
-        .then((response) => {
-          setUnidades(response.data || []);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  }, [unitSelected]);
-  //seleccionador para buscar por categoria
-  const onSelectUnit = (e) => {
-    setUnit(e.target.value);
-  };
-  */
   return (
     <Card elevation={10} style={{ width: '100%', height: 'auto' }} className="cardCronograma cards">
       {!edit && (
