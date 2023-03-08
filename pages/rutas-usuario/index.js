@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import CardRutasUsuario from '@/components/cardRutasUser';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import apiClient from '@/apiClient';
 import Form from 'react-bootstrap/Form';
 import { InputBase, Paper } from '@mui/material';
@@ -13,13 +13,21 @@ import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { Autoplay,EffectCoverflow,Pagination, Navigation } from 'swiper';
+import { Autoplay, EffectCoverflow, Pagination, Navigation } from 'swiper';
 
 
 export default function RutasUsuario() {
   const [rutas, setRutas] = useState([]);
   const [favoritos, setFavoritos] = useState([]);
   const [favoritosSelected, setFavoritosSelected] = useState([]);
+
+  //Slider
+  const progressCircle = useRef(null);
+  const progressContent = useRef(null);
+  const onAutoplayTimeLeft = (s, time, progress) => {
+    progressCircle.current.style.setProperty('--progress', 1 - progress);
+    progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
+  };
 
   const [search, setSearch] = useState('');//capturar formulario de búsqueda
 
@@ -77,27 +85,25 @@ export default function RutasUsuario() {
   const renderRutas = () => {
     return (
       <Swiper
-        style={{padding:'30px'}}
+
+        style={{ padding: '30px', paddingTop: '100px' }}
         effect={'coverflow'}
-        grabCursor={true}
+        spaceBetween={30}
         centeredSlides={true}
         loop={true}
-        //slidesPerView={1}
-        autoplay={{delay: 10000, disableOnInteraction: false}}
+        slidesPerView={1}
+        autoplay={{ delay: 10000, disableOnInteraction: false }}
         coverflowEffect={{
-          rotate: 0,
+          rotate: 50,
           stretch: 0,
           depth: 100,
           modifier: 1,
-          slideShadows:true
+          slideShadows: true
         }}
-        pagination={{ el: '.swiper-pagination', clickable: true }}
-        navigation={{
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-          clickable: true,
-        }}
-        modules={[Autoplay,EffectCoverflow, Pagination, Navigation]}
+        pagination={{ clickable: true }}
+        navigation={true}
+        modules={[Autoplay, EffectCoverflow, Pagination, Navigation]}
+        onAutoplayTimeLeft={onAutoplayTimeLeft}
         className="myswiper"
       >
         {rutas.map((ruta, index) => (
@@ -109,14 +115,13 @@ export default function RutasUsuario() {
           </SwiperSlide>
         ))}
 
-        <div className="slider-controler">
-          <div className="swiper-button-prev slider-arrow">
-            <ion-icon name="arrow-back-outline"></ion-icon>
+        <div className="time-circle">
+          <div className="autoplay-progress" slot="container-end">
+            <svg viewBox="0 0 48 48" ref={progressCircle}>
+              <circle cx="24" cy="24" r="20"></circle>
+            </svg>
+            <span ref={progressContent}></span>
           </div>
-          <div className="swiper-button-next slider-arrow">
-            <ion-icon name="arrow-forward-outline"></ion-icon>
-          </div>
-          <div className="swiper-pagination"></div>
         </div>
       </Swiper>
     );
