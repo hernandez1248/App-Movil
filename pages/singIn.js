@@ -3,14 +3,15 @@ import Form from 'react-bootstrap/Form';
 import Head from 'next/head';
 import Link from 'next/link';
 import { BusFront, EyeSlashFill} from 'react-bootstrap-icons';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 function SingIn() {
 
-  /* const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const { register, watch, formState: { errors } } = useForm();
   const onSubmit = (data) => {
     console.log(data);
-  } */
+  } 
 
   const [validated, setValidated] = useState(false);
 
