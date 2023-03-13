@@ -1,4 +1,6 @@
 import db from "database/models/"
+import bcrypt from 'bcrypt';
+import user from "@/database/models/user";
 
 export default function handler(req, res) {
     switch (req.method) {
@@ -35,11 +37,26 @@ const usuariosList = async (req, res) => {
 //POST: /unidades
 const addUsuarios = async (req, res) => {
     try {
-        //los datos que vienen en el req.body
-        //console.log(req.body);
+        //validar que venga la contraseña
+        if(!req.body.password){
+            return res.status(400).json({message: 'La contraseña es obligatoria'});
+        }
+
+        //datos del usuario
+        const datosUsuario = {...req.body}
+
+        //asegurar la contraseña
+        //usar bcrypt
+        //salt: generación de una cadena aleatoria deN longitud
+        const salt = await bcrypt.genSalt(10);
+
+        //cifrar la contraseña y meterla en los datos del usuario
+        datosUsuario.password = await bcrypt.hash(datosUsuario.password, salt);
 
         //guardar los datos del cliente
-        const usuarios = await db.Usuarios.create({ ...req.body });
+        const usuarios = await db.Usuarios.create(datosUsuario);
+
+        usuarios.password = null; //evitar enviarlo en la respuesta
 
         res.json({
             usuarios,
@@ -69,57 +86,6 @@ const addUsuarios = async (req, res) => {
     }
 }
 
-// GET: /usuarios
-
-/*const usuariosList = async (req, res) => {
-    try {
-        const unid = await db.Usuarios.findAll({});
-
-        return res.json(unid);
-    } catch (error) {
-        return res.status(400).json(
-            {
-                error: true,
-                message: `Ocurrió un error al procesar la petición: ${error.message}`
-            }
-        )
-    }
-}*/
-
-/*const usuariosList = async (req, res) => {
-
-    try {
-
-        //leer la ruta a mostrar
-        const { rutaId } = req.query;
-
-        //Leer los productos
-        let usuarios = [];
-
-        if (rutaId) {
-            unidads = await db.Usuarios.findAll({
-                where: {
-                    rutaId,
-                },
-                include: ['ruta'],
-            });
-        } else {
-            unidads = await db.Usuarios.findAll({
-                include: ['ruta'],
-            });
-        }
-
-        return res.json(unidads)
-
-    } catch (error) {
-        return res.status(400).json(
-            {
-                error: true,
-                message: `Ocurrio un error al procesar la petición ${error.message}`
-            }
-        )
-    }
-}*/
 
 //PUT: /usuarios
 const editUsuarios = async (req, res) => {
