@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Usuarios.init({
     name: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(64),
       allowNull: false,
       validate: {
         notNull: {
@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     password: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(255),
       allowNull: false,
       validate: {
         notNull: {
@@ -39,25 +39,9 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'La contraseña debe contener minimo 8 caracteres',
         }
       },
-      /*set(val) {
-        //Encriptar el valor de la password antes de guardarlo en la BD
-        const secret = process.env.ENCRYPTION_KEY;//usar una clave segura de entorno
-        const cipher = crypto.createCipher('aes192', secret);
-        let encrypted = cipher.update(val, 'urf8', 'hex');
-        encrypted += cipher.final('hex');
-        this.setDataValue('password', encrypted);
-      },
-      get() {
-        //Devolver el valor desincriptado al leerlo de la base de datos
-        const secret = process.env.ENCRYPTION_KEY;//usar la misma clave de entorno
-        const decipher = crypto.createCipher('aes192', secret);
-        let decrypted = decipher.update(this.getDataValue('password'), 'hex', 'utf8');
-        decrypted += decipher.final('utf8');
-        return decrypted;
-      }*/
     },
     email: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(128),
       allowNull: false,
       unique: true,
       validate: {
@@ -69,22 +53,6 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    /*set(val) {
-      //Encriptar el valor de la password antes de guardarlo en la BD
-      const secret = process.env.ENCRYPTION_KEY;//usar una clave segura de entorno
-      const cipher = crypto.createCipher('aes192', secret);
-      let encrypted = cipher.update(val, 'urf8', 'hex');
-      encrypted += cipher.final('hex');
-      this.setDataValue('email', encrypted);
-    },
-    get() {
-      //Devolver el valor desincriptado al leerlo de la base de datos
-      const secret = process.env.ENCRYPTION_KEY;//usar la misma clave de entorno
-      const decipher = crypto.createCipher('aes192', secret);
-      let decrypted = decipher.update(this.getDataValue('email'), 'hex', 'utf8');
-      decrypted += decipher.final('utf8');
-      return decrypted;
-    }*/
   }, {
     sequelize,
     modelName: 'Usuarios',
