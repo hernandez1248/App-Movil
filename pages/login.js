@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Container, FormControl, Grid, Input, InputLabel, Paper, TextField, Typography } from "@mui/material";
+import { Button, Container, Chip, Alert,Grid, Input, InputLabel, Paper, TextField, Typography } from "@mui/material";
 import { fontSize, margin, maxWidth } from "@mui/system";
 import Box from '@mui/material/Box';
 import Head from "next/head";
@@ -11,16 +11,7 @@ import { getProviders, getSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import InputAdornment from '@mui/material/InputAdornment';
-
-import IconButton from '@mui/material/IconButton';
-import FilledInput from '@mui/material/FilledInput';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import FormHelperText from '@mui/material/FormHelperText';
-
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { ErrorOutline } from '@mui/icons-material';
 
     const  Login = () => {
     const [showPwd, setShowPwd] = useState(false)
@@ -40,11 +31,11 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
       }
     }, []);
   
-    const onLoginUser = async( { username, password }) => {
+    const onLoginUser = async( { email, password }) => {
   
       setShowError(false);
   
-      await signIn('credentials',{ username, password });
+      await signIn('credentials',{ email, password });
     }
 
     return (
@@ -56,20 +47,31 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
             <link rel="icon" href="/favicon.ico" />
           </Head>
 
-          <Paper>
             <Container>
-            <Box component="form" onSubmit={ handleSubmit(onLoginUser) } noValidate>
-                <div style={{display: 'flex', justifyContent: 'center'}}>
+              <div style={{display: 'flex', justifyContent: 'center'}}>
                     <div style={{marginTop: "60px", height: "130px", width: "130px", borderRadius: '50%', backgroundColor: '#1976d2'}}>
                         <DirectionsBusIcon style={{fontSize: '100px', color: 'white', fontWeight: 'bold', marginTop: '18px', marginLeft: '16px'}}>
                         </DirectionsBusIcon>
                     </div>
                 </div>
+                <Grid item xs={12} md={8} >
+                  <Typography variant="h4"mt={6} sx={{textAlign: 'center', fontWeight: "bold", }}>
+                      ¡Bienvenido!
+                  </Typography>
+                </Grid>
+            <Box component="form" onSubmit={ handleSubmit(onLoginUser) } noValidate>
                 <Grid container spacing={4} sx={{display: 'flex', justifyContent: 'center', marginBottom: 4}}>
-                    <Grid item xs={12} md={8} >
-                      <Typography variant="h4"mt={6} sx={{textAlign: 'center', fontWeight: "bold", }}>
-                          ¡Bienvenido!
-                      </Typography>
+                    <Grid item xs={12} md={8} sx={{ my: 3}}>
+                        <Chip 
+                            label="La credencial ingresada es incorrecta."
+                            color="error"
+                            icon={ <ErrorOutline /> }
+                            className="fadeIn"
+                            sx={{ display: showError ? 'flex': 'none' }}
+                        />
+                        {(query.error && query.error !== 'CredentialsSignin')&& (
+                          <Alert severity="error">{query.error}</Alert>
+                        )}
                       <Typography color="primary" variant="h5" mt={6}  sx={{fontWeight: "bold"}}>
                           Correo electrónico
                       </Typography>
@@ -125,8 +127,6 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
             </Box>
                
             </Container>
-          </Paper>
-
         </>
     );
 };
@@ -135,7 +135,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 export const getServerSideProps = async ({ req, query }) => {
     const session = await getSession({ req });
   
-    const { p = 'rutas-usuario' } = query;
+    const { p = 'rutas-admin' } = query;
   
     if ( session ) {
       return {

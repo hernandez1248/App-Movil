@@ -1,4 +1,4 @@
-import db from "database/models/"
+import db from "database/models/index"
 import bcrypt from 'bcrypt';
 import user from "@/database/models/user";
 

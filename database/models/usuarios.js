@@ -1,4 +1,5 @@
 'use strict';
+import bcrypt from "bcrypt"
 const {
   Model
 } = require('sequelize');
@@ -27,19 +28,6 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
     },
-    password: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: 'Este campo es obligatorio',
-        },
-        len: {
-          args: [8, 255],
-          msg: 'La contraseña debe contener minimo 8 caracteres',
-        }
-      },
-    },
     email: {
       type: DataTypes.STRING(128),
       allowNull: false,
@@ -52,6 +40,19 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Debe ingresar un email valido',
         }
       }
+    },
+    password: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Este campo es obligatorio',
+        },
+        len: {
+          args: [8, 255],
+          msg: 'La contraseña debe contener minimo 8 caracteres',
+        }
+      },
     },
   }, {
     sequelize,

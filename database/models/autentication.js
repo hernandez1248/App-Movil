@@ -1,8 +1,8 @@
 import db from "./index"
 
-export const checkUserEmailPassword = async(name, password) => {
-
-    const user = await db.Usuarios.findOne({ where: {username, active: true} });
+export const checkUserEmailPassword = async( _email, password) => {
+    
+    const user = await db.Usuarios.findOne({ where: {email: _email} });
 
     if (!user) {
         return null;
@@ -15,12 +15,14 @@ export const checkUserEmailPassword = async(name, password) => {
     const {
         id,
         name,
+        username,
         email,
-    } = user
+    } = user;
 
     return {
         id,
         name,
+        username,
         email,
     }
 }
