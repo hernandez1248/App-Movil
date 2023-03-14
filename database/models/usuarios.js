@@ -57,5 +57,10 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Usuarios',
   });
+
+  Usuarios.prototype.isValidPassword = function(password) {
+    return bcrypt.compareSync(password, this.password);
+  }
+
   return Usuarios;
 };

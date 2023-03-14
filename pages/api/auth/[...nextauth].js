@@ -23,7 +23,8 @@ export const authOptions = {
       async authorize(credentials, req) {
         // Add logic here to look up the user from the credentials supplied
         // se puede implementar una función que valide la credencial y devolver el usuario
-        const user = { id: "1", name: "J Smith", email: "jsmith@example.com" }
+        //const user = { id: "1", name: "J Smith", email: "jsmith@example.com" }
+        const user = await checkUserEmailPassword(credentials.name, credentials.password)
         if (user) {
           // Any object returned will be saved in `user` property of the JWT
           return user;
