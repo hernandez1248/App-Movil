@@ -9,6 +9,8 @@ import AddButtonUnidad from '@/components/addButtonUnidad';
 import { useState } from 'react';
 import apiClient from '@/apiClient';
 import Swal from 'sweetalert2';
+import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 
 export default function UnidadesAdmin() {
   const [unidad, setUnidades] = useState([]);
@@ -70,6 +72,36 @@ export default function UnidadesAdmin() {
       </div>
     ))
   };
+
+  const router = useRouter()
+  const { data: session, status } = useSession();
+  console.log("Sesión",session);
+  // If no session exists, display access denied message
+  if (!session) {
+    return (
+      <>
+        <Head>
+          <title>Acerca de</title>
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous"/>
+        </Head>
+        <main>
+        <Navbar className="menu" fixed="top">
+          <Container>
+            <Navbar.Brand id="unidadesTitle">
+              SIRTA
+            </Navbar.Brand>
+          </Container>
+        </Navbar>
+        <div style={{marginTop: "50%", textAlign: "center"}}>
+          <h1>Acceso denegado</h1>
+          <p>Debes ser un usuario administrador de rutas para poder ingresar.</p>
+          <a href="/rutas-usuario"><p>Regresa al inicio</p></a>
+          <p style={{fontSize:12}}>Equipo de Trabajo SIRTA</p>
+        </div>
+        </main>
+      </>
+    )
+  }
 
   return (
     <>
