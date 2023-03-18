@@ -1,10 +1,13 @@
-import Button from 'react-bootstrap/Button';
+import * as React from 'react';
+import { Button, Container,Grid, TextField, Typography } from "@mui/material";
+import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
+import Box from '@mui/material/Box';
 import Form from 'react-bootstrap/Form';
 import Head from 'next/head';
 import Link from 'next/link';
 import { BusFront,} from 'react-bootstrap-icons';
 
-function SingIn() {
+function Restore() {
   return (
     <>
         <Head>
@@ -14,39 +17,56 @@ function SingIn() {
             <link rel="icon" href="/favicon.ico" />
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous"/>
         </Head>
-      <main> 
-        <Form className="">
-            <div className='circulo'>
-                <div className='autobus'>
-                    <BusFront className="icon"></BusFront>
+
+        <Container>
+              <div style={{display: 'flex', justifyContent: 'center'}}>
+                    <div style={{marginTop: "60px", height: "130px", width: "130px", borderRadius: '50%', backgroundColor: '#1976d2'}}>
+                        <DirectionsBusIcon style={{fontSize: '100px', color: 'white', fontWeight: 'bold', marginTop: '18px', marginLeft: '16px'}}>
+                        </DirectionsBusIcon>
+                    </div>
                 </div>
-            </div>
-           
-          <div>
-            <h1 className='title'> ¡Bienvenido!</h1>
-          </div>
-          <p className='leyend'>Ingresa tu correo electrónico para obtener un enlace de recuperación</p>
+                <Grid item xs={12} md={8} >
+                  <Typography variant="h4"mt={6} sx={{textAlign: 'center', fontWeight: "bold", }}>
+                    ¡Bienvenido!
+                  </Typography>
+                  <Typography className='leyend' variant="h6"mt={6} sx={{textAlign: 'center' }}>
+                    Ingresa tu correo electrónico para obtener un enlace de recuperación
+                  </Typography>
+                </Grid>
 
-        <Form.Group className='mb-3' controlId="formBasicEmail">
-          <Form.Label className="formGroup-email">Correo electronico</Form.Label>
-          <Form.Control className='email' type="email" placeholder="" />
-        </Form.Group>
-    
-        <div className="d-flex justify-content-center">
-          <Button type="submit" className='boton'>
-            Recuperar
-          </Button>
-        </div>
-        
-        <p className="linkRestore">
-            ¿Recuerdas tu contraseña? <Link href="singIn" className='link2'>Inicia sesión aquí</Link>
-        </p>
-
-        </Form>
-      </main>
-        
+                <Box component="form">
+                    <Grid container spacing={4} sx={{display: 'flex', justifyContent: 'center', marginBottom: 4, marginTop: -10}}>
+                        <Grid item xs={12} md={8} sx={{ my: 3}}>
+                          <Typography color="primary" variant="h5" mt={6}  sx={{fontWeight: "bold"}}>
+                              Correo electrónico
+                          </Typography>
+                          <TextField
+                            variant="standard"
+                            id="input-with-icon-textfield"
+                            fullWidth
+                            required
+                            autoFocus
+                          />
+                          
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Button 
+                        fullWidth 
+                        sx={{fontSize: "20px"}} 
+                        type="submit" 
+                        variant="contained"
+                        >
+                          Enviar enlace
+                      </Button>
+                        <Typography className="linkRestore" variant="h6" mt={4} sx={{textAlign: 'center', fontWeight: "bold"}}>
+                          ¿Recuerdas tu contraseña? <Link style={{textDecoration: 'underline', color: '#1976d2'}} href="login">Inicia sesión aquí</Link>
+                        </Typography>
+                    </Grid>
+                </Box>
+        </Container> 
     </>
   );
 }
 
-export default SingIn;
+export default Restore;

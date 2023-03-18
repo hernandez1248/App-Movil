@@ -59,72 +59,72 @@ import { ErrorOutline } from '@mui/icons-material';
                       ¡Bienvenido!
                   </Typography>
                 </Grid>
-            <Box component="form" onSubmit={ handleSubmit(onLoginUser) } noValidate>
-                <Grid container spacing={4} sx={{display: 'flex', justifyContent: 'center', marginBottom: 4}}>
-                    <Grid item xs={12} md={8} sx={{ my: 3}}>
-                        <Chip 
-                            label="La credencial ingresada es incorrecta."
-                            color="error"
-                            icon={ <ErrorOutline /> }
-                            className="fadeIn"
-                            sx={{ display: showError ? 'flex': 'none' }}
+                <Box component="form" onSubmit={ handleSubmit(onLoginUser) } noValidate>
+                    <Grid container spacing={4} sx={{display: 'flex', justifyContent: 'center', marginBottom: 4}}>
+                        <Grid item xs={12} md={8} sx={{ my: 3}}>
+                            <Chip 
+                                label="La credencial ingresada es incorrecta."
+                                color="error"
+                                icon={ <ErrorOutline /> }
+                                className="fadeIn"
+                                sx={{ display: showError ? 'flex': 'none' }}
+                            />
+                            {(query.error && query.error !== 'CredentialsSignin')&& (
+                              <Alert severity="error">{query.error}</Alert>
+                            )}
+                          <Typography color="primary" variant="h5" mt={6}  sx={{fontWeight: "bold"}}>
+                              Correo electrónico
+                          </Typography>
+                          <TextField
+                            variant="standard"
+                            id="input-with-icon-textfield"
+                            fullWidth
+                            required
+                            autoFocus
+                            { ...register('email', {
+                              required: 'Este campo es requerido',
+                            })}
+                            error={ !!errors.email}
+                            helperText={ errors.email?.message }
+                          />
+                          
+                        </Grid>
+                        <Grid item xs={12} md={8}>
+                        <Typography color="primary" variant="h5" sx={{fontWeight: "bold"}}>
+                            Contraseña
+                        </Typography>
+                        <TextField 
+                            variant="standard"
+                            type={showPwd ? "text": "password"}
+                            fullWidth
+                            { ...register('password', {
+                              required: 'Este campo es requerido',
+                            })}
+                            error={ !!errors.password }
+                            helperText={ errors.password?.message }
                         />
-                        {(query.error && query.error !== 'CredentialsSignin')&& (
-                          <Alert severity="error">{query.error}</Alert>
-                        )}
-                      <Typography color="primary" variant="h5" mt={6}  sx={{fontWeight: "bold"}}>
-                          Correo electrónico
-                      </Typography>
-                      <TextField
-                        variant="standard"
-                        id="input-with-icon-textfield"
-                        fullWidth
-                        required
-                        autoFocus
-                        { ...register('email', {
-                          required: 'Este campo es requerido',
-                        })}
-                        error={ !!errors.email}
-                        helperText={ errors.email?.message }
-                      />
-                      
+                        <div onClick={() => setShowPwd (!showPwd)}>
+                            {showPwd ? <VisibilityIcon className="eyeFill"></VisibilityIcon> :
+                                <VisibilityOffIcon className="eyeFill"></VisibilityOffIcon>
+                            }
+                        </div>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12} md={8}>
-                    <Typography color="primary" variant="h5" sx={{fontWeight: "bold"}}>
-                        Contraseña
-                    </Typography>
-                    <TextField 
-                        variant="standard"
-                        type={showPwd ? "text": "password"}
-                        fullWidth
-                        { ...register('password', {
-                          required: 'Este campo es requerido',
-                        })}
-                        error={ !!errors.password }
-                        helperText={ errors.password?.message }
-                    />
-                    <div onClick={() => setShowPwd (!showPwd)}>
-                        {showPwd ? <VisibilityIcon className="eyeFill"></VisibilityIcon> :
-                            <VisibilityOffIcon className="eyeFill"></VisibilityOffIcon>
-                        }
-                    </div>
+                    <Grid item xs={12}>
+                      <Button 
+                        fullWidth 
+                        sx={{fontSize: "20px"}} 
+                        type="submit" 
+                        variant="contained"
+                        disabled={Object.keys(errors).length > 0}
+                        >
+                          Ingresar
+                      </Button>
+                        <Typography variant="h6" mt={4} sx={{textAlign: 'center', fontWeight: "bold"}}>
+                            ¿Olvidaste tu contraseña? <Link style={{textDecoration: 'underline', color: '#1976d2'}} href="restore">Ingresa aquí</Link>
+                        </Typography>
                     </Grid>
-                </Grid>
-                <Grid item xs={12}>
-                  <Button 
-                    fullWidth 
-                    sx={{fontSize: "20px"}} 
-                    type="submit" 
-                    variant="contained"
-                    disabled={Object.keys(errors).length > 0}
-                    >
-                      Ingresar
-                  </Button>
-                    <Typography variant="h6" mt={4} sx={{textAlign: 'center', fontWeight: "bold"}}>
-                        ¿No tienes usuario? <Link style={{textDecoration: 'underline', color: '#1976d2'}} href="/">Registrate aquí</Link>
-                    </Typography>
-                </Grid>
-            </Box>
+                </Box>
                
             </Container>
         </>
