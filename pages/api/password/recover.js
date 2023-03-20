@@ -55,6 +55,14 @@ export default async function handler(req, res) {
     
   } catch (error) {
     console.log(error);
+    let errors = [];
+        if (error.errors) {
+            //extraer la información de los campos que tienen error
+            errors = error.errors.map((item) => ({
+                error: item.message,
+                field: item.path,
+            }));
+        }
 
     res. json({ error: true, message: 'Error al realizar la recuperación de contraseña.' });
   }
