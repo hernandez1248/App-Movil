@@ -7,15 +7,34 @@ import { useState } from "react";
 import db from "database/models/index";
 import { Op } from "sequelize";
 import Head from "next/head";
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const RecoverPassword = (props) => {
   const { token } = props;
   const [mensaje, setMensaje] = useState(props.message);
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [mostrar, setMostrar] = useState(props.token ? "form" : "result");
+  const [showPwd, setShowPwd] = useState(false)
 
   const handleChange = (e) => {
     setPassword(e.target.value);
+    if (confirmPassword && e.target.value !== confirmPassword) {
+      setPasswordError("Las contraseñas no coinciden");
+    } else {
+      setPasswordError("");
+    }
+  };
+
+  const handleConfirmChange = (e) => {
+    setConfirmPassword(e.target.value);
+    if (password && e.target.value !== password) {
+      setPasswordError("Las contraseñas no coinciden");
+    } else {
+      setPasswordError("");
+    }
   };
 
   const handleRecovery = (e) => {
@@ -31,7 +50,7 @@ const RecoverPassword = (props) => {
       .catch((error) => {
         console.log(error);
         setMostrar("result");
-        setMensaje( error.message || "Error al intentar guardar la nueva contraseña.");
+        setMensaje(error.message || "Error al intentar guardar la nueva contraseña.");
       });
   };
 
@@ -47,7 +66,7 @@ const RecoverPassword = (props) => {
                 color="primary"
                 variant="h5"
                 mt={6}
-                sx={{ fontWeight: "bold"}}
+                sx={{ fontWeight: "bold" }}
               >
                 Ingresa la nueva contraseña
               </Typography>
@@ -57,10 +76,38 @@ const RecoverPassword = (props) => {
                 required
                 fullWidth
                 name="password"
-                type="password"
+                type={showPwd ? "text" : "password"}
                 id="password"
                 value={password}
                 onChange={handleChange}
+                error={!!passwordError}
+                helperText={passwordError}
+              />
+              <div style={{width:'40px'}} onClick={() => setShowPwd(!showPwd)}>
+                {showPwd ? <VisibilityIcon className="eyeFill"></VisibilityIcon> :
+                  <VisibilityOffIcon className="eyeFill"></VisibilityOffIcon>
+                }
+              </div>
+              <Typography
+                color="primary"
+                variant="h5"
+                mt={6}
+                sx={{ fontWeight: "bold" }}
+              >
+                Confirmar contraseña
+              </Typography>
+              <TextField
+                margin="normal"
+                variant="standard"
+                required
+                fullWidth
+                name="password"
+                type="password"
+                id="password"
+                value={confirmPassword}
+                onChange={handleConfirmChange}
+                error={!!passwordError}
+                helperText={passwordError}
               />
             </Grid>
           </Grid>
@@ -79,7 +126,7 @@ const RecoverPassword = (props) => {
     }
 
     return (
-        <Typography sx={{marginTop: 8, textAlign: 'center'}} variant="h6">{mensaje}</Typography>
+      <Typography sx={{ marginTop: 8, textAlign: 'center' }} variant="h6">{mensaje}</Typography>
     );
   };
 
@@ -95,10 +142,10 @@ const RecoverPassword = (props) => {
           crossorigin="anonymous"
         />
       </Head>=
-        <Navbar className="menu" fixed="top">
-            <Navbar.Brand id="unidadesTitle">Recuperar Contraseña</Navbar.Brand>
-        </Navbar>
-        {renderContent()}
+      <Navbar className="menu" fixed="top">
+        <Navbar.Brand id="unidadesTitle">Recuperar Contraseña</Navbar.Brand>
+      </Navbar>
+      {renderContent()}
     </Container>
   );
 };
