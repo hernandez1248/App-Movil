@@ -13,6 +13,7 @@ import { Grid } from '@mui/material';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
+import ButtonClose from '@/components/ButtonClose';
 
 export default function RutasAdmin() {
   const [route, setRoutes] = useState([]);
@@ -105,36 +106,6 @@ export default function RutasAdmin() {
     ))
   };
 
-  const router = useRouter()
-  const { data: session, status } = useSession();
-  console.log("Sesión",session);
-  // If no session exists, display access denied message
-  if (!session) {
-    return(
-    <>
-    <Head>
-      <title>Acerca de</title>
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous"/>
-    </Head>
-    <main>
-    <Navbar className="menu" fixed="top">
-      <Container>
-        <Navbar.Brand id="unidadesTitle">
-          SIRTA
-        </Navbar.Brand>
-      </Container>
-    </Navbar>
-    <div style={{marginTop: "50%", textAlign: "center"}}>
-      <h1>Acceso denegado</h1>
-      <p>Debes ser un usuario administrador de rutas para poder ingresar.</p>
-      <a href="/rutas-usuario"><p>Regresa al inicio</p></a>
-      <p style={{fontSize:12}}>Equipo de Trabajo SIRTA</p>
-    </div>
-    </main>
-  </>
-    )
-  }
-
   return (
     <>
       <Head>
@@ -147,13 +118,16 @@ export default function RutasAdmin() {
       <main>
       <Navbar className="menu" fixed="top">
         <Container>
+        <Nav className="d-flex justify-content-init">
+           <AddButtonRutas
+            recargar={refresh}
+           />
+          </Nav>
           <Navbar.Brand id="unidadesTitle">
             Rutas
           </Navbar.Brand>
           <Nav className="d-flex justify-content-end">
-           <AddButtonRutas
-            recargar={refresh}
-           />
+           <ButtonClose/>
           </Nav>
         </Container>
       </Navbar>
