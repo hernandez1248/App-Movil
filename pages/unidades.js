@@ -11,6 +11,7 @@ import apiClient from '@/apiClient';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
+import ButtonClose from '@/components/ButtonClose';
 
 export default function UnidadesAdmin() {
   const [unidad, setUnidades] = useState([]);
@@ -28,7 +29,7 @@ export default function UnidadesAdmin() {
         console.log(error);
       })
   }
-  
+
   const deleteUnidad = (id) => {
     Swal.fire({
       title: '¿Estás Seguro de eliminar?',
@@ -42,21 +43,21 @@ export default function UnidadesAdmin() {
     }).then((result) => {
       if (result.isConfirmed) {
         apiClient.delete(`/unidades?id=${id}`)
-        .then(response =>{
-          console.log(response.data);
-          Swal.fire({
-            position: 'center',
-            icon: 'success',
-            text: response.data.message,
+          .then(response => {
+            console.log(response.data);
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              text: response.data.message,
+            })
+            refresh()
           })
-          refresh()
-        })
-        .catch(error => {
-          console.log(error);
-        })
+          .catch(error => {
+            console.log(error);
+          })
       }
     })
-   
+
   }
 
 
@@ -81,20 +82,23 @@ export default function UnidadesAdmin() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
-        
+
 
 
       </Head>
       <main>
         <Navbar className="menu" fixed="top">
           <Container>
-            <Navbar.Brand id="unidadesTitle">
-              Unidades
-            </Navbar.Brand>
             <Nav className="d-flex justify-content-end">
               <AddButtonUnidad
                 recargar={refresh}
               />
+            </Nav>
+            <Navbar.Brand id="unidadesTitle">
+              Unidades
+            </Navbar.Brand>
+            <Nav className="d-flex justify-content-end">
+              <ButtonClose />
             </Nav>
           </Container>
         </Navbar>

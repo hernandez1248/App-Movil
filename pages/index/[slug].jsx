@@ -37,7 +37,7 @@ export default function RutasUsuario() {
       <main>
         <Navbar className="menu">
           <Container>
-            <Navbar.Brand id="unidadesTitle" href='/rutas-usuario'>
+            <Navbar.Brand id="unidadesTitle" href='/index'>
               {data?.route.origen} - {data?.route.destino}
             </Navbar.Brand>
           </Container>
