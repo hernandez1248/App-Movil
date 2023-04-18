@@ -13,7 +13,7 @@ function CardRutasUsuario({ index, ruta }) {
     //console.log(ruta);
 
     return (
-        <Card sx={{ maxWidth: 345 }} elevation={12} onClick={()=> router.push(`/index/${data.id}`)} >
+        <Card sx={{ maxWidth: 345 }} elevation={12} onClick={()=> router.push(`/${data.id}`)} >
             <CardMedia
                 sx={{ height: 250 }}
                 image={data.route.imageDestino}
