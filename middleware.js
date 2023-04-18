@@ -7,7 +7,7 @@ export  async function middleware(request) {
     const session = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
     console.log(session);
 
-    // Estraer la ruta que se estaba visualizando 
+    // Extraer la ruta que se estaba visualizando 
     if (!session ) {
       return NextResponse.redirect(`${process.env.SERVER_NAME}/login`)
     }
