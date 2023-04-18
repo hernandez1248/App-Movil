@@ -13,6 +13,7 @@ import { useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import ButtonClose from '@/components/ButtonClose';
 
 
 export default function CronogramaAdmin() {
@@ -46,21 +47,21 @@ export default function CronogramaAdmin() {
     }).then((result) => {
       if (result.isConfirmed) {
         apiClient.delete(`/schedules?id=${id}`)
-        .then(response =>{
-          console.log(response.data);
-          Swal.fire({
-            position: 'center',
-            icon: 'success',
-            text: response.data.message,
+          .then(response => {
+            console.log(response.data);
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              text: response.data.message,
+            })
+            refresh()
           })
-          refresh()
-        })
-        .catch(error => {
-          console.log(error);
-        })
+          .catch(error => {
+            console.log(error);
+          })
       }
     })
-  
+
   }
   const renderCronograma = () => {
     return schedules.map((crono) => (
@@ -84,20 +85,23 @@ export default function CronogramaAdmin() {
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
       </Head>
       <main>
-      <Navbar className="menu" fixed="top">
-        <Container>
-          <Navbar.Brand id="unidadesTitle">
-            Cronograma
-          </Navbar.Brand>
-          <Nav className="d-flex justify-content-end">
-           <AddButtonCrono
-            recargar={refresh}
-           />
-          </Nav>
-        </Container>
-      </Navbar>
-        <Grid style={{ paddingLeft: "20px", paddingRight: "20px"}} container spacing={2} mt={4} mb={10}>
-            {renderCronograma()}
+        <Navbar className="menu" fixed="top">
+          <Container>
+            <Nav className="d-flex justify-content-end">
+              <AddButtonCrono
+                recargar={refresh}
+              />
+            </Nav>
+            <Navbar.Brand id="unidadesTitle">
+              Cronograma
+            </Navbar.Brand>
+            <Nav className="d-flex justify-content-end">
+              <ButtonClose />
+            </Nav>
+          </Container>
+        </Navbar>
+        <Grid style={{ paddingLeft: "20px", paddingRight: "20px" }} container spacing={2} mt={4} mb={10}>
+          {renderCronograma()}
         </Grid>
         <Enlaces></Enlaces>
       </main>

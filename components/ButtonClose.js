@@ -7,7 +7,7 @@ function ButtonClose() {
 
   const logout = () => {
     Swal.fire({
-      title: '¿Estás Seguro de Cerrar Sesion?',
+      title: '¿Estás Seguro de Cerrar Sesión?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -16,10 +16,11 @@ function ButtonClose() {
       confirmButtonText: 'Si, estoy seguro',
     }).then((result) => {
       if (result.isConfirmed) {
-        signOut({callbackUrl: 'http://localhost:3000/login'}) 
+        signOut({callbackUrl: 'http://localhost:3000'}) 
       }
     })
   }
+
   return (
     <>
       <Button onClick={logout}>

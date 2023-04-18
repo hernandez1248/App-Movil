@@ -22,6 +22,6 @@ export const config = {
     '/rutas-admin/:path*',
     '/unidades',
     '/cronograma-admin',
-    '/index'
+    '/users'
   ]
 } 
