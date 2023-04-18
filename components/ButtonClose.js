@@ -16,7 +16,7 @@ function ButtonClose() {
       confirmButtonText: 'Si, estoy seguro',
     }).then((result) => {
       if (result.isConfirmed) {
-        signOut({callbackUrl: 'http://localhost:3000/index'}) 
+        signOut({callbackUrl: 'http://localhost:3000'}) 
       }
     })
   }
